@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nicarao Fletes - Arquiteto de Mundos Sombrios. Autor de fantasia épica e dark fantasy. Conheça seus grimórios: Heróis da Fantasia, Corações Imortais e um show de contos.">
+    <meta name="keywords" content="Nicarao Fletes, fantasia, dark fantasy, livros, Amazon, Heróis da Fantasia, Corações Imortais">
+    <meta name="author" content="Nicarao Fletes">
+    <meta property="og:title" content="Nicarao Fletes | Arquiteto de Mundos">
+    <meta property="og:description" content="Descubra universos sombrios e épicos através dos grimórios de Nicarao Fletes.">
+    <meta property="og:type" content="website">
+    <title>Nicarao Fletes | Arquiteto de Mundos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=MedievalSharp&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blood: #8b0000;
+            --dark-gold: #8b6914;
+            --charcoal: #0c0c0c;
+            --stone: #1a1a1a;
+            --iron: #2d2d2d;
+            --shadow: #000000;
+            --mist: #4a4a4a;
+            --text-primary: #d4d4d4;
+            --text-secondary: #8a8a8a;
+            --text-muted: #6b6b6b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--charcoal);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: none;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 105, 20, 0.08) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231f1f1f' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Accessibility - Focus visible */
+        *:focus-visible {
+            outline: 2px solid var(--dark-gold);
+            outline-offset: 2px;
+        }
+        
+        /* Skip to content for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--dark-gold);
+            color: var(--charcoal);
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        .cursor-magic {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--dark-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s, border-color 0.3s;
+            mix-blend-mode: difference;
+            opacity: 0.8;
+        }
+        
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--dark-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.4;
+        }
+        
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+        
+        .font-medieval {
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .font-gothic {
+            font-family: 'UnifrakturMaguntia', cursive;
+        }
+        
+        /* Particle Canvas - Performance optimized */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        /* Dark Title - Better contrast */
+        .dark-title {
+            font-family: 'Cinzel', serif;
+            color: #a08060;
+            text-shadow: 
+                2px 2px 4px rgba(0,0,0,0.9),
+                0 0 30px rgba(139, 0, 0, 0.2);
+            letter-spacing: 0.15em;
+            position: relative;
+            line-height: 1.2;
+        }
+        
+        .dark-title::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            width: 100%;
+            height: 100%;
+            color: #2d1f15;
+            z-index: -1;
+            filter: blur(1px);
+        }
+        
+        /* Subtle glitch */
+        .dark-glitch {
+            position: relative;
+            animation: subtle-skew 5s infinite;
+        }
+        
+        @keyframes subtle-skew {
+            0%, 95%, 100% { transform: skew(0deg); }
+            96% { transform: skew(-0.5deg); }
+            98% { transform: skew(0.5deg); }
+        }
+        
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Enhanced Floating */
+        .book-float {
+            animation: float-dark 8s ease-in-out infinite;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+        }
+        
+        .book-float:nth-child(2) { animation-delay: -2s; }
+        .book-float:nth-child(3) { animation-delay: -4s; }
+        .book-float:nth-child(4) { animation-delay: -6s; }
+        
+        @keyframes float-dark {
+            0%, 100% { transform: translateY(0px) rotateY(-5deg); }
+            50% { transform: translateY(-15px) rotateY(5deg); }
+        }
+        
+        /* Dark 3D Book with page turn effect */
+        .book-3d {
+            width: 200px;
+            height: 320px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: perspective(1200px) rotateY(-25deg) rotateX(5deg);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            filter: brightness(0.9) contrast(1.1);
+        }
+        
+        .book-3d:hover {
+            transform: perspective(1200px) rotateY(0deg) rotateX(0deg) scale(1.05);
+            filter: brightness(1.1) contrast(1.2);
+            z-index: 50;
+        }
+        
+        .book-3d.turning {
+            animation: pageTurn 0.6s ease-in-out;
+        }
+        
+        @keyframes pageTurn {
+            0% { transform: perspective(1200px) rotateY(-25deg) rotateX(5deg); }
+            50% { transform: perspective(1200px) rotateY(-90deg) rotateX(5deg); }
+            100% { transform: perspective(1200px) rotateY(0deg) rotateX(0deg); }
+        }
+        
+        .book-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 2px 6px 6px 2px;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .book-front { 
+            transform: translateZ(30px);
+            box-shadow: 
+                5px 5px 15px rgba(0,0,0,0.8),
+                inset 2px 0 10px rgba(0,0,0,0.3);
+            border: 1px solid #2d2d2d;
+        }
+        
+        .book-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%) contrast(1.1);
+            transition: filter 0.3s;
+        }
+        
+        .book-3d:hover .book-front img {
+            filter: sepia(10%) contrast(1.2) brightness(1.1);
+        }
+        
+        .book-back { 
+            transform: translateZ(-30px) rotateY(180deg);
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+        }
+        
+        .book-right { 
+            width: 60px;
+            transform: translateX(170px) rotateY(90deg);
+            background: linear-gradient(to right, #0a0a0a, #151515);
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.8);
+        }
+        
+        .book-left { 
+            width: 60px;
+            transform: translateX(-30px) rotateY(-90deg);
+            background: linear-gradient(to left, #151515, #0a0a0a);
+        }
+        
+        .book-top {
+            height: 60px;
+            transform: translateY(-30px) rotateX(90deg);
+            background: linear-gradient(to top, #1a1a1a, #252525);
+        }
+        
+        .book-bottom {
+            height: 60px;
+            transform: translateY(290px) rotateX(-90deg);
+            background: #050505;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+        }
+        
+        /* Page curl effect */
+        .page-curl {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.1) 50%);
+            border-radius: 0 0 0 100%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .book-3d:hover .page-curl {
+            opacity: 1;
+        }
+        
+        /* Dark runes */
+        .rune {
+            position: absolute;
+            font-size: 1.8rem;
+            color: #3d3d3d;
+            opacity: 0;
+            animation: fall-dark linear infinite;
+            pointer-events: none;
+            font-family: 'Cinzel', serif;
+        }
+        
+        @keyframes fall-dark {
+            0% { 
+                opacity: 0;
+                transform: translateY(-100px) rotate(0deg);
+            }
+            10% { opacity: 0.25; }
+            90% { opacity: 0.25; }
+            100% { 
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        /* Dust particles */
+        .dust {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(139, 115, 85, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-dust 20s infinite;
+        }
+        
+        @keyframes float-dust {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(50px); }
+        }
+        
+        /* Dark Button with better feedback */
+        .btn-dark {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #3d3d3d;
+            color: #8b7355;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        
+        .btn-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 115, 85, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-dark:hover::before {
+            left: 100%;
+        }
+        
+        .btn-dark:hover {
+            border-color: #8b6914;
+            color: #d4af37;
+            box-shadow: 
+                0 0 20px rgba(139, 0, 0, 0.2),
+                inset 0 0 20px rgba(139, 115, 85, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .btn-dark:active {
+            transform: translateY(0);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        /* Blood button */
+        .btn-blood {
+            background: linear-gradient(135deg, #2d0808 0%, #1a0505 100%);
+            border: 1px solid #5a0000;
+            color: #a05050;
+        }
+        
+        .btn-blood:hover {
+            border-color: #8b0000;
+            color: #cd5c5c;
+            box-shadow: 
+                0 0 30px rgba(139, 0, 0, 0.3),
+                inset 0 0 20px rgba(139, 0, 0, 0.1);
+        }
+        
+        /* Bookmark button */
+        .btn-bookmark {
+            background: transparent;
+            border: 1px solid #3d3d3d;
+            color: #6b6b6b;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .btn-bookmark:hover {
+            border-color: #8b6914;
+            color: #d4af37;
+        }
+        
+        .btn-bookmark.active {
+            background: #8b6914;
+            color: #0c0c0c;
+            border-color: #8b6914;
+        }
+        
+        /* Parallax */
+        .parallax-layer {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            transition: transform 0.2s ease-out;
+        }
+        
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Dark Circle */
+        .dark-circle {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border: 1px solid #2d1f15;
+            border-radius: 50%;
+            animation: rotate-slow 30s linear infinite;
+        }
+        
+        .dark-circle::before,
+        .dark-circle::after {
+            content: '';
+            position: absolute;
+            border: 1px solid #1a1510;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .dark-circle::before {
+            width: 70%;
+            height: 70%;
+            animation: rotate-slow 25s linear infinite reverse;
+        }
+        
+        .dark-circle::after {
+            width: 40%;
+            height: 40%;
+            animation: rotate-slow 20s linear infinite;
+        }
+        
+        @keyframes rotate-slow {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* Dark smoke */
+        .dark-smoke {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(12, 12, 12, 0.95) 100%);
+            filter: blur(80px);
+            animation: smoke-dark 12s ease-in-out infinite;
+        }
+        
+        @keyframes smoke-dark {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.6; }
+        }
+        
+        /* Ornaments */
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .ornament-line {
+            height: 1px;
+            width: 100px;
+            background: linear-gradient(to right, transparent, #3d3d3d, transparent);
+        }
+        
+        .ornament-symbol {
+            color: #3d3d3d;
+            font-size: 1.5rem;
+        }
+        
+        /* Dark inputs */
+        .dark-input {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #2d2d2d;
+            color: #d4d4d4;
+            transition: all 0.3s;
+        }
+        
+        .dark-input:focus {
+            border-color: #8b6914;
+            box-shadow: 0 0 15px rgba(139, 105, 20, 0.2);
+            outline: none;
+        }
+        
+        .dark-input::placeholder {
+            color: #4a4a4a;
+        }
+        
+        /* Dark modal */
+        .dark-modal {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            border: 1px solid #2d2d2d;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+        }
+        
+        /* Navigation */
+        .nav-dark {
+            background: rgba(12, 12, 12, 0.95);
+            border-bottom: 1px solid #1a1a1a;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(12, 12, 12, 0.98);
+            z-index: 40;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .mobile-menu.active {
+            display: flex;
+        }
+        
+        .mobile-menu a {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #8a8a8a;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .mobile-menu a:hover {
+            color: #8b7355;
+        }
+        
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 50;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: #8b7355;
+            transition: all 0.3s;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
+            .book-3d {
+                width: 160px;
+                height: 256px;
+            }
+            
+            .book-right {
+                width: 48px;
+                transform: translateX(136px) rotateY(90deg);
+            }
+            
+            .book-left {
+                width: 48px;
+                transform: translateX(-24px) rotateY(-90deg);
+            }
+            
+            .book-top, .book-bottom {
+                height: 48px;
+            }
+            
+            .book-bottom {
+                transform: translateY(232px) rotateX(-90deg);
+            }
+        }
+        
+        /* Section styling */
+        .section-dark {
+            background: linear-gradient(to bottom, #0c0c0c, #151515, #0c0c0c);
+            position: relative;
+        }
+        
+        .section-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #2d2d2d, transparent);
+        }
+        
+        /* Price tag */
+        .price-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 105, 20, 0.1);
+            border: 1px solid #3d3d3d;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.875rem;
+            color: #8b7355;
+        }
+        
+        .price-tag .currency {
+            color: #6b6b6b;
+            font-size: 0.75rem;
+        }
+        
+        /* Rating stars */
+        .rating {
+            display: flex;
+            gap: 0.25rem;
+            color: #8b6914;
+        }
+        
+        .rating.empty {
+            color: #2d2d2d;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: #1a1a1a;
+            border: 1px solid #8b6914;
+            border-radius: 4px;
+            color: #8b7355;
+            font-family: 'Cinzel', serif;
+            font-size: 0.875rem;
+            z-index: 100;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Filter tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid #2d2d2d;
+            color: #6b6b6b;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-tab:hover, .filter-tab.active {
+            border-color: #8b6914;
+            color: #8b7355;
+            background: rgba(139, 105, 20, 0.1);
+        }
+        
+        /* Search box */
+        .search-box {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #2d2d2d;
+            color: #d4d4d4;
+            font-family: 'Cormorant Garamond', serif;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            border-color: #8b6914;
+            outline: none;
+            box-shadow: 0 0 15px rgba(139, 105, 20, 0.2);
+        }
+        
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+        
+        /* Audio toggle */
+        .audio-toggle {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            color: #6b6b6b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 30;
+        }
+        
+        .audio-toggle:hover {
+            border-color: #8b6914;
+            color: #8b7355;
+        }
+        
+        .audio-toggle.active {
+            background: #8b6914;
+            color: #0c0c0c;
+            border-color: #8b6914;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 105, 20, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(139, 105, 20, 0); }
+        }
+        
+        /* Social share */
+        .social-share {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #2d2d2d;
+            background: transparent;
+            color: #6b6b6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+        
+        .social-btn:hover {
+            border-color: #8b6914;
+            color: #8b7355;
+            transform: translateY(-2px);
+        }
+        
+        /* Reading progress */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(to right, #8b6914, #d4af37);
+            z-index: 100;
+            transition: width 0.1s;
+        }
+        
+        /* Newsletter */
+        .newsletter-box {
+            background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+            border: 1px solid #2d2d2d;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+        }
+        
+        /* Error state for images */
+        .book-front img.error {
+            display: none;
+        }
+        
+        .book-front .fallback {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .book-front img.error + .fallback {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Skip to content for accessibility -->
+    <a href="#main-content" class="skip-link">Pular para conteúdo principal</a>
+
+    <!-- Reading progress bar -->
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-magic" id="cursor"></div>
+    <div id="trails"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Audio toggle -->
+    <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()" title="Ativar música ambiente">
+        🎵
+    </button>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-dark backdrop-blur-sm transition-all duration-300" id="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-cinzel text-xl font-bold tracking-[0.3em] text-[#8b7355]" role="banner">
+                NICARAO FLETES
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8 font-cinzel text-xs tracking-[0.2em] text-[#6b6b6b] desktop-nav">
+                <a href="#home" class="hover:text-[#8b7355] transition-colors duration-300">INÍCIO</a>
+                <a href="#books" class="hover:text-[#8b7355] transition-colors duration-300">GRIMÓRIOS</a>
+                <a href="#lore" class="hover:text-[#8b7355] transition-colors duration-300">LORE</a>
+                <a href="#contact" class="hover:text-[#8b7355] transition-colors duration-300">CONTATO</a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <div class="hamburger md:hidden" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" role="menu">
+        <a href="#home" onclick="toggleMenu()" role="menuitem">INÍCIO</a>
+        <a href="#books" onclick="toggleMenu()" role="menuitem">GRIMÓRIOS</a>
+        <a href="#lore" onclick="toggleMenu()" role="menuitem">LORE</a>
+        <a href="#contact" onclick="toggleMenu()" role="menuitem">CONTATO</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0c0c0c]" role="region" aria-label="Introdução">
+        <div class="parallax-layer" id="bg-layer">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0c0c0c] via-[#151515] to-[#0c0c0c]"></div>
+            <div class="dark-smoke"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,0,0,0.1)_0%,transparent_70%)]"></div>
+        </div>
+        
+        <!-- Floating Runes and Dust -->
+        <div id="runes-container"></div>
+        <div id="dust-container"></div>
+
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto" id="main-content">
+            <div class="mb-12 inline-block">
+                <div class="dark-circle mx-auto mb-12 opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="font-gothic text-6xl text-[#2d1f15]">✦</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h1 class="dark-title text-5xl md:text-7xl lg:text-8xl font-black mb-8 dark-glitch leading-tight" data-text="ARQUITETO DE MUNDOS">
+                ARQUITETO DE MUNDOS
+            </h1>
+            
+            <div class="ornament max-w-md mx-auto mb-8">
+                <div class="ornament-line"></div>
+                <span class="ornament-symbol">⚜</span>
+                <div class="ornament-line"></div>
+            </div>
+            
+            <p class="text-lg md:text-xl text-[#6b6b6b] mb-4 font-light italic max-w-2xl mx-auto leading-relaxed" id="subtitle">
+                Onde as sombras contam histórias e o silêncio guarda segredos...
+            </p>
+            
+            <div class="mt-12 flex flex-col md:flex-row gap-6 justify-center items-center">
+                <button class="btn-dark px-10 py-4 text-sm rounded-sm" onclick="scrollToSection('books')" aria-label="Explorar livros">
+                    Explorar Universos
+                </button>
+                <button class="btn-blood px-10 py-4 text-sm rounded-sm" onclick="castSpell()" aria-label="Ativar efeito mágico">
+                    Despertar Magia
+                </button>
+            </div>
+
+            <div class="mt-16 grid grid-cols-4 gap-8 max-w-2xl mx-auto text-center">
+                <div class="book-float">
+                    <div class="text-3xl mb-2 text-[#4a4a4a]" aria-hidden="true">📜</div>
+                    <div class="font-cinzel text-[#6b6b6b] text-xs tracking-widest">4 Obras</div>
+                </div>
+                <div class="book-float">
+                    <div class="text-3xl mb-2 text-[#4a4a4a]" aria-hidden="true">⚔️</div>
+                    <div class="font-cinzel text-[#6b6b6b] text-xs tracking-widest">Épico</div>
+                </div>
+                <div class="book-float">
+                    <div class="text-3xl mb-2 text-[#4a4a4a]" aria-hidden="true">🏛️</div>
+                    <div class="font-cinzel text-[#6b6b6b] text-xs tracking-widest">Amazon</div>
+                </div>
+                <div class="book-float">
+                    <div class="text-3xl mb-2 text-[#4a4a4a]" aria-hidden="true">🕯️</div>
+                    <div class="font-cinzel text-[#6b6b6b] text-xs tracking-widest">Mistério</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <svg class="w-6 h-6 text-[#4a4a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Books Section -->
+    <section id="books" class="section-dark py-32" role="region" aria-label="Livros">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="font-cinzel text-4xl md:text-5xl text-[#8b7355] mb-4 reveal tracking-widest">
+                    GRIMÓRIOS PROIBIDOS
+                </h2>
+                <div class="ornament max-w-sm mx-auto reveal">
+                    <div class="ornament-line"></div>
+                    <span class="ornament-symbol">📖</span>
+                    <div class="ornament-line"></div>
+                </div>
+                <p class="text-[#4a4a4a] mt-6 text-lg font-light reveal">Tomos de conhecimento arcano disponíveis na Amazon</p>
+            </div>
+
+            <!-- Search -->
+            <div class="search-box reveal">
+                <input type="text" id="book-search" placeholder="Buscar grimórios..." onkeyup="searchBooks()" aria-label="Buscar livros">
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs reveal">
+                <button class="filter-tab active" onclick="filterBooks('all')">Todos</button>
+                <button class="filter-tab" onclick="filterBooks('fantasy')">Fantasia</button>
+                <button class="filter-tab" onclick="filterBooks('dark')">Dark</button>
+                <button class="filter-tab" onclick="filterBooks('collection')">Contos</button>
+                <button class="filter-tab" onclick="filterBooks('newest')">Mais Recentes</button>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-center justify-items-center" id="books-grid">
+                <!-- Book 1 -->
+                <article class="reveal group book-item" data-category="fantasy" data-year="2023" style="transition-delay: 0s">
+                    <div class="book-3d mb-6" onclick="openBook(1)" role="button" tabindex="0" aria-label="Abrir detalhes de Heróis da Fantasia: o nascimento de um herói" onkeydown="if(event.key==='Enter')openBook(1)">
+                        <div class="book-face book-front">
+                            <img src="heroisdafantasia1.png" alt="Capa do livro Heróis da Fantasia: o nascimento de um herói" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback">
+                                <span class="font-cinzel text-[#8b7355] text-sm">Heróis da Fantasia</span>
+                                <span class="text-[#6b6b6b] text-xs mt-2 italic">o nascimento de um herói</span>
+                            </div>
+                            <div class="page-curl"></div>
+                        </div>
+                        <div class="book-face book-back flex items-center justify-center">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Volume I</span>
+                        </div>
+                        <div class="book-face book-right flex items-center justify-center">
+                            <span class="spine-text font-cinzel text-[#3d2817] text-[10px]">HERÓIS I</span>
+                        </div>
+                        <div class="book-face book-left"></div>
+                        <div class="book-face book-top"></div>
+                        <div class="book-face book-bottom"></div>
+                    </div>
+                    <div class="text-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para revelar</p>
+                        <button class="btn-bookmark" onclick="event.stopPropagation(); toggleBookmark(1)" aria-label="Adicionar aos favoritos" id="bookmark-1">
+                            🔖
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Book 2 -->
+                <article class="reveal group book-item" data-category="fantasy" data-year="2025" style="transition-delay: 0.15s">
+                    <div class="book-3d mb-6" onclick="openBook(2)" role="button" tabindex="0" aria-label="Abrir detalhes de Heróis da Fantasia: as aventuras dos jovens aloprados" onkeydown="if(event.key==='Enter')openBook(2)">
+                        <div class="book-face book-front">
+                            <img src="heroisdafantasia2.png" alt="Capa do livro Heróis da Fantasia: as aventuras dos jovens aloprados" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback">
+                                <span class="font-cinzel text-[#8b7355] text-sm">Heróis da Fantasia</span>
+                                <span class="text-[#6b6b6b] text-xs mt-2 italic">as aventuras dos jovens aloprados</span>
+                            </div>
+                            <div class="page-curl"></div>
+                        </div>
+                        <div class="book-face book-back flex items-center justify-center">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Volume II</span>
+                        </div>
+                        <div class="book-face book-right flex items-center justify-center">
+                            <span class="spine-text font-cinzel text-[#3d2817] text-[10px]">HERÓIS II</span>
+                        </div>
+                        <div class="book-face book-left"></div>
+                        <div class="book-face book-top"></div>
+                        <div class="book-face book-bottom"></div>
+                    </div>
+                    <div class="text-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para revelar</p>
+                        <button class="btn-bookmark" onclick="event.stopPropagation(); toggleBookmark(2)" aria-label="Adicionar aos favoritos" id="bookmark-2">
+                            🔖
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Book 3 -->
+                <article class="reveal group book-item" data-category="dark" data-year="2025" style="transition-delay: 0.3s">
+                    <div class="book-3d mb-6" onclick="openBook(3)" role="button" tabindex="0" aria-label="Abrir detalhes de Corações Imortais: a vingança" onkeydown="if(event.key==='Enter')openBook(3)">
+                        <div class="book-face book-front">
+                            <img src="coracoesimortais.png" alt="Capa do livro Corações Imortais: a vingança" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback">
+                                <span class="font-cinzel text-[#8b0000] text-sm">Corações Imortais</span>
+                                <span class="text-[#6b6b6b] text-xs mt-2 italic">a vingança</span>
+                            </div>
+                            <div class="page-curl"></div>
+                        </div>
+                        <div class="book-face book-back flex items-center justify-center">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Dark Fantasy</span>
+                        </div>
+                        <div class="book-face book-right flex items-center justify-center">
+                            <span class="spine-text font-cinzel text-[#3d2817] text-[10px]">IMORTAIS</span>
+                        </div>
+                        <div class="book-face book-left"></div>
+                        <div class="book-face book-top"></div>
+                        <div class="book-face book-bottom"></div>
+                    </div>
+                    <div class="text-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para revelar</p>
+                        <button class="btn-bookmark" onclick="event.stopPropagation(); toggleBookmark(3)" aria-label="Adicionar aos favoritos" id="bookmark-3">
+                            🔖
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Book 4 -->
+                <article class="reveal group book-item" data-category="collection" data-year="2025" style="transition-delay: 0.45s">
+                    <div class="book-3d mb-6" onclick="openBook(4)" role="button" tabindex="0" aria-label="Abrir detalhes de um show de contos" onkeydown="if(event.key==='Enter')openBook(4)">
+                        <div class="book-face book-front">
+                            <img src="showdecantos.png" alt="Capa do livro um show de contos" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback">
+                                <span class="font-cinzel text-[#5a7a7a] text-sm">um show de contos</span>
+                                <span class="text-[#6b6b6b] text-xs mt-2 italic">coletânea</span>
+                            </div>
+                            <div class="page-curl"></div>
+                        </div>
+                        <div class="book-face book-back flex items-center justify-center">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Coletânea</span>
+                        </div>
+                        <div class="book-face book-right flex items-center justify-center">
+                            <span class="spine-text font-cinzel text-[#3d2817] text-[10px]">CONTOS</span>
+                        </div>
+                        <div class="book-face book-left"></div>
+                        <div class="book-face book-top"></div>
+                        <div class="book-face book-bottom"></div>
+                    </div>
+                    <div class="text-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para revelar</p>
+                        <button class="btn-bookmark" onclick="event.stopPropagation(); toggleBookmark(4)" aria-label="Adicionar aos favoritos" id="bookmark-4">
+                            🔖
+                        </button>
+                    </div>
+                </article>
+            </div>
+
+            <!-- No results message -->
+            <div id="no-results" class="hidden text-center mt-12">
+                <p class="text-[#6b6b6b] font-cinzel text-lg">Nenhum grimório encontrado...</p>
+            </div>
+
+            <!-- Amazon Link -->
+            <div class="mt-16 text-center reveal">
+                <a href="https://www.amazon.com.br/s?k=Nicarao+Fletes" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 btn-dark text-sm">
+                    <span aria-hidden="true">📜</span>
+                    <span>Ver todos na Amazon</span>
+                    <span aria-hidden="true">→</span>
+                </a>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="newsletter-box reveal mt-16">
+                <div class="text-center mb-6">
+                    <h3 class="font-cinzel text-xl text-[#8b7355] mb-2">Receba Novidades</h3>
+                    <p class="text-[#6b6b6b] text-sm">Seja avisado sobre novos grimórios e lançamentos</p>
+                </div>
+                <form class="flex flex-col md:flex-row gap-4 max-w-md mx-auto" onsubmit="subscribeNewsletter(event)">
+                    <input type="email" required placeholder="Seu email..." class="flex-1 dark-input px-4 py-3 text-sm rounded-sm">
+                    <button type="submit" class="btn-dark px-6 py-3 text-sm whitespace-nowrap">Inscrever-se</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Book Modal -->
+        <div id="book-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="dark-modal max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500" id="modal-content">
+                <button onclick="closeBook()" class="absolute top-4 right-4 text-[#4a4a4a] hover:text-[#8b7355] text-2xl transition-colors" aria-label="Fechar modal">✕</button>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/3">
+                        <img id="modal-image" src="" alt="" class="w-full rounded shadow-2xl filter sepia-[30%]">
+                        <div class="mt-4 flex justify-center">
+                            <button class="btn-bookmark w-full" onclick="toggleBookmarkFromModal()" id="modal-bookmark">
+                                <span id="modal-bookmark-text">🔖 Adicionar aos favoritos</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <h3 id="modal-title" class="font-cinzel text-2xl text-[#8b7355] mb-1 tracking-wide"></h3>
+                        <p id="modal-subtitle" class="text-sm italic text-[#6b6b6b] mb-4 font-light"></p>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="rating" id="modal-rating" aria-label="Avaliação do livro">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                            <span class="text-[#6b6b6b] text-xs" id="modal-reviews"></span>
+                        </div>
+
+                        <p id="modal-desc" class="text-[#a0a0a0] leading-relaxed mb-6 text-lg font-light"></p>
+                        
+                        <!-- Price -->
+                        <div class="price-tag mb-4" id="modal-price" title="Preço sujeito a alteração na Amazon">
+                            <span class="currency">R$</span>
+                            <span id="modal-price-value">--</span>
+                            <span class="text-[#4a4a4a] text-xs ml-2">(Kindle)</span>
+                        </div>
+
+                        <div class="flex gap-4 text-xs font-cinzel text-[#4a4a4a] border-t border-[#2d2d2d] pt-4 mb-6">
+                            <span id="modal-pages"></span>
+                            <span>|</span>
+                            <span id="modal-year"></span>
+                            <span>|</span>
+                            <span>Amazon Kindle</span>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3">
+                            <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 btn-dark text-xs">
+                                Adquirir na Amazon →
+                            </a>
+                            <button onclick="shareBook()" class="px-6 py-3 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs font-cinzel">
+                                Compartilhar
+                            </button>
+                        </div>
+
+                        <!-- Social Share -->
+                        <div class="social-share">
+                            <button class="social-btn" onclick="shareSocial('twitter')" aria-label="Compartilhar no Twitter">𝕏</button>
+                            <button class="social-btn" onclick="shareSocial('facebook')" aria-label="Compartilhar no Facebook">f</button>
+                            <button class="social-btn" onclick="shareSocial('whatsapp')" aria-label="Compartilhar no WhatsApp">📱</button>
+                            <button class="social-btn" onclick="copyLink()" aria-label="Copiar link">🔗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lore Section -->
+    <section id="lore" class="section-dark py-32" role="region" aria-label="Sobre o autor">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-cinzel text-4xl md:text-5xl text-[#8b7355] mb-4 reveal tracking-widest">
+                    CRÔNICAS DO AUTOR
+                </h2>
+                <div class="ornament max-w-sm mx-auto reveal">
+                    <div class="ornament-line"></div>
+                    <span class="ornament-symbol">⚜</span>
+                    <div class="ornament-line"></div>
+                </div>
+            </div>
+
+            <div class="space-y-20">
+                <div class="flex flex-col md:flex-row gap-10 items-center reveal">
+                    <div class="w-full md:w-1/3">
+                        <div class="aspect-square rounded-full bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#2d2d2d] flex items-center justify-center text-5xl shadow-2xl" aria-hidden="true">
+                            🕯️
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <h3 class="font-cinzel text-2xl text-[#8b7355] mb-4 tracking-wide">O Despertar nas Sombras</h3>
+                        <p class="text-[#8a8a8a] leading-relaxed text-lg font-light">
+                            Nas terras sombrias da Nicarágua, onde vulcões adormecidos sussurram segredos antigos, Nicarao Fletes descobriu sua vocação. Longe das luzes brilhantes da fantasia convencional, ele escolheu mergulhar nas sombras, criando narrativas onde heróis carregam fardos impossíveis e a redenção vem através do sacrifício.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row-reverse gap-10 items-center reveal">
+                    <div class="w-full md:w-1/3">
+                        <div class="aspect-square rounded-full bg-gradient-to-br from-[#1a0a0a] to-[#0f0505] border border-[#2d1f1f] flex items-center justify-center text-5xl shadow-2xl" aria-hidden="true">
+                            🗡️
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 text-right">
+                        <h3 class="font-cinzel text-2xl text-[#8b6914] mb-4 tracking-wide">A Forja das Histórias</h3>
+                        <p class="text-[#8a8a8a] leading-relaxed text-lg font-light">
+                            Cada livro é forjado nas trevas da imaginação. De Ryu, o meio-elfo atormentado, aos corações imortais sedentos por vingança, Fletes não escreve contos de fadas - ele esculpe épicos sangrentos. Suas obras na Amazon são portais para mundos onde a moralidade é cinza e a sobrevivência é a única vitória.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-10 items-center reveal">
+                    <div class="w-full md:w-1/3">
+                        <div class="aspect-square rounded-full bg-gradient-to-br from-[#0f1f1f] to-[#050f0f] border border-[#1f2d2d] flex items-center justify-center text-5xl shadow-2xl" aria-hidden="true">
+                            📜
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <h3 class="font-cinzel text-2xl text-[#5a7a7a] mb-4 tracking-wide">O Legado Sombrio</h3>
+                        <p class="text-[#8a8a8a] leading-relaxed text-lg font-light">
+                            Quatro grimórios aguardam na Amazon, cada um selado com promessas de aventuras inesquecíveis. Não são livros para os fracos de coração - são mapas para labirintos existenciais, onde cada escolha tem consequências eternas. Bem-vindo ao universo de Nicarao Fletes. Entre por sua conta e risco.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 reveal">
+                <div class="text-center">
+                    <div class="font-cinzel text-3xl text-[#8b7355] mb-2">4</div>
+                    <div class="text-[#6b6b6b] text-xs tracking-widest">OBRAS PUBLICADAS</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-cinzel text-3xl text-[#8b7355] mb-2">2023</div>
+                    <div class="text-[#6b6b6b] text-xs tracking-widest">INÍCIO DA JORNADA</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-cinzel text-3xl text-[#8b7355] mb-2">Kindle</div>
+                    <div class="text-[#6b6b6b] text-xs tracking-widest">FORMATO DIGITAL</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-cinzel text-3xl text-[#8b7355] mb-2">★★★★★</div>
+                    <div class="text-[#6b6b6b] text-xs tracking-widest">AVALIAÇÕES</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-24 bg-[#050505] relative" role="region" aria-label="Citações">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a0a0a]/30 via-transparent to-transparent"></div>
+        <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
+            <div class="mb-8 text-[#2d2d2d] text-4xl font-gothic" aria-hidden="true">"</div>
+            <p class="font-cinzel text-xl md:text-2xl text-[#6b6b6b] italic leading-relaxed min-h-[100px] font-light" id="quote-text"></p>
+            <div class="mt-8 text-[#2d2d2d] text-4xl font-gothic" aria-hidden="true">"</div>
+            <div class="mt-8">
+                <button onclick="newQuote()" class="px-6 py-3 border border-[#2d2d2d] text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all duration-300 font-cinzel text-xs tracking-widest" aria-label="Nova citação">
+                    Nova Profecia
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-dark py-32" role="region" aria-label="Contato">
+        <div class="max-w-2xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="font-cinzel text-3xl text-[#8b7355] mb-4 reveal tracking-widest">
+                    ENVIE SUA MENSAGEM
+                </h2>
+                <div class="ornament max-w-xs mx-auto reveal">
+                    <div class="ornament-line"></div>
+                    <span class="ornament-symbol">✉</span>
+                    <div class="ornament-line"></div>
+                </div>
+            </div>
+            
+            <form class="space-y-6 reveal" onsubmit="sendMessage(event)" id="contact-form">
+                <div class="relative">
+                    <input type="text" id="name" required class="w-full dark-input px-6 py-4 text-sm rounded-sm" placeholder="Seu nome..." aria-label="Nome">
+                </div>
+                
+                <div class="relative">
+                    <input type="email" id="email" required class="w-full dark-input px-6 py-4 text-sm rounded-sm" placeholder="Seu email..." aria-label="Email">
+                </div>
+                
+                <div class="relative">
+                    <textarea id="message" rows="5" required class="w-full dark-input px-6 py-4 text-sm rounded-sm resize-none" placeholder="Sua mensagem..." aria-label="Mensagem"></textarea>
+                </div>
+
+                <div class="flex items-center gap-2 text-[#6b6b6b] text-xs">
+                    <input type="checkbox" id="newsletter-check" class="accent-[#8b6914]">
+                    <label for="newsletter-check">Quero receber novidades sobre lançamentos</label>
+                </div>
+                
+                <button type="submit" class="w-full btn-dark py-4 text-sm" id="submit-btn">
+                    Enviar através do véu
+                </button>
+
+                <p class="text-[#4a4a4a] text-xs text-center mt-4">
+                    * Este formulário é demonstrativo. Para contato real, utilize as redes sociais.
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] border-t border-[#1a1a1a] py-16" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div class="text-center md:text-left">
+                    <div class="font-cinzel text-xl text-[#4a4a4a] mb-4 tracking-[0.3em]">
+                        NICARAO FLETES
+                    </div>
+                    <p class="text-[#2d2d2d] text-xs">Arquiteto de Mundos Sombrios</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="font-cinzel text-sm text-[#6b6b6b] mb-4 tracking-widest">NAVEGAÇÃO</div>
+                    <div class="flex flex-col gap-2 text-xs">
+                        <a href="#home" class="text-[#4a4a4a] hover:text-[#8b7355] transition-colors">Início</a>
+                        <a href="#books" class="text-[#4a4a4a] hover:text-[#8b7355] transition-colors">Livros</a>
+                        <a href="#lore" class="text-[#4a4a4a] hover:text-[#8b7355] transition-colors">Sobre</a>
+                        <a href="#contact" class="text-[#4a4a4a] hover:text-[#8b7355] transition-colors">Contato</a>
+                    </div>
+                </div>
+
+                <div class="text-center md:text-right">
+                    <div class="font-cinzel text-sm text-[#6b6b6b] mb-4 tracking-widest">CONEXÕES</div>
+                    <div class="flex justify-center md:justify-end gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs" aria-label="Instagram">IG</a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs" aria-label="Twitter">TW</a>
+                        <a href="https://www.amazon.com.br/s?k=Nicarao+Fletes" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full border border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs" aria-label="Amazon">AZ</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-[#1a1a1a] pt-8 text-center">
+                <p class="text-[#1a1a1a] text-[10px] mb-2">© 2026 Todos os direitos reservados. Protegido por feitiços antigos.</p>
+                <div class="flex justify-center gap-6 text-[#2d2d2d] text-[10px] font-cinzel">
+                    <a href="#" class="hover:text-[#8b7355] transition-colors">Privacidade</a>
+                    <a href="#" class="hover:text-[#8b7355] transition-colors">Termos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global state
+        let currentBookId = null;
+        let bookmarks = JSON.parse(localStorage.getItem('fletes_bookmarks')) || [];
+        let audioEnabled = false;
+        let audioContext = null;
+
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        const trailsContainer = document.getElementById('trails');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        const trails = [];
+        const maxTrails = 8;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (trails.length < maxTrails) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = mouseX + 'px';
+                trail.style.top = mouseY + 'px';
+                trailsContainer.appendChild(trail);
+                trails.push({ el: trail, life: 1 });
+            }
+        });
+
+        document.querySelectorAll('a, button, .book-3d').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.3)';
+                cursor.style.borderColor = '#8b0000';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = '#8b6914';
+            });
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+
+            for (let i = trails.length - 1; i >= 0; i--) {
+                const trail = trails[i];
+                trail.life -= 0.05;
+                trail.el.style.opacity = trail.life * 0.4;
+                if (trail.life <= 0) {
+                    trail.el.remove();
+                    trails.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Particles - Performance optimized with visibility check
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesActive = true;
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+
+        const particles = [];
+        const particleCount = 60;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 100) {
+                    this.x -= dx * 0.01;
+                    this.y -= dy * 0.01;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = `rgba(139, 115, 85, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        let frameCount = 0;
+        function animateParticles() {
+            if (!particlesActive) {
+                requestAnimationFrame(animateParticles);
+                return;
+            }
+            
+            frameCount++;
+            if (frameCount % 2 === 0) { // Render every 2nd frame for performance
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                
+                particles.forEach((a, index) => {
+                    particles.slice(index + 1).forEach(b => {
+                        const dx = a.x - b.x;
+                        const dy = a.y - b.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 60) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(139, 115, 85, ${0.03 * (1 - distance / 60)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.stroke();
+                        }
+                    });
+                });
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Pause particles when tab not visible
+        document.addEventListener('visibilitychange', () => {
+            particlesActive = document.visibilityState === 'visible';
+        });
+
+        // Runes
+        const runesContainer = document.getElementById('runes-container');
+        const runesList = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ', 'ᚺ', 'ᚾ', 'ᛁ', 'ᛃ', 'ᛇ', 'ᛈ', 'ᛉ', 'ᛊ', 'ᛏ', 'ᛒ', 'ᛖ', 'ᛗ', 'ᛚ', 'ᛜ', 'ᛞ', 'ᛟ'];
+        
+        function createRune() {
+            const rune = document.createElement('div');
+            rune.className = 'rune';
+            rune.textContent = runesList[Math.floor(Math.random() * runesList.length)];
+            rune.style.left = Math.random() * 100 + '%';
+            rune.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            rune.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            runesContainer.appendChild(rune);
+            
+            setTimeout(() => rune.remove(), 20000);
+        }
+        
+        setInterval(createRune, 3000);
+
+        // Dust particles
+        const dustContainer = document.getElementById('dust-container');
+        function createDust() {
+            const dust = document.createElement('div');
+            dust.className = 'dust';
+            dust.style.left = Math.random() * 100 + '%';
+            dust.style.bottom = '0';
+            dust.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            dust.style.animationDelay = Math.random() * 5 + 's';
+            dustContainer.appendChild(dust);
+            
+            setTimeout(() => dust.remove(), 25000);
+        }
+        setInterval(createDust, 2000);
+
+        // Scroll Reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Reading progress
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxScroll) * 100;
+            document.getElementById('reading-progress').style.width = progress + '%';
+            
+            // Parallax
+            const parallax = document.getElementById('bg-layer');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Mobile menu
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const hamburger = document.getElementById('hamburger');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', menu.classList.contains('active'));
+        }
+
+        // Book Data with prices (placeholders - update manually)
+        const books = {
+            1: {
+                title: 'Heróis da Fantasia',
+                subtitle: 'o nascimento de um herói',
+                desc: 'O mundo sempre teve heróis, pessoas formidáveis que deram de tudo para mostrar dignidade e força para salvar as pessoas. Contudo, Ryu, o jovem meio elfo meio demônio, precisa, além disso, passar por uma provação onde a força é apenas um detalhe e sua força de vontade será um diferencial. Assim como entender sobre suas raças será fundamental para construir um herói.',
+                pages: 'eBook Kindle',
+                year: '2023',
+                price: '9.99',
+                rating: 5,
+                reviews: '12 avaliações',
+                image: 'heroisdafantasia1.png',
+                link: 'https://www.amazon.com.br/Her%C3%B3is-fantasia-nascimento-um-her%C3%B3i-ebook/dp/B0C9KVCNFY',
+                category: 'fantasy'
+            },
+            2: {
+                title: 'Heróis da Fantasia',
+                subtitle: 'as aventuras dos jovens aloprados',
+                desc: 'A continuação épica da saga que acompanha novos heróis em formação. Neste volume, jovens aventureiros inexperientes mas corajosos embarcam em missões que testarão não apenas suas habilidades em combate, mas seus laços de amizade e lealdade. Uma história sobre crescimento, superação e a descoberta de que ser herói é muito mais que portar uma espada.',
+                pages: 'eBook Kindle',
+                year: '2025',
+                price: '11.99',
+                rating: 4,
+                reviews: '8 avaliações',
+                image: 'heroisdafantasia2.png',
+                link: 'https://www.amazon.com.br/Her%C3%B3is-Fantasia-aventuras-jovens-aloprados-ebook/dp/B0F7WZS1DV',
+                category: 'fantasy'
+            },
+            3: {
+                title: 'Corações Imortais',
+                subtitle: 'a vingança',
+                desc: 'Uma história sombria e envolvente sobre amor eterno e vingança implacável. Quando tudo é tirado de alguém que ama profundamente, até mesmo a morte pode não ser o fim. Nesta narrativa intensa, Fletes explora os limites do amor e até onde uma pessoa pode ir quando seu coração é ferido.',
+                pages: 'eBook Kindle',
+                year: '2025',
+                price: '10.99',
+                rating: 5,
+                reviews: '15 avaliações',
+                image: 'coracoesimortais.png',
+                link: 'https://www.amazon.com.br/Cora%C3%A7%C3%B5es-Imortais-Vingan%C3%A7a-Nicarao-Fletes-ebook/dp/B0FG4ZL6WF',
+                category: 'dark'
+            },
+            4: {
+                title: 'um show de contos',
+                subtitle: 'coletânea de histórias',
+                desc: 'Esse é o primeiro livro de contos de uma série, onde algumas ideias viram boas histórias, podendo quem sabe futuramente se tornar um livro próprio. Uma coletânea diversificada que mostra a versatilidade de Fletes como contador de histórias, apresentando mundos variados e personagens memoráveis.',
+                pages: 'eBook Kindle',
+                year: '2025',
+                price: '7.99',
+                rating: 4,
+                reviews: '6 avaliações',
+                image: 'showdecantos.png',
+                link: 'https://www.amazon.com.br/Um-show-contos-Nicarao-Fletes-ebook/dp/B0FH7BLKWX',
+                category: 'collection'
+            }
+        };
+
+        function openBook(id) {
+            currentBookId = id;
+            const book = books[id];
+            
+            // Add turning animation
+            const bookElement = document.querySelector(`[onclick="openBook(${id})"]`);
+            if (bookElement) {
+                bookElement.classList.add('turning');
+                setTimeout(() => bookElement.classList.remove('turning'), 600);
+            }
+            
+            const modal = document.getElementById('book-modal');
+            const content = document.getElementById('modal-content');
+            
+            document.getElementById('modal-title').textContent = book.title;
+            document.getElementById('modal-subtitle').textContent = book.subtitle;
+            document.getElementById('modal-desc').textContent = book.desc;
+            document.getElementById('modal-pages').textContent = book.pages;
+            document.getElementById('modal-year').textContent = book.year;
+            document.getElementById('modal-image').src = book.image;
+            document.getElementById('modal-image').alt = `Capa do livro ${book.title} - ${book.subtitle}`;
+            document.getElementById('modal-price-value').textContent = book.price;
+            document.getElementById('modal-reviews').textContent = book.reviews;
+            document.getElementById('modal-link').href = book.link;
+            
+            // Set rating stars
+            const ratingContainer = document.getElementById('modal-rating');
+            ratingContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.textContent = '★';
+                if (i > book.rating) star.style.color = '#2d2d2d';
+                ratingContainer.appendChild(star);
+            }
+            
+            // Update bookmark button in modal
+            updateModalBookmark();
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.style.transform = 'scale(1)';
+            }, 10);
+            
+            castSpell();
+        }
+
+        function closeBook() {
+            const modal = document.getElementById('book-modal');
+            const content = document.getElementById('modal-content');
+            content.style.transform = 'scale(0)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                currentBookId = null;
+            }, 500);
+        }
+
+        // Bookmarks
+        function toggleBookmark(id) {
+            const index = bookmarks.indexOf(id);
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+                showToast('Removido dos favoritos');
+            } else {
+                bookmarks.push(id);
+                showToast('Adicionado aos favoritos');
+            }
+            localStorage.setItem('fletes_bookmarks', JSON.stringify(bookmarks));
+            updateBookmarkButtons();
+        }
+
+        function toggleBookmarkFromModal() {
+            if (currentBookId) {
+                toggleBookmark(currentBookId);
+                updateModalBookmark();
+            }
+        }
+
+        function updateBookmarkButtons() {
+            bookmarks.forEach(id => {
+                const btn = document.getElementById(`bookmark-${id}`);
+                if (btn) btn.classList.add('active');
+            });
+            
+            // Remove active from non-bookmarked
+            [1, 2, 3, 4].forEach(id => {
+                if (!bookmarks.includes(id)) {
+                    const btn = document.getElementById(`bookmark-${id}`);
+                    if (btn) btn.classList.remove('active');
+                }
+            });
+        }
+
+        function updateModalBookmark() {
+            const btn = document.getElementById('modal-bookmark');
+            const text = document.getElementById('modal-bookmark-text');
+            if (bookmarks.includes(currentBookId)) {
+                btn.classList.add('active');
+                text.textContent = '🔖 Remover dos favoritos';
+            } else {
+                btn.classList.remove('active');
+                text.textContent = '🔖 Adicionar aos favoritos';
+            }
+        }
+
+        // Search and Filter
+        function searchBooks() {
+            const query = document.getElementById('book-search').value.toLowerCase();
+            const items = document.querySelectorAll('.book-item');
+            let hasResults = false;
+            
+            items.forEach(item => {
+                const id = item.querySelector('.book-3d').getAttribute('onclick').match(/\d+/)[0];
+                const book = books[id];
+                const text = `${book.title} ${book.subtitle}`.toLowerCase();
+                
+                if (text.includes(query)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('no-results').classList.toggle('hidden', hasResults);
+        }
+
+        function filterBooks(category) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const items = document.querySelectorAll('.book-item');
+            let hasResults = false;
+            
+            items.forEach(item => {
+                const id = item.querySelector('.book-3d').getAttribute('onclick').match(/\d+/)[0];
+                const book = books[id];
+                
+                if (category === 'all' || book.category === category || (category === 'newest' && book.year === '2025')) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('no-results').classList.toggle('hidden', hasResults);
+        }
+
+        // Sharing
+        function shareBook() {
+            if (navigator.share) {
+                navigator.share({
+                    title: books[currentBookId].title,
+                    text: `Confira "${books[currentBookId].title}" de Nicarao Fletes`,
+                    url: books[currentBookId].link
+                });
+            } else {
+                copyLink();
+            }
+        }
+
+        function shareSocial(platform) {
+            const url = encodeURIComponent(books[currentBookId].link);
+            const text = encodeURIComponent(`Confira "${books[currentBookId].title}" de Nicarao Fletes`);
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${text}%20${url}`;
+                    break;
+            }
+            
+            if (shareUrl) window.open(shareUrl, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(books[currentBookId].link).then(() => {
+                showToast('Link copiado para a área de transferência');
+            });
+        }
+
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Quotes
+        const quotes = [
+            '"Nas sombras encontramos as histórias que a luz teme contar."',
+            '"Cada página virada é um passo mais fundo nas trevas."',
+            '"O verdadeiro herói nasce da escuridão que escolhe iluminar."',
+            '"Vingança é um prato que corações imortais nunca esfriam."',
+            '"A magia mais poderosa é aquela escrita com sangue e tinta."',
+            '"Ser diferente é uma maldição até que se torne sua maior arma."'
+        ];
+        
+        let currentQuote = 0;
+        const quoteElement = document.getElementById('quote-text');
+        
+        function typeWriter(text, element, speed = 50) {
+            element.textContent = '';
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+        
+        function newQuote() {
+            currentQuote = (currentQuote + 1) % quotes.length;
+            typeWriter(quotes[currentQuote], quoteElement);
+        }
+        
+        typeWriter(quotes[0], quoteElement);
+
+        // Spell Effect
+        function castSpell() {
+            const colors = ['#8b6914', '#8b0000', '#4a4a4a'];
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const spark = document.createElement('div');
+                    spark.style.position = 'fixed';
+                    spark.style.left = mouseX + 'px';
+                    spark.style.top = mouseY + 'px';
+                    spark.style.width = '3px';
+                    spark.style.height = '3px';
+                    spark.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    spark.style.borderRadius = '50%';
+                    spark.style.pointerEvents = 'none';
+                    spark.style.zIndex = '9999';
+                    document.body.appendChild(spark);
+                    
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const velocity = Math.random() * 5 + 2;
+                    let x = mouseX;
+                    let y = mouseY;
+                    let vx = Math.cos(angle) * velocity;
+                    let vy = Math.sin(angle) * velocity;
+                    
+                    function animateSpark() {
+                        x += vx;
+                        y += vy;
+                        vy += 0.2;
+                        spark.style.left = x + 'px';
+                        spark.style.top = y + 'px';
+                        let opacity = parseFloat(spark.style.opacity || 1) - 0.02;
+                        spark.style.opacity = opacity;
+                        
+                        if (opacity > 0) {
+                            requestAnimationFrame(animateSpark);
+                        } else {
+                            spark.remove();
+                        }
+                    }
+                    animateSpark();
+                }, i * 40);
+            }
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            castSpell();
+        }
+
+        // Audio Ambient (simulated)
+        function toggleAudio() {
+            const btn = document.getElementById('audio-toggle');
+            audioEnabled = !audioEnabled;
+            
+            if (audioEnabled) {
+                btn.classList.add('active');
+                showToast('Música ambiente ativada (simulado)');
+                // Here you would actually play audio
+                // playAmbientMusic();
+            } else {
+                btn.classList.remove('active');
+                showToast('Música ambiente desativada');
+                // stopAmbientMusic();
+            }
+        }
+
+        // Newsletter
+        function subscribeNewsletter(e) {
+            e.preventDefault();
+            showToast('Inscrição realizada! Bem-vindo ao círculo.');
+            e.target.reset();
+        }
+
+        // Contact Form
+        function sendMessage(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.textContent;
+            
+            btn.textContent = '✦ Enviando...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = '✦ Mensagem enviada ao éter';
+                btn.style.background = '#1a3a3a';
+                btn.style.borderColor = '#2d5a5a';
+                
+                showToast('Mensagem enviada! (Demonstração)');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.disabled = false;
+                    e.target.reset();
+                }, 3000);
+            }, 1500);
+            
+            castSpell();
+        }
+
+        // Resize handler
+        window.addEventListener('resize', resizeCanvas);
+
+        // Close modal on outside click
+        document.getElementById('book-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'book-modal') {
+                closeBook();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeBook();
+                if (document.getElementById('mobile-menu').classList.contains('active')) {
+                    toggleMenu();
+                }
+            }
+        });
+
+        // Initialize bookmarks
+        updateBookmarkButtons();
+
+        // Console easter egg
+        console.log('%c⚜ Bem-vindo ao Grimório Digital de Nicarao Fletes ⚜', 'color: #8b6914; font-family: Cinzel; font-size: 16px;');
+        console.log('%c"Nas sombras encontramos as histórias que a luz teme contar."', 'color: #6b6b6b; font-style: italic;');
+    </script>
+</body>
+</html>
