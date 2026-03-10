@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Nicarao Fletes - Arquiteto de Mundos Sombrios. Autor de fantasia épica e dark fantasy. Conheça seus grimórios: Heróis da Fantasia, Corações Imortais e um show de contos.">
     <meta name="keywords" content="Nicarao Fletes, fantasia, dark fantasy, livros, Amazon, Heróis da Fantasia, Corações Imortais">
     <meta name="author" content="Nicarao Fletes">
@@ -522,11 +522,100 @@
             color: #4a4a4a;
         }
         
-        /* Dark modal */
+        /* Dark modal base */
         .dark-modal {
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
             border: 1px solid #2d2d2d;
             box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+        }
+        
+        /* THEMES FOR DIFFERENT BOOKS */
+        
+        /* Theme 1: Heróis da Fantasia - Classic Fantasy */
+        .theme-fantasy {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+            border: 1px solid #2d2d4a;
+            box-shadow: 0 25px 50px rgba(0,0,20,0.9), inset 0 0 100px rgba(100,100,200,0.05);
+        }
+        
+        .theme-fantasy h3 { color: #7a8bb5; }
+        .theme-fantasy .modal-ornament { color: #4a5a8a; }
+        .theme-fantasy .btn-modal {
+            background: linear-gradient(135deg, #1a1a3e 0%, #2d2d5a 100%);
+            border: 1px solid #4a4a8a;
+            color: #8b9bc5;
+        }
+        .theme-fantasy .btn-modal:hover {
+            border-color: #6a7ab5;
+            color: #aabbee;
+            box-shadow: 0 0 30px rgba(100,100,200,0.3);
+        }
+        
+        /* Theme 2: Corações Imortais - Dark/Blood */
+        .theme-vampire {
+            background: linear-gradient(135deg, #0a0505 0%, #1a0505 50%, #0f0000 100%);
+            border: 1px solid #5a0000;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.95), inset 0 0 100px rgba(139,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-vampire::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139,0,0,0.1) 0%, transparent 70%);
+            animation: blood-pulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes blood-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+        
+        .theme-vampire h3 { color: #cd5c5c; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
+        .theme-vampire .modal-ornament { color: #8b0000; }
+        .theme-vampire .btn-modal {
+            background: linear-gradient(135deg, #2d0808 0%, #1a0505 100%);
+            border: 1px solid #8b0000;
+            color: #cd5c5c;
+        }
+        .theme-vampire .btn-modal:hover {
+            border-color: #ff0000;
+            color: #ff6b6b;
+            box-shadow: 0 0 30px rgba(139,0,0,0.4);
+        }
+        .theme-vampire .curiosity-box {
+            background: rgba(139,0,0,0.1);
+            border-left: 3px solid #8b0000;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #a08080;
+        }
+        
+        /* Theme 3: Um Show de Contos - Mystic/Green */
+        .theme-contos {
+            background: linear-gradient(135deg, #0a1a0a 0%, #0f1f0f 50%, #051505 100%);
+            border: 1px solid #2d4a2d;
+            box-shadow: 0 25px 50px rgba(0,20,0,0.9), inset 0 0 100px rgba(0,100,0,0.05);
+        }
+        
+        .theme-contos h3 { color: #5a8a5a; }
+        .theme-contos .modal-ornament { color: #3d5a3d; }
+        .theme-contos .btn-modal {
+            background: linear-gradient(135deg, #0f2f0f 0%, #1a3a1a 100%);
+            border: 1px solid #3d6a3d;
+            color: #7aba7a;
+        }
+        .theme-contos .btn-modal:hover {
+            border-color: #5aaa5a;
+            color: #9ada9a;
+            box-shadow: 0 0 30px rgba(0,100,0,0.3);
         }
         
         /* Navigation */
@@ -768,6 +857,50 @@
             .swipe-animation {
                 animation: swipe-hint 1.5s ease-in-out infinite;
             }
+            
+            /* Mobile Modal Fixes - RESPONSIVIDADE CORRIGIDA */
+            #book-modal {
+                padding: 0 !important;
+                align-items: flex-end !important;
+            }
+            
+            #modal-content {
+                max-width: 100% !important;
+                width: 100% !important;
+                max-height: 90vh !important;
+                border-radius: 20px 20px 0 0 !important;
+                overflow-y: auto !important;
+                margin: 0 !important;
+                transform: translateY(100%) !important;
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            
+            #book-modal.flex #modal-content {
+                transform: translateY(0) !important;
+            }
+            
+            #modal-content .flex-col {
+                flex-direction: column !important;
+            }
+            
+            #modal-content .md\\:w-1\\/3,
+            #modal-content .md\\:w-2\\/3 {
+                width: 100% !important;
+            }
+            
+            #modal-content img {
+                max-height: 40vh !important;
+                object-fit: contain !important;
+            }
+            
+            #modal-content .p-8 {
+                padding: 1.5rem !important;
+            }
+            
+            /* Ajuste para tema vampire no mobile */
+            .theme-vampire::before {
+                display: none;
+            }
         }
         
         /* Section styling */
@@ -828,7 +961,7 @@
             color: #8b7355;
             font-family: 'Cinzel', serif;
             font-size: 0.875rem;
-            z-index: 100;
+            z-index: 10000;
             transform: translateX(150%);
             transition: transform 0.3s;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -836,6 +969,18 @@
         
         .toast.show {
             transform: translateX(0);
+        }
+        
+        @media (max-width: 768px) {
+            .toast {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                transform: translateY(150%);
+            }
+            .toast.show {
+                transform: translateY(0);
+            }
         }
         
         /* Filter tabs */
@@ -933,6 +1078,15 @@
             50% { box-shadow: 0 0 0 10px rgba(139, 105, 20, 0); }
         }
         
+        @media (max-width: 768px) {
+            .audio-toggle {
+                bottom: 1rem;
+                left: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
         /* Social share */
         .social-share {
             display: flex;
@@ -1000,6 +1154,24 @@
         
         .book-front img.error + .fallback {
             display: flex;
+        }
+        
+        /* Modal scrollbar styling */
+        #modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #modal-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        
+        #modal-content::-webkit-scrollbar-thumb {
+            background: #3d3d3d;
+            border-radius: 4px;
+        }
+        
+        #modal-content::-webkit-scrollbar-thumb:hover {
+            background: #5d5d5d;
         }
     </style>
 </head>
@@ -1417,12 +1589,12 @@
             </div>
         </div>
 
-        <!-- Book Modal -->
+        <!-- Book Modal - RESPONSIVO E COM TEMAS DIFERENTES -->
         <div id="book-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <div class="dark-modal max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500" id="modal-content">
-                <button onclick="closeBook()" class="absolute top-4 right-4 text-[#4a4a4a] hover:text-[#8b7355] text-2xl transition-colors" aria-label="Fechar modal">✕</button>
+            <div class="dark-modal max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500 max-h-[90vh] overflow-y-auto" id="modal-content">
+                <button onclick="closeBook()" class="absolute top-4 right-4 text-[#4a4a4a] hover:text-[#8b7355] text-2xl transition-colors z-10" aria-label="Fechar modal">✕</button>
                 <div class="flex flex-col md:flex-row gap-8">
-                    <div class="w-full md:w-1/3">
+                    <div class="w-full md:w-1/3 flex-shrink-0">
                         <img id="modal-image" src="" alt="" class="w-full rounded shadow-2xl filter sepia-[30%]">
                         <div class="mt-4 flex justify-center">
                             <button class="btn-bookmark w-full" onclick="toggleBookmarkFromModal()" id="modal-bookmark">
@@ -1430,8 +1602,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="w-full md:w-2/3">
-                        <h3 id="modal-title" class="font-cinzel text-2xl text-[#8b7355] mb-1 tracking-wide"></h3>
+                    <div class="w-full md:w-2/3 min-w-0">
+                        <h3 id="modal-title" class="font-cinzel text-2xl text-[#8b7355] mb-1 tracking-wide modal-ornament"></h3>
                         <p id="modal-subtitle" class="text-sm italic text-[#6b6b6b] mb-4 font-light"></p>
                         
                         <!-- Rating -->
@@ -1443,6 +1615,14 @@
                         </div>
 
                         <p id="modal-desc" class="text-[#a0a0a0] leading-relaxed mb-6 text-lg font-light"></p>
+                        
+                        <!-- Curiosidades especiais para Corações Imortais -->
+                        <div id="modal-curiosities" class="hidden mb-6">
+                            <div class="curiosity-box">
+                                <h4 class="font-cinzel text-sm text-[#8b0000] mb-2">🩸 Curiosidades Sombrias</h4>
+                                <div id="curiosities-content" class="text-[#a08080] text-sm leading-relaxed space-y-3"></div>
+                            </div>
+                        </div>
                         
                         <!-- Price -->
                         <div class="price-tag mb-4" id="modal-price" title="Preço sujeito a alteração na Amazon">
@@ -1460,10 +1640,10 @@
                         </div>
 
                         <div class="flex flex-wrap gap-3">
-                            <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 btn-dark text-xs">
+                            <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 btn-dark btn-modal text-xs">
                                 Adquirir na Amazon →
                             </a>
-                            <button onclick="shareBook()" class="px-6 py-3 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs font-cinzel">
+                            <button onclick="shareBook()" class="px-6 py-3 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs font-cinzel btn-modal">
                                 Compartilhar
                             </button>
                         </div>
@@ -2052,7 +2232,7 @@
             }
         });
 
-        // Book Data
+        // Book Data with extended info for Corações Imortais
         const books = {
             1: {
                 title: 'Heróis da Fantasia',
@@ -2065,7 +2245,9 @@
                 reviews: '12 avaliações',
                 image: 'heroisdafantasia1.png',
                 link: 'https://www.amazon.com.br/Her%C3%B3is-fantasia-nascimento-um-her%C3%B3i-ebook/dp/B0C9KVCNFY',
-                category: 'fantasy'
+                category: 'fantasy',
+                theme: 'fantasy',
+                curiosities: null
             },
             2: {
                 title: 'Heróis da Fantasia',
@@ -2078,20 +2260,32 @@
                 reviews: '8 avaliações',
                 image: 'heroisdafantasia2.png',
                 link: 'https://www.amazon.com.br/Her%C3%B3is-Fantasia-aventuras-jovens-aloprados-ebook/dp/B0F7WZS1DV',
-                category: 'fantasy'
+                category: 'fantasy',
+                theme: 'fantasy',
+                curiosities: null
             },
             3: {
                 title: 'Corações Imortais',
                 subtitle: 'a vingança',
                 desc: 'Uma história sombria e envolvente sobre amor eterno e vingança implacável. Quando tudo é tirado de alguém que ama profundamente, até mesmo a morte pode não ser o fim. Nesta narrativa intensa, Fletes explora os limites do amor e até onde uma pessoa pode ir quando seu coração é ferido.',
-                pages: 'eBook Kindle',
+                pages: '162 páginas',
                 year: '2025',
                 price: '10.99',
                 rating: 5,
                 reviews: '15 avaliações',
                 image: 'coracoesimortais.png',
                 link: 'https://www.amazon.com.br/Cora%C3%A7%C3%B5es-Imortais-Vingan%C3%A7a-Nicarao-Fletes-ebook/dp/B0FG4ZL6WF',
-                category: 'dark'
+                category: 'dark',
+                theme: 'vampire',
+                curiosities: [
+                    'Toda a ideia desse livro veio de um conto que se chamava apenas "Apenas uma história de vampiros", o qual publiquei em uma plataforma para que os leitores dessem suas críticas. Teve apenas um capítulo e houve vários leitores, inclusive alguns que comentaram que gostariam de uma continuação.',
+                    'Joguei RPG Vampiro: A Máscara por muito tempo, sendo o primeiro RPG de mesa que joguei. Claro que, depois, comecei a ler histórias sobre esse mundo, joguei games, vi filmes e animes — tudo nesse cenário. Sempre tive a vontade de criar um mundo usando a temática de vampiros, mas nunca houve uma ideia concreta, algo bom e robusto; então, deixei o tempo passar para ver se algo aparecia.',
+                    'Após escrever essa história — na qual não deixo tão claro o mundo vampiresco nesse capítulo — e vendo que teve bastantes leitores e uma boa recepção, decidi escrever um pouco mais. Nessa época, eu já havia publicado um livro de fantasia, mas estava com outra ilustradora, sendo essa garota a pessoa que mais acreditou na história, pois ela também leu e queria a continuação. No começo, foi só porque ela pediu, mas a história foi crescendo e passei a pensar nela como um livro completo. Foi aí que nasceu, de fato, a história até o seu final.',
+                    'Essa ilustradora criou todas as artes do livro, que foram pensadas de forma gótica; por isso são em preto e branco, com aquele traço característico. Foi ela quem foi lendo cada capítulo e dando suas considerações. Sem ela, teria sido mais difícil.',
+                    'Realmente, eu como escritor não gosto do uso de IA, mas sei que é algo que ajuda; contudo, deve ser feito com sabedoria. A única coisa que utilizei de IA nesse livro foi na escolha do título: tive vários exemplos dados pela inteligência artificial e juntei duas ideias, formando assim o título que temos hoje.',
+                    'Joguei Vampiro: A Máscara, então muitas das minhas ideias vêm desse RPG. Se notar, apesar de eu não usar os nomes específicos do jogo, utilizei as habilidades sem rotulá-las. Realmente me inspirei muito no cenário de Vampiro: A Máscara para escrever este livro. E o processo foi fluido, porque eu já havia jogado muito e conhecia bem o cenário.',
+                    'Corações Imortais terá uma continuação. A história está apenas começando, então, espere pelos próximos livros.'
+                ]
             },
             4: {
                 title: 'um show de contos',
@@ -2104,7 +2298,9 @@
                 reviews: '6 avaliações',
                 image: 'showdecantos.png',
                 link: 'https://www.amazon.com.br/Um-show-contos-Nicarao-Fletes-ebook/dp/B0FH7BLKWX',
-                category: 'collection'
+                category: 'collection',
+                theme: 'contos',
+                curiosities: null
             }
         };
 
@@ -2121,6 +2317,9 @@
             const modal = document.getElementById('book-modal');
             const content = document.getElementById('modal-content');
             
+            // Aplicar tema específico
+            content.className = `max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500 max-h-[90vh] overflow-y-auto theme-${book.theme || 'default'}`;
+            
             document.getElementById('modal-title').textContent = book.title;
             document.getElementById('modal-subtitle').textContent = book.subtitle;
             document.getElementById('modal-desc').textContent = book.desc;
@@ -2131,6 +2330,17 @@
             document.getElementById('modal-price-value').textContent = book.price;
             document.getElementById('modal-reviews').textContent = book.reviews;
             document.getElementById('modal-link').href = book.link;
+            
+            // Curiosidades para Corações Imortais
+            const curiositiesDiv = document.getElementById('modal-curiosities');
+            const curiositiesContent = document.getElementById('curiosities-content');
+            
+            if (book.curiosities && book.curiosities.length > 0) {
+                curiositiesDiv.classList.remove('hidden');
+                curiositiesContent.innerHTML = book.curiosities.map(c => `<p>• ${c}</p>`).join('');
+            } else {
+                curiositiesDiv.classList.add('hidden');
+            }
             
             const ratingContainer = document.getElementById('modal-rating');
             ratingContainer.innerHTML = '';
@@ -2160,6 +2370,8 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
                 currentBookId = null;
+                // Reset theme
+                content.className = 'dark-modal max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500 max-h-[90vh] overflow-y-auto';
             }, 500);
         }
 
