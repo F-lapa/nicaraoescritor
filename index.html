@@ -1760,7 +1760,7 @@ a[aria-label="Instagram"]:hover {
         </div>
     </section>
 
-    <!-- Contact Section -->
+        <!-- Contact Section -->
     <section id="contact" class="section-dark py-32" role="region" aria-label="Contato">
         <div class="max-w-2xl mx-auto px-6">
             <div class="text-center mb-12">
@@ -1769,35 +1769,33 @@ a[aria-label="Instagram"]:hover {
                 </h2>
                 <div class="ornament max-w-xs mx-auto reveal">
                     <div class="ornament-line"></div>
-                    <span class="ornament-symbol">✉</span>
+                    <span class="ornament-symbol">📱</span>
                     <div class="ornament-line"></div>
                 </div>
             </div>
             
-            <form class="space-y-6 reveal" onsubmit="sendMessage(event)" id="contact-form">
+            <form class="space-y-6 reveal" onsubmit="sendToWhatsApp(event)" id="contact-form">
                 <div class="relative">
                     <input type="text" id="name" required class="w-full dark-input px-6 py-4 text-sm rounded-sm" placeholder="Seu nome..." aria-label="Nome">
                 </div>
                 
                 <div class="relative">
-                    <input type="email" id="email" required class="w-full dark-input px-6 py-4 text-sm rounded-sm" placeholder="Seu email..." aria-label="Email">
+                    <input type="email" id="email" class="w-full dark-input px-6 py-4 text-sm rounded-sm" placeholder="Seu email (opcional)..." aria-label="Email">
                 </div>
                 
                 <div class="relative">
                     <textarea id="message" rows="5" required class="w-full dark-input px-6 py-4 text-sm rounded-sm resize-none" placeholder="Sua mensagem..." aria-label="Mensagem"></textarea>
                 </div>
-
-                <div class="flex items-center gap-2 text-[#6b6b6b] text-xs">
-                    <input type="checkbox" id="newsletter-check" class="accent-[#8b6914]">
-                    <label for="newsletter-check">Quero receber novidades sobre lançamentos</label>
-                </div>
                 
-                <button type="submit" class="w-full btn-dark py-4 text-sm" id="submit-btn">
-                    Enviar através do véu
+                <button type="submit" class="w-full btn-dark py-4 text-sm flex items-center justify-center gap-2" id="submit-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    Enviar pelo WhatsApp
                 </button>
 
                 <p class="text-[#4a4a4a] text-xs text-center mt-4">
-                    * Este formulário é demonstrativo. Para contato real, utilize as redes sociais.
+                    * Você será redirecionado para o WhatsApp com sua mensagem pronta.
                 </p>
             </form>
         </div>
@@ -2636,31 +2634,37 @@ a[aria-label="Instagram"]:hover {
             e.target.reset();
         }
 
-        // Contact Form
-        function sendMessage(e) {
+                // WhatsApp Integration
+        function sendToWhatsApp(e) {
             e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            const originalText = btn.textContent;
             
-            btn.textContent = '✦ Enviando...';
-            btn.disabled = true;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
             
-            setTimeout(() => {
-                btn.textContent = '✦ Mensagem enviada ao éter';
-                btn.style.background = '#1a3a3a';
-                btn.style.borderColor = '#2d5a5a';
-                
-                showToast('Mensagem enviada! (Demonstração)');
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    btn.disabled = false;
-                    e.target.reset();
-                }, 3000);
-            }, 1500);
+            // NÚMERO DO WHATSAPP DO AUTOR (COM CÓDIGO DO PAÍS)
+            // Exemplo: 55 (Brasil) + DDD + Número
+            // Substitua pelo número real: 5511999999999
+            const phoneNumber = '554888560396'; // ← COLOQUE O NÚMERO REAL AQUI
             
+            // Monta a mensagem formatada
+            let text = `*Nova mensagem do site Nicarao Fletes*%0A%0A`;
+            text += `*Nome:* ${name}%0A`;
+            if (email) {
+                text += `*Email:* ${email}%0A`;
+            }
+            text += `%0A*Mensagem:*%0A${message}`;
+            
+            // Cria o link do WhatsApp
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
+            
+            // Abre o WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Limpa o formulário
+            e.target.reset();
+            
+            showToast('Redirecionando para o WhatsApp...');
             castSpell();
         }
 
