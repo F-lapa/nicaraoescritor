@@ -1173,6 +1173,18 @@
         #modal-content::-webkit-scrollbar-thumb:hover {
             background: #5d5d5d;
         }
+
+        /* Efeito especial para o Instagram */
+a[aria-label="Instagram"] {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+a[aria-label="Instagram"]:hover {
+    background: linear-gradient(135deg, #2d1f15 0%, #1a1510 100%);
+    box-shadow: 0 0 25px rgba(139, 105, 20, 0.3);
+    border-color: #8b6914 !important;
+}
     </style>
 </head>
 <body>
@@ -1647,14 +1659,6 @@
                                 Compartilhar
                             </button>
                         </div>
-
-                        <!-- Social Share -->
-                        <div class="social-share">
-                            <button class="social-btn" onclick="shareSocial('twitter')" aria-label="Compartilhar no Twitter">𝕏</button>
-                            <button class="social-btn" onclick="shareSocial('facebook')" aria-label="Compartilhar no Facebook">f</button>
-                            <button class="social-btn" onclick="shareSocial('whatsapp')" aria-label="Compartilhar no WhatsApp">📱</button>
-                            <button class="social-btn" onclick="copyLink()" aria-label="Copiar link">🔗</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1820,13 +1824,18 @@
                     </div>
                 </div>
 
-                <div class="text-center md:text-right">
+                                                <div class="text-center">
                     <div class="font-cinzel text-sm text-[#6b6b6b] mb-4 tracking-widest">CONEXÕES</div>
-                    <div class="flex justify-center md:justify-end gap-4">
-                        <a href="#" class="w-10 h-10 rounded-full border border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs" aria-label="Instagram">IG</a>
-                        <a href="#" class="w-10 h-10 rounded-full border border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs" aria-label="Twitter">TW</a>
-                        <a href="https://www.amazon.com.br/s?k=Nicarao+Fletes" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full border border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs" aria-label="Amazon">AZ</a>
+                    <div class="flex justify-center">
+                        <a href="https://www.instagram.com/nicaraoescritor/" target="_blank" rel="noopener noreferrer" class="w-16 h-16 rounded-full border-2 border-[#2d2d2d] flex items-center justify-center text-[#4a4a4a] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-lg hover:scale-110" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
                     </div>
+                </div>
                 </div>
             </div>
 
