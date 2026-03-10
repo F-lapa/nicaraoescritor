@@ -595,6 +595,26 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
         
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+            
+            .desktop-nav {
+                display: flex;
+            }
+            
+            .mobile-carousel {
+                display: none !important;
+            }
+            
+            .desktop-grid {
+                display: grid !important;
+            }
+        }
+        
+        /* Mobile styles */
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
@@ -604,6 +624,15 @@
                 display: none;
             }
             
+            .desktop-grid {
+                display: none !important;
+            }
+            
+            .mobile-carousel {
+                display: block !important;
+            }
+            
+            /* Mobile book sizing */
             .book-3d {
                 width: 160px;
                 height: 256px;
@@ -625,6 +654,119 @@
             
             .book-bottom {
                 transform: translateY(232px) rotateX(-90deg);
+            }
+            
+            /* Carousel container */
+            .carousel-container {
+                position: relative;
+                width: 100%;
+                overflow: hidden;
+                padding: 2rem 0;
+            }
+            
+            .carousel-track {
+                display: flex;
+                transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform;
+            }
+            
+            .carousel-slide {
+                min-width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 20px;
+            }
+            
+            /* Carousel controls */
+            .carousel-dots {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
+                margin-top: 2rem;
+            }
+            
+            .carousel-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #2d2d2d;
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s;
+                position: relative;
+            }
+            
+            .carousel-dot::after {
+                content: '';
+                position: absolute;
+                inset: -4px;
+                border-radius: 50%;
+                border: 1px solid transparent;
+                transition: all 0.3s;
+            }
+            
+            .carousel-dot.active {
+                background: #8b6914;
+                transform: scale(1.2);
+            }
+            
+            .carousel-dot.active::after {
+                border-color: #8b6914;
+            }
+            
+            /* Progress bar */
+            .carousel-progress {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 200px;
+                height: 2px;
+                background: #1a1a1a;
+                border-radius: 2px;
+                overflow: hidden;
+            }
+            
+            .carousel-progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, #8b6914, #d4af37);
+                width: 0%;
+                transition: width 0.1s linear;
+            }
+            
+            /* Touch indicators */
+            .carousel-hint {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #4a4a4a;
+                font-size: 2rem;
+                opacity: 0.3;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+            
+            .carousel-hint.left {
+                left: 10px;
+            }
+            
+            .carousel-hint.right {
+                right: 10px;
+            }
+            
+            .carousel-container:hover .carousel-hint {
+                opacity: 0.6;
+            }
+            
+            /* Swipe animation */
+            @keyframes swipe-hint {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(10px); }
+            }
+            
+            .swipe-animation {
+                animation: swipe-hint 1.5s ease-in-out infinite;
             }
         }
         
@@ -1002,13 +1144,13 @@
                 <p class="text-[#4a4a4a] mt-6 text-lg font-light reveal">Tomos de conhecimento arcano disponíveis na Amazon</p>
             </div>
 
-            <!-- Search -->
-            <div class="search-box reveal">
+            <!-- Search - Desktop only -->
+            <div class="search-box reveal desktop-only">
                 <input type="text" id="book-search" placeholder="Buscar grimórios..." onkeyup="searchBooks()" aria-label="Buscar livros">
             </div>
 
-            <!-- Filter Tabs -->
-            <div class="filter-tabs reveal">
+            <!-- Filter Tabs - Desktop only -->
+            <div class="filter-tabs reveal desktop-only">
                 <button class="filter-tab active" onclick="filterBooks('all')">Todos</button>
                 <button class="filter-tab" onclick="filterBooks('fantasy')">Fantasia</button>
                 <button class="filter-tab" onclick="filterBooks('dark')">Dark</button>
@@ -1016,7 +1158,8 @@
                 <button class="filter-tab" onclick="filterBooks('newest')">Mais Recentes</button>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-center justify-items-center" id="books-grid">
+            <!-- DESKTOP: Grid Layout -->
+            <div class="desktop-grid grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-center justify-items-center" id="books-grid">
                 <!-- Book 1 -->
                 <article class="reveal group book-item" data-category="fantasy" data-year="2023" style="transition-delay: 0s">
                     <div class="book-3d mb-6" onclick="openBook(1)" role="button" tabindex="0" aria-label="Abrir detalhes de Heróis da Fantasia: o nascimento de um herói" onkeydown="if(event.key==='Enter')openBook(1)">
@@ -1132,6 +1275,119 @@
                         </button>
                     </div>
                 </article>
+            </div>
+
+            <!-- MOBILE: Professional Carousel -->
+            <div class="mobile-carousel carousel-container reveal">
+                <div class="carousel-hint left">‹</div>
+                <div class="carousel-hint right swipe-animation">›</div>
+                
+                <div class="carousel-track" id="carousel-track">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="book-3d mb-4" onclick="openBook(1)" role="button" aria-label="Abrir Heróis da Fantasia 1">
+                                <div class="book-face book-front">
+                                    <img src="heroisdafantasia1.png" alt="Heróis da Fantasia 1" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback">
+                                        <span class="font-cinzel text-[#8b7355] text-xs">Heróis da Fantasia</span>
+                                    </div>
+                                </div>
+                                <div class="book-face book-back"></div>
+                                <div class="book-face book-right"></div>
+                                <div class="book-face book-left"></div>
+                                <div class="book-face book-top"></div>
+                                <div class="book-face book-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#8b7355] mb-1">Heróis da Fantasia</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">o nascimento de um herói</p>
+                            <button class="btn-bookmark mb-2" onclick="toggleBookmark(1)" id="carousel-bookmark-1">🔖</button>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para detalhes ›</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="book-3d mb-4" onclick="openBook(2)" role="button" aria-label="Abrir Heróis da Fantasia 2">
+                                <div class="book-face book-front">
+                                    <img src="heroisdafantasia2.png" alt="Heróis da Fantasia 2" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback">
+                                        <span class="font-cinzel text-[#8b7355] text-xs">Heróis da Fantasia II</span>
+                                    </div>
+                                </div>
+                                <div class="book-face book-back"></div>
+                                <div class="book-face book-right"></div>
+                                <div class="book-face book-left"></div>
+                                <div class="book-face book-top"></div>
+                                <div class="book-face book-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#8b7355] mb-1">Heróis da Fantasia</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">as aventuras dos jovens aloprados</p>
+                            <button class="btn-bookmark mb-2" onclick="toggleBookmark(2)" id="carousel-bookmark-2">🔖</button>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para detalhes ›</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="book-3d mb-4" onclick="openBook(3)" role="button" aria-label="Abrir Corações Imortais">
+                                <div class="book-face book-front">
+                                    <img src="coracoesimortais.png" alt="Corações Imortais" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback">
+                                        <span class="font-cinzel text-[#8b0000] text-xs">Corações Imortais</span>
+                                    </div>
+                                </div>
+                                <div class="book-face book-back"></div>
+                                <div class="book-face book-right"></div>
+                                <div class="book-face book-left"></div>
+                                <div class="book-face book-top"></div>
+                                <div class="book-face book-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#8b7355] mb-1">Corações Imortais</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">a vingança</p>
+                            <button class="btn-bookmark mb-2" onclick="toggleBookmark(3)" id="carousel-bookmark-3">🔖</button>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para detalhes ›</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="book-3d mb-4" onclick="openBook(4)" role="button" aria-label="Abrir um show de contos">
+                                <div class="book-face book-front">
+                                    <img src="showdecantos.png" alt="um show de contos" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback">
+                                        <span class="font-cinzel text-[#5a7a7a] text-xs">um show de contos</span>
+                                    </div>
+                                </div>
+                                <div class="book-face book-back"></div>
+                                <div class="book-face book-right"></div>
+                                <div class="book-face book-left"></div>
+                                <div class="book-face book-top"></div>
+                                <div class="book-face book-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#8b7355] mb-1">um show de contos</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">coletânea</p>
+                            <button class="btn-bookmark mb-2" onclick="toggleBookmark(4)" id="carousel-bookmark-4">🔖</button>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para detalhes ›</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dots -->
+                <div class="carousel-dots" id="carousel-dots">
+                    <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Ir para slide 1"></button>
+                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Ir para slide 2"></button>
+                    <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Ir para slide 3"></button>
+                    <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Ir para slide 4"></button>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="carousel-progress">
+                    <div class="carousel-progress-bar" id="carousel-progress"></div>
+                </div>
             </div>
 
             <!-- No results message -->
@@ -1411,6 +1667,15 @@
         let audioEnabled = false;
         let audioContext = null;
 
+        // Carousel state
+        let currentSlide = 0;
+        let carouselInterval;
+        let isTouching = false;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const totalSlides = 4;
+        const autoplayDelay = 5000; // 5 seconds
+
         // Cursor
         const cursor = document.getElementById('cursor');
         const trailsContainer = document.getElementById('trails');
@@ -1527,7 +1792,7 @@
             }
             
             frameCount++;
-            if (frameCount % 2 === 0) { // Render every 2nd frame for performance
+            if (frameCount % 2 === 0) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
                 particles.forEach(particle => {
@@ -1557,7 +1822,6 @@
         }
         animateParticles();
 
-        // Pause particles when tab not visible
         document.addEventListener('visibilitychange', () => {
             particlesActive = document.visibilityState === 'visible';
         });
@@ -1618,7 +1882,6 @@
             const progress = (scrolled / maxScroll) * 100;
             document.getElementById('reading-progress').style.width = progress + '%';
             
-            // Parallax
             const parallax = document.getElementById('bg-layer');
             if (parallax) {
                 parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
@@ -1634,7 +1897,162 @@
             hamburger.setAttribute('aria-expanded', menu.classList.contains('active'));
         }
 
-        // Book Data with prices (placeholders - update manually)
+        // CAROUSEL FUNCTIONS
+        function initCarousel() {
+            const track = document.getElementById('carousel-track');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const progressBar = document.getElementById('carousel-progress');
+            
+            // Set initial position
+            updateCarousel();
+            
+            // Start autoplay
+            startAutoplay();
+            
+            // Touch events for swipe
+            track.addEventListener('touchstart', handleTouchStart, { passive: true });
+            track.addEventListener('touchend', handleTouchEnd, { passive: true });
+            track.addEventListener('touchmove', handleTouchMove, { passive: true });
+            
+            // Mouse events for desktop drag
+            let isDragging = false;
+            let startPos = 0;
+            let currentTranslate = 0;
+            
+            track.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startPos = e.pageX;
+                track.style.cursor = 'grabbing';
+                stopAutoplay();
+            });
+            
+            track.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const diff = e.pageX - startPos;
+                currentTranslate = -(currentSlide * 100) + (diff / window.innerWidth * 100);
+                track.style.transform = `translateX(${currentTranslate}%)`;
+            });
+            
+            track.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                track.style.cursor = 'grab';
+                const diff = e.pageX - startPos;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0 && currentSlide > 0) {
+                        goToSlide(currentSlide - 1);
+                    } else if (diff < 0 && currentSlide < totalSlides - 1) {
+                        goToSlide(currentSlide + 1);
+                    } else {
+                        updateCarousel();
+                    }
+                } else {
+                    updateCarousel();
+                }
+                startAutoplay();
+            });
+            
+            track.addEventListener('mouseleave', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    track.style.cursor = 'grab';
+                    updateCarousel();
+                    startAutoplay();
+                }
+            });
+        }
+
+        function handleTouchStart(e) {
+            isTouching = true;
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoplay();
+        }
+
+        function handleTouchMove(e) {
+            if (!isTouching) return;
+            touchEndX = e.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(e) {
+            if (!isTouching) return;
+            isTouching = false;
+            
+            const diff = touchStartX - touchEndX;
+            const threshold = 50;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0 && currentSlide < totalSlides - 1) {
+                    goToSlide(currentSlide + 1);
+                } else if (diff < 0 && currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+            
+            startAutoplay();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+            resetAutoplay();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carousel-track');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const progressBar = document.getElementById('carousel-progress');
+            
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+            
+            // Reset progress bar
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '0%';
+            setTimeout(() => {
+                progressBar.style.transition = `width ${autoplayDelay}ms linear`;
+                progressBar.style.width = '100%';
+            }, 50);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+            carouselInterval = setInterval(nextSlide, autoplayDelay);
+            document.getElementById('carousel-progress').style.transition = `width ${autoplayDelay}ms linear`;
+            document.getElementById('carousel-progress').style.width = '100%';
+        }
+
+        function stopAutoplay() {
+            clearInterval(carouselInterval);
+            document.getElementById('carousel-progress').style.transition = 'none';
+        }
+
+        function resetAutoplay() {
+            stopAutoplay();
+            startAutoplay();
+        }
+
+        // Initialize carousel on mobile
+        if (window.innerWidth <= 768) {
+            initCarousel();
+        }
+
+        // Reinitialize on resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                initCarousel();
+            }
+        });
+
+        // Book Data
         const books = {
             1: {
                 title: 'Heróis da Fantasia',
@@ -1694,7 +2112,6 @@
             currentBookId = id;
             const book = books[id];
             
-            // Add turning animation
             const bookElement = document.querySelector(`[onclick="openBook(${id})"]`);
             if (bookElement) {
                 bookElement.classList.add('turning');
@@ -1715,7 +2132,6 @@
             document.getElementById('modal-reviews').textContent = book.reviews;
             document.getElementById('modal-link').href = book.link;
             
-            // Set rating stars
             const ratingContainer = document.getElementById('modal-rating');
             ratingContainer.innerHTML = '';
             for (let i = 1; i <= 5; i++) {
@@ -1725,7 +2141,6 @@
                 ratingContainer.appendChild(star);
             }
             
-            // Update bookmark button in modal
             updateModalBookmark();
             
             modal.classList.remove('hidden');
@@ -1770,15 +2185,28 @@
         }
 
         function updateBookmarkButtons() {
+            // Desktop
             bookmarks.forEach(id => {
                 const btn = document.getElementById(`bookmark-${id}`);
                 if (btn) btn.classList.add('active');
             });
             
-            // Remove active from non-bookmarked
             [1, 2, 3, 4].forEach(id => {
                 if (!bookmarks.includes(id)) {
                     const btn = document.getElementById(`bookmark-${id}`);
+                    if (btn) btn.classList.remove('active');
+                }
+            });
+
+            // Mobile carousel
+            bookmarks.forEach(id => {
+                const btn = document.getElementById(`carousel-bookmark-${id}`);
+                if (btn) btn.classList.add('active');
+            });
+            
+            [1, 2, 3, 4].forEach(id => {
+                if (!bookmarks.includes(id)) {
+                    const btn = document.getElementById(`carousel-bookmark-${id}`);
                     if (btn) btn.classList.remove('active');
                 }
             });
@@ -1796,7 +2224,7 @@
             }
         }
 
-        // Search and Filter
+        // Search and Filter (Desktop only)
         function searchBooks() {
             const query = document.getElementById('book-search').value.toLowerCase();
             const items = document.querySelectorAll('.book-item');
@@ -1819,7 +2247,6 @@
         }
 
         function filterBooks(category) {
-            // Update active tab
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -1980,12 +2407,9 @@
             if (audioEnabled) {
                 btn.classList.add('active');
                 showToast('Música ambiente ativada (simulado)');
-                // Here you would actually play audio
-                // playAmbientMusic();
             } else {
                 btn.classList.remove('active');
                 showToast('Música ambiente desativada');
-                // stopAmbientMusic();
             }
         }
 
@@ -2040,6 +2464,15 @@
                 closeBook();
                 if (document.getElementById('mobile-menu').classList.contains('active')) {
                     toggleMenu();
+                }
+            }
+            
+            // Carousel keyboard navigation on mobile
+            if (window.innerWidth <= 768) {
+                if (e.key === 'ArrowRight') {
+                    goToSlide((currentSlide + 1) % totalSlides);
+                } else if (e.key === 'ArrowLeft') {
+                    goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
                 }
             }
         });
