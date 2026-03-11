@@ -220,29 +220,31 @@
             }
         }
         
-        /* Dark Title - Better contrast */
         .dark-title {
-            font-family: 'Cinzel', serif;
-            color: #a08060;
-            text-shadow: 
-                2px 2px 4px rgba(0,0,0,0.9),
-                0 0 30px rgba(139, 0, 0, 0.2);
-            letter-spacing: 0.15em;
-            position: relative;
-            line-height: 1.2;
-        }
-        
-        .dark-title::after {
-            content: attr(data-text);
-            position: absolute;
-            left: 2px;
-            top: 2px;
-            width: 100%;
-            height: 100%;
-            color: #2d1f15;
-            z-index: -1;
-            filter: blur(1px);
-        }
+    font-family: 'Cinzel', serif;
+    color: #d4af37;  /* DOURADO CLARO - mais brilhante */
+    text-shadow: 
+        0 0 10px rgba(212, 175, 55, 0.3),
+        0 0 20px rgba(212, 175, 55, 0.2),
+        0 0 40px rgba(139, 0, 0, 0.1),
+        2px 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 0.15em;
+    position: relative;
+    line-height: 1.2;
+}
+
+.dark-title::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 100%;
+    height: 100%;
+    color: #8b6914;  /* Sombra mais clara */
+    z-index: -1;
+    filter: blur(0.5px);
+    opacity: 0.5;
+}
         
         /* Subtle glitch */
         .dark-glitch {
@@ -810,6 +812,43 @@
             .hamburger {
                 display: flex;
             }
+
+            #home {
+        min-height: auto;
+        padding-top: 60px; /* Reduzido de ~80px */
+        padding-bottom: 40px;
+    }
+    
+    #home .relative.z-10 {
+        margin-top: -20px; /* Sobe o conteúdo */
+    }
+    
+    /* Reduzir espaçamentos no mobile */
+    #home .mb-12 {
+        margin-bottom: 1.5rem;
+    }
+    
+    #home .mb-8 {
+        margin-bottom: 1rem;
+    }
+    
+    #home .mt-12 {
+        margin-top: 1.5rem;
+    }
+    
+    #home .mt-16 {
+        margin-top: 1.5rem;
+    }
+    
+    /* Ajustar círculo decorativo */
+    #home .dark-circle {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* ... resto do código existente ... */
+}
             
             .desktop-nav {
                 display: none;
@@ -1547,6 +1586,218 @@
                 transform: translateZ(20px) scale(1.02);
             }
         }
+
+        /* ============================================
+   SEÇÃO TOP VÍDEOS - Instagram Reels
+   ============================================ */
+   
+.videos-section {
+    background: linear-gradient(to bottom, #0c0c0c, #0a0a0a, #0c0c0c);
+    position: relative;
+    overflow: hidden;
+}
+
+.videos-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8b6914, transparent);
+    opacity: 0.5;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.video-card {
+    position: relative;
+    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
+    border: 1px solid #2d2d2d;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-style: preserve-3d;
+}
+
+.video-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #8b6914;
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.6),
+        0 0 30px rgba(139, 105, 20, 0.2);
+}
+
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/16;
+    background: #0a0a0a;
+    overflow: hidden;
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+    filter: sepia(20%) contrast(1.1);
+}
+
+.video-card:hover .video-thumbnail img {
+    transform: scale(1.1);
+    filter: sepia(0%) contrast(1.2);
+}
+
+/* Play button overlay */
+.video-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.video-card:hover .video-play {
+    opacity: 1;
+    background: rgba(0,0,0,0.2);
+}
+
+.play-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #8b6914, #d4af37);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.8);
+    transition: transform 0.3s;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+}
+
+.video-card:hover .play-icon {
+    transform: scale(1);
+}
+
+.play-icon::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 20px solid #0c0c0c;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 4px;
+}
+
+/* Instagram badge */
+.instagram-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.instagram-badge::before {
+    content: '📷';
+    font-size: 0.8rem;
+}
+
+/* Video info */
+.video-info {
+    padding: 1.5rem;
+}
+
+.video-title {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.video-desc {
+    color: #6b6b6b;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.video-stats {
+    display: flex;
+    gap: 1rem;
+    color: #4a4a4a;
+    font-size: 0.75rem;
+    font-family: 'Cinzel', serif;
+}
+
+.video-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Mobile adjustments for videos */
+@media (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .video-info {
+        padding: 1rem;
+    }
+    
+    .video-title {
+        font-size: 0.875rem;
+    }
+    
+    .video-desc {
+        display: none; /* Esconde descrição no mobile para economizar espaço */
+    }
+    
+    .play-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .play-icon::after {
+        border-left-width: 14px;
+        border-top-width: 8px;
+        border-bottom-width: 8px;
+    }
+    
+    .instagram-badge {
+        padding: 4px 8px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+}
     </style>
 </head>
 <body>
@@ -2047,6 +2298,117 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Top Videos Section -->
+    <section id="videos" class="videos-section py-24 relative" role="region" aria-label="Vídeos do autor">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="font-cinzel text-4xl md:text-5xl text-[#d4af37] mb-4 reveal tracking-widest">
+                    REELS DO ARQUITETO
+                </h2>
+                <div class="ornament max-w-sm mx-auto reveal">
+                    <div class="ornament-line"></div>
+                    <span class="ornament-symbol">🎬</span>
+                    <div class="ornament-line"></div>
+                </div>
+                <p class="text-[#6b6b6b] mt-6 text-lg font-light reveal">
+                    Momentos, bastidores e magia em vídeo direto do Instagram
+                </p>
+            </div>
+
+            <!-- Video Grid -->
+            <div class="video-grid reveal">
+                
+                <!-- Video 1 -->
+                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_1/')">
+                    <div class="video-thumbnail">
+                        <!-- Substitua pela thumbnail real do vídeo ou use uma imagem placeholder -->
+                        <img src="https://via.placeholder.com/400x700/1a1a1a/d4af37?text=Reel+1" alt="Vídeo 1 - Nicarao Fletes">
+                        <div class="instagram-badge">Instagram</div>
+                        <div class="video-play">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">A Magia da Escrita</h3>
+                        <p class="video-desc">Um vislumbre do processo criativo por trás dos mundos sombrios.</p>
+                        <div class="video-stats">
+                            <span class="video-stat">👁 1.2k</span>
+                            <span class="video-stat">❤️ 89</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Video 2 -->
+                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_2/')">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/400x700/1a1a1a/8b0000?text=Reel+2" alt="Vídeo 2 - Nicarao Fletes">
+                        <div class="instagram-badge">Instagram</div>
+                        <div class="video-play">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Bastidores do Livro</h3>
+                        <p class="video-desc">Como nasce uma história de dark fantasy.</p>
+                        <div class="video-stats">
+                            <span class="video-stat">👁 980</span>
+                            <span class="video-stat">❤️ 76</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Video 3 -->
+                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_3/')">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/400x700/1a1a1a/5a7a7a?text=Reel+3" alt="Vídeo 3 - Nicarao Fletes">
+                        <div class="instagram-badge">Instagram</div>
+                        <div class="video-play">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Leitura ao Vivo</h3>
+                        <p class="video-desc">Trecho exclusivo de "Corações Imortais".</p>
+                        <div class="video-stats">
+                            <span class="video-stat">👁 2.1k</span>
+                            <span class="video-stat">❤️ 156</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Video 4 -->
+                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_4/')">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/400x700/1a1a1a/8b7355?text=Reel+4" alt="Vídeo 4 - Nicarao Fletes">
+                        <div class="instagram-badge">Instagram</div>
+                        <div class="video-play">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Perguntas dos Fãs</h3>
+                        <p class="video-desc">Respondendo perguntas sobre a saga Heróis da Fantasia.</p>
+                        <div class="video-stats">
+                            <span class="video-stat">👁 1.5k</span>
+                            <span class="video-stat">❤️ 112</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Link para Instagram -->
+            <div class="mt-12 text-center reveal">
+                <a href="https://www.instagram.com/nicaraoescritor/" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-3 px-8 py-4 btn-dark text-sm group">
+                    <span class="text-xl group-hover:scale-110 transition-transform">📷</span>
+                    <span>Ver mais no Instagram</span>
+                    <span class="group-hover:translate-x-1 transition-transform">→</span>
+                </a>
             </div>
         </div>
     </section>
@@ -3121,6 +3483,43 @@
 
         console.log('%c⚜ Bem-vindo ao Grimório Digital de Nicarao Fletes ⚜', 'color: #8b6914; font-family: Cinzel; font-size: 16px;');
         console.log('%c"Nas sombras encontramos as histórias que a luz teme contar."', 'color: #6b6b6b; font-style: italic;');
-    </script>
+
+                // Função para abrir vídeos do Instagram
+        function openVideo(url) {
+            // Abre o vídeo em nova aba
+            window.open(url, '_blank', 'noopener,noreferrer');
+            
+            // Efeito visual de clique
+            castSpell();
+            
+            // Opcional: Mostrar toast
+            showToast('Abrindo vídeo no Instagram...');
+        }
+
+        // Atualizar navegação para incluir link para vídeos
+        // Adicione este trecho no final do script existente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adicionar link de vídeos no menu desktop se não existir
+            const desktopNav = document.querySelector('.desktop-nav');
+            if (desktopNav && !desktopNav.querySelector('a[href="#videos"]')) {
+                const videoLink = document.createElement('a');
+                videoLink.href = '#videos';
+                videoLink.className = 'hover:text-[#8b7355] transition-colors duration-300';
+                videoLink.textContent = 'VÍDEOS';
+                desktopNav.insertBefore(videoLink, desktopNav.querySelector('a[href="#lore"]'));
+            }
+            
+            // Adicionar link de vídeos no menu mobile se não existir
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.querySelector('a[href="#videos"]')) {
+                const mobileVideoLink = document.createElement('a');
+                mobileVideoLink.href = '#videos';
+                mobileVideoLink.onclick = function() { toggleMenu(); };
+                mobileVideoLink.setAttribute('role', 'menuitem');
+                mobileVideoLink.textContent = 'VÍDEOS';
+                mobileMenu.insertBefore(mobileVideoLink, mobileMenu.querySelector('a[href="#lore"]'));
+            }
+        });
+</script>
 </body>
 </html>
