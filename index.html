@@ -220,9 +220,9 @@
             }
         }
         
-        .dark-title {
+                .dark-title {
     font-family: 'Cinzel', serif;
-    color: #d4af37;  /* DOURADO CLARO - mais brilhante */
+    color: #d4af37;  /* ← DELETAR */
     text-shadow: 
         0 0 10px rgba(212, 175, 55, 0.3),
         0 0 20px rgba(212, 175, 55, 0.2),
@@ -240,7 +240,7 @@
     top: 1px;
     width: 100%;
     height: 100%;
-    color: #8b6914;  /* Sombra mais clara */
+    color: #eaec98;  /* ← DELETAR */
     z-index: -1;
     filter: blur(0.5px);
     opacity: 0.5;
@@ -1587,217 +1587,273 @@
             }
         }
 
-        /* ============================================
-   SEÇÃO TOP VÍDEOS - Instagram Reels
-   ============================================ */
+                /* ============================================
+           SEÇÃO VÍDEOS - Mesmo estilo dos Livros
+           ============================================ */
+        
+        .videos-section {
+            background: linear-gradient(to bottom, #0c0c0c, #151515, #0c0c0c);
+            position: relative;
+        }
+        
+        .videos-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #2d2d2d, transparent);
+        }
+        
+        /* Video 3D Book - Mesmo estilo dos livros */
+        .video-3d {
+            width: 200px;
+            height: 320px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: perspective(1200px) rotateY(-25deg) rotateX(5deg);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            filter: brightness(0.9) contrast(1.1);
+        }
+        
+        .video-3d:hover {
+            transform: perspective(1200px) rotateY(0deg) rotateX(0deg) scale(1.05);
+            filter: brightness(1.1) contrast(1.2);
+            z-index: 50;
+        }
+        
+        .video-3d.turning {
+            animation: pageTurn 0.6s ease-in-out;
+        }
+        
+        .video-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 2px 6px 6px 2px;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .video-front { 
+            transform: translateZ(30px);
+            box-shadow: 
+                5px 5px 15px rgba(0,0,0,0.8),
+                inset 2px 0 10px rgba(0,0,0,0.3);
+            border: 1px solid #2d2d2d;
+            background: #0a0a0a;
+        }
+        
+        .video-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%) contrast(1.1);
+            transition: filter 0.3s;
+        }
+        
+        .video-3d:hover .video-front img {
+            filter: sepia(10%) contrast(1.2) brightness(1.1);
+        }
+        
+        /* Play button no centro */
+        .video-play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .video-3d:hover .video-play-overlay {
+            opacity: 1;
+        }
+        
+        .video-play-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8b6914, #d4af37);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.8);
+            transition: transform 0.3s;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+        
+        .video-3d:hover .video-play-icon {
+            transform: scale(1);
+        }
+        
+        .video-play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid #0c0c0c;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+        
+        /* Instagram badge no canto */
+        .video-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+        
+        .video-back { 
+            transform: translateZ(-30px) rotateY(180deg);
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-right { 
+            width: 60px;
+            transform: translateX(170px) rotateY(90deg);
+            background: linear-gradient(to right, #0a0a0a, #151515);
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-left { 
+            width: 60px;
+            transform: translateX(-30px) rotateY(-90deg);
+            background: linear-gradient(to left, #151515, #0a0a0a);
+        }
+        
+        .video-top {
+            height: 60px;
+            transform: translateY(-30px) rotateX(90deg);
+            background: linear-gradient(to top, #1a1a1a, #252525);
+        }
+        
+        .video-bottom {
+            height: 60px;
+            transform: translateY(290px) rotateX(-90deg);
+            background: #050505;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+        }
+        
+        /* Spine text */
+        .video-spine-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: #3d2817;
+        }
+        
+        /* Page curl effect */
+        .video-page-curl {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.1) 50%);
+            border-radius: 0 0 0 100%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .video-3d:hover .video-page-curl {
+            opacity: 1;
+        }
+        
+        /* Video info abaixo do 3D */
+        .video-info {
+            text-align: center;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s;
+        }
+        
+        .video-item:hover .video-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .video-title-text {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .video-subtitle-text {
+            color: #6b6b6b;
+            font-size: 0.75rem;
+            font-style: italic;
+        }
+        
+        /* Mobile carousel para vídeos */
+        @media (max-width: 768px) {
+            .video-3d {
+                width: 160px;
+                height: 256px;
+            }
+            
+            .video-right {
+                width: 48px;
+                transform: translateX(136px) rotateY(90deg);
+            }
+            
+            .video-left {
+                width: 48px;
+                transform: translateX(-24px) rotateY(-90deg);
+            }
+            
+            .video-top, .video-bottom {
+                height: 48px;
+            }
+            
+            .video-bottom {
+                transform: translateY(232px) rotateX(-90deg);
+            }
+            
+            .video-play-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .video-play-icon::after {
+                border-left-width: 14px;
+                border-top-width: 8px;
+                border-bottom-width: 8px;
+            }
+            
+            .video-info {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
    
-.videos-section {
-    background: linear-gradient(to bottom, #0c0c0c, #0a0a0a, #0c0c0c);
-    position: relative;
-    overflow: hidden;
-}
 
-.videos-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #8b6914, transparent);
-    opacity: 0.5;
-}
-
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.video-card {
-    position: relative;
-    background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
-    border: 1px solid #2d2d2d;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    transform-style: preserve-3d;
-}
-
-.video-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: #8b6914;
-    box-shadow: 
-        0 20px 40px rgba(0,0,0,0.6),
-        0 0 30px rgba(139, 105, 20, 0.2);
-}
-
-.video-thumbnail {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 9/16;
-    background: #0a0a0a;
-    overflow: hidden;
-}
-
-.video-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-    filter: sepia(20%) contrast(1.1);
-}
-
-.video-card:hover .video-thumbnail img {
-    transform: scale(1.1);
-    filter: sepia(0%) contrast(1.2);
-}
-
-/* Play button overlay */
-.video-play {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.4);
-    opacity: 0;
-    transition: all 0.3s;
-}
-
-.video-card:hover .video-play {
-    opacity: 1;
-    background: rgba(0,0,0,0.2);
-}
-
-.play-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #8b6914, #d4af37);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: scale(0.8);
-    transition: transform 0.3s;
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-}
-
-.video-card:hover .play-icon {
-    transform: scale(1);
-}
-
-.play-icon::after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 20px solid #0c0c0c;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    margin-left: 4px;
-}
-
-/* Instagram badge */
-.instagram-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 0.1em;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-}
-
-.instagram-badge::before {
-    content: '📷';
-    font-size: 0.8rem;
-}
-
-/* Video info */
-.video-info {
-    padding: 1.5rem;
-}
-
-.video-title {
-    font-family: 'Cinzel', serif;
-    color: #d4af37;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-}
-
-.video-desc {
-    color: #6b6b6b;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.video-stats {
-    display: flex;
-    gap: 1rem;
-    color: #4a4a4a;
-    font-size: 0.75rem;
-    font-family: 'Cinzel', serif;
-}
-
-.video-stat {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-/* Mobile adjustments for videos */
-@media (max-width: 768px) {
-    .video-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        margin-top: 2rem;
-    }
-    
-    .video-info {
-        padding: 1rem;
-    }
-    
-    .video-title {
-        font-size: 0.875rem;
-    }
-    
-    .video-desc {
-        display: none; /* Esconde descrição no mobile para economizar espaço */
-    }
-    
-    .play-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .play-icon::after {
-        border-left-width: 14px;
-        border-top-width: 8px;
-        border-bottom-width: 8px;
-    }
-    
-    .instagram-badge {
-        padding: 4px 8px;
-        font-size: 0.6rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .video-grid {
-        grid-template-columns: 1fr;
-    }
-}
     </style>
 </head>
 <body>
@@ -2302,9 +2358,9 @@
         </div>
     </section>
 
-        <!-- Top Videos Section -->
-    <section id="videos" class="videos-section py-24 relative" role="region" aria-label="Vídeos do autor">
-        <div class="max-w-6xl mx-auto px-6">
+         <!-- Videos Section - Estilo igual aos Livros -->
+    <section id="videos" class="videos-section py-32" role="region" aria-label="Vídeos">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-12">
                 <h2 class="font-cinzel text-4xl md:text-5xl text-[#d4af37] mb-4 reveal tracking-widest">
                     REELS DO ARQUITETO
@@ -2314,95 +2370,259 @@
                     <span class="ornament-symbol">🎬</span>
                     <div class="ornament-line"></div>
                 </div>
-                <p class="text-[#6b6b6b] mt-6 text-lg font-light reveal">
-                    Momentos, bastidores e magia em vídeo direto do Instagram
-                </p>
+                <p class="text-[#4a4a4a] mt-6 text-lg font-light reveal">Momentos em vídeo do Instagram</p>
             </div>
 
-            <!-- Video Grid -->
-            <div class="video-grid reveal">
+            <!-- DESKTOP: Grid Layout igual aos livros -->
+            <div class="desktop-grid grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-center justify-items-center" id="videos-grid">
                 
                 <!-- Video 1 -->
-                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_1/')">
-                    <div class="video-thumbnail">
-                        <!-- Substitua pela thumbnail real do vídeo ou use uma imagem placeholder -->
-                        <img src="https://via.placeholder.com/400x700/1a1a1a/d4af37?text=Reel+1" alt="Vídeo 1 - Nicarao Fletes">
-                        <div class="instagram-badge">Instagram</div>
-                        <div class="video-play">
-                            <div class="play-icon"></div>
+                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0s">
+                    <div class="video-3d mb-6" onclick="openVideo(1)" role="button" tabindex="0" aria-label="Abrir vídeo A Magia da Escrita" onkeydown="if(event.key==='Enter')openVideo(1)">
+                        <div class="video-face video-front">
+                            <img src="video1-thumb.jpg" alt="Reel - A Magia da Escrita" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; text-align: center;">
+                                <span class="font-cinzel text-[#d4af37] text-xs">A Magia da Escrita</span>
+                            </div>
+                            <div class="video-badge">REEL</div>
+                            <div class="video-play-overlay">
+                                <div class="video-play-icon"></div>
+                            </div>
+                            <div class="video-page-curl"></div>
                         </div>
+                        <div class="video-face video-back">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Instagram</span>
+                        </div>
+                        <div class="video-face video-right">
+                            <span class="video-spine-text">REEL 01</span>
+                        </div>
+                        <div class="video-face video-left"></div>
+                        <div class="video-face video-top"></div>
+                        <div class="video-face video-bottom"></div>
                     </div>
                     <div class="video-info">
-                        <h3 class="video-title">A Magia da Escrita</h3>
-                        <p class="video-desc">Um vislumbre do processo criativo por trás dos mundos sombrios.</p>
-                        <div class="video-stats">
-                            <span class="video-stat">👁 1.2k</span>
-                            <span class="video-stat">❤️ 89</span>
-                        </div>
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para assistir</p>
                     </div>
                 </article>
 
                 <!-- Video 2 -->
-                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_2/')">
-                    <div class="video-thumbnail">
-                        <img src="https://via.placeholder.com/400x700/1a1a1a/8b0000?text=Reel+2" alt="Vídeo 2 - Nicarao Fletes">
-                        <div class="instagram-badge">Instagram</div>
-                        <div class="video-play">
-                            <div class="play-icon"></div>
+                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0.15s">
+                    <div class="video-3d mb-6" onclick="openVideo(2)" role="button" tabindex="0" aria-label="Abrir vídeo Bastidores do Livro" onkeydown="if(event.key==='Enter')openVideo(2)">
+                        <div class="video-face video-front">
+                            <img src="video2-thumb.jpg" alt="Reel - Bastidores do Livro" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; text-align: center;">
+                                <span class="font-cinzel text-[#d4af37] text-xs">Bastidores do Livro</span>
+                            </div>
+                            <div class="video-badge">REEL</div>
+                            <div class="video-play-overlay">
+                                <div class="video-play-icon"></div>
+                            </div>
+                            <div class="video-page-curl"></div>
                         </div>
+                        <div class="video-face video-back">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Instagram</span>
+                        </div>
+                        <div class="video-face video-right">
+                            <span class="video-spine-text">REEL 02</span>
+                        </div>
+                        <div class="video-face video-left"></div>
+                        <div class="video-face video-top"></div>
+                        <div class="video-face video-bottom"></div>
                     </div>
                     <div class="video-info">
-                        <h3 class="video-title">Bastidores do Livro</h3>
-                        <p class="video-desc">Como nasce uma história de dark fantasy.</p>
-                        <div class="video-stats">
-                            <span class="video-stat">👁 980</span>
-                            <span class="video-stat">❤️ 76</span>
-                        </div>
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para assistir</p>
                     </div>
                 </article>
 
                 <!-- Video 3 -->
-                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_3/')">
-                    <div class="video-thumbnail">
-                        <img src="https://via.placeholder.com/400x700/1a1a1a/5a7a7a?text=Reel+3" alt="Vídeo 3 - Nicarao Fletes">
-                        <div class="instagram-badge">Instagram</div>
-                        <div class="video-play">
-                            <div class="play-icon"></div>
+                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0.3s">
+                    <div class="video-3d mb-6" onclick="openVideo(3)" role="button" tabindex="0" aria-label="Abrir vídeo Leitura ao Vivo" onkeydown="if(event.key==='Enter')openVideo(3)">
+                        <div class="video-face video-front">
+                            <img src="video3-thumb.jpg" alt="Reel - Leitura ao Vivo" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; text-align: center;">
+                                <span class="font-cinzel text-[#d4af37] text-xs">Leitura ao Vivo</span>
+                            </div>
+                            <div class="video-badge">REEL</div>
+                            <div class="video-play-overlay">
+                                <div class="video-play-icon"></div>
+                            </div>
+                            <div class="video-page-curl"></div>
                         </div>
+                        <div class="video-face video-back">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Instagram</span>
+                        </div>
+                        <div class="video-face video-right">
+                            <span class="video-spine-text">REEL 03</span>
+                        </div>
+                        <div class="video-face video-left"></div>
+                        <div class="video-face video-top"></div>
+                        <div class="video-face video-bottom"></div>
                     </div>
                     <div class="video-info">
-                        <h3 class="video-title">Leitura ao Vivo</h3>
-                        <p class="video-desc">Trecho exclusivo de "Corações Imortais".</p>
-                        <div class="video-stats">
-                            <span class="video-stat">👁 2.1k</span>
-                            <span class="video-stat">❤️ 156</span>
-                        </div>
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para assistir</p>
                     </div>
                 </article>
 
                 <!-- Video 4 -->
-                <article class="video-card group" onclick="openVideo('https://www.instagram.com/reel/VIDEO_ID_4/')">
-                    <div class="video-thumbnail">
-                        <img src="https://via.placeholder.com/400x700/1a1a1a/8b7355?text=Reel+4" alt="Vídeo 4 - Nicarao Fletes">
-                        <div class="instagram-badge">Instagram</div>
-                        <div class="video-play">
-                            <div class="play-icon"></div>
+                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0.45s">
+                    <div class="video-3d mb-6" onclick="openVideo(4)" role="button" tabindex="0" aria-label="Abrir vídeo Perguntas dos Fãs" onkeydown="if(event.key==='Enter')openVideo(4)">
+                        <div class="video-face video-front">
+                            <img src="video4-thumb.jpg" alt="Reel - Perguntas dos Fãs" loading="lazy" onerror="this.classList.add('error')">
+                            <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; text-align: center;">
+                                <span class="font-cinzel text-[#d4af37] text-xs">Perguntas dos Fãs</span>
+                            </div>
+                            <div class="video-badge">REEL</div>
+                            <div class="video-play-overlay">
+                                <div class="video-play-icon"></div>
+                            </div>
+                            <div class="video-page-curl"></div>
                         </div>
+                        <div class="video-face video-back">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">Instagram</span>
+                        </div>
+                        <div class="video-face video-right">
+                            <span class="video-spine-text">REEL 04</span>
+                        </div>
+                        <div class="video-face video-left"></div>
+                        <div class="video-face video-top"></div>
+                        <div class="video-face video-bottom"></div>
                     </div>
                     <div class="video-info">
-                        <h3 class="video-title">Perguntas dos Fãs</h3>
-                        <p class="video-desc">Respondendo perguntas sobre a saga Heróis da Fantasia.</p>
-                        <div class="video-stats">
-                            <span class="video-stat">👁 1.5k</span>
-                            <span class="video-stat">❤️ 112</span>
-                        </div>
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Clique para assistir</p>
                     </div>
                 </article>
 
             </div>
 
-            <!-- Link para Instagram -->
-            <div class="mt-12 text-center reveal">
+            <!-- MOBILE: Carousel igual aos livros -->
+            <div class="mobile-carousel carousel-container reveal" id="videos-carousel" style="display: none;">
+                <div class="carousel-hint left">‹</div>
+                <div class="carousel-hint right swipe-animation">›</div>
+                
+                <div class="carousel-track" id="videos-carousel-track">
+                    
+                    <!-- Slide Video 1 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="video-3d mb-4" onclick="openVideo(1)" role="button" aria-label="Abrir vídeo 1">
+                                <div class="video-face video-front">
+                                    <img src="video1-thumb.jpg" alt="Reel 1" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center;">
+                                        <span class="font-cinzel text-[#d4af37] text-xs">Reel 01</span>
+                                    </div>
+                                    <div class="video-badge">REEL</div>
+                                    <div class="video-play-overlay" style="opacity: 1;">
+                                        <div class="video-play-icon"></div>
+                                    </div>
+                                </div>
+                                <div class="video-face video-back"></div>
+                                <div class="video-face video-right"></div>
+                                <div class="video-face video-left"></div>
+                                <div class="video-face video-top"></div>
+                                <div class="video-face video-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#d4af37] mb-1">A Magia da Escrita</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">Processo criativo</p>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para assistir ›</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide Video 2 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="video-3d mb-4" onclick="openVideo(2)" role="button" aria-label="Abrir vídeo 2">
+                                <div class="video-face video-front">
+                                    <img src="video2-thumb.jpg" alt="Reel 2" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center;">
+                                        <span class="font-cinzel text-[#d4af37] text-xs">Reel 02</span>
+                                    </div>
+                                    <div class="video-badge">REEL</div>
+                                    <div class="video-play-overlay" style="opacity: 1;">
+                                        <div class="video-play-icon"></div>
+                                    </div>
+                                </div>
+                                <div class="video-face video-back"></div>
+                                <div class="video-face video-right"></div>
+                                <div class="video-face video-left"></div>
+                                <div class="video-face video-top"></div>
+                                <div class="video-face video-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#d4af37] mb-1">Bastidores</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">Como nasce um livro</p>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para assistir ›</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide Video 3 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="video-3d mb-4" onclick="openVideo(3)" role="button" aria-label="Abrir vídeo 3">
+                                <div class="video-face video-front">
+                                    <img src="video3-thumb.jpg" alt="Reel 3" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center;">
+                                        <span class="font-cinzel text-[#d4af37] text-xs">Reel 03</span>
+                                    </div>
+                                    <div class="video-badge">REEL</div>
+                                    <div class="video-play-overlay" style="opacity: 1;">
+                                        <div class="video-play-icon"></div>
+                                    </div>
+                                </div>
+                                <div class="video-face video-back"></div>
+                                <div class="video-face video-right"></div>
+                                <div class="video-face video-left"></div>
+                                <div class="video-face video-top"></div>
+                                <div class="video-face video-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#d4af37] mb-1">Leitura ao Vivo</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">Trecho exclusivo</p>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para assistir ›</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide Video 4 -->
+                    <div class="carousel-slide">
+                        <div class="text-center">
+                            <div class="video-3d mb-4" onclick="openVideo(4)" role="button" aria-label="Abrir vídeo 4">
+                                <div class="video-face video-front">
+                                    <img src="video4-thumb.jpg" alt="Reel 4" loading="lazy" onerror="this.classList.add('error')">
+                                    <div class="fallback" style="display: none; width: 100%; height: 100%; background: #1a1a1a; flex-direction: column; align-items: center; justify-content: center;">
+                                        <span class="font-cinzel text-[#d4af37] text-xs">Reel 04</span>
+                                    </div>
+                                    <div class="video-badge">REEL</div>
+                                    <div class="video-play-overlay" style="opacity: 1;">
+                                        <div class="video-play-icon"></div>
+                                    </div>
+                                </div>
+                                <div class="video-face video-back"></div>
+                                <div class="video-face video-right"></div>
+                                <div class="video-face video-left"></div>
+                                <div class="video-face video-top"></div>
+                                <div class="video-face video-bottom"></div>
+                            </div>
+                            <h3 class="font-cinzel text-sm text-[#d4af37] mb-1">Perguntas</h3>
+                            <p class="text-[#6b6b6b] text-xs italic mb-2">Q&A com fãs</p>
+                            <p class="text-[#4a4a4a] text-[10px]">Toque para assistir ›</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Dots -->
+                <div class="carousel-dots" id="videos-carousel-dots">
+                    <button class="carousel-dot active" onclick="goToVideoSlide(0)" aria-label="Ir para vídeo 1"></button>
+                    <button class="carousel-dot" onclick="goToVideoSlide(1)" aria-label="Ir para vídeo 2"></button>
+                    <button class="carousel-dot" onclick="goToVideoSlide(2)" aria-label="Ir para vídeo 3"></button>
+                    <button class="carousel-dot" onclick="goToVideoSlide(3)" aria-label="Ir para vídeo 4"></button>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="carousel-progress">
+                    <div class="carousel-progress-bar" id="videos-carousel-progress"></div>
+                </div>
+            </div>
+
+            <!-- Link Instagram -->
+            <div class="mt-16 text-center reveal">
                 <a href="https://www.instagram.com/nicaraoescritor/" target="_blank" rel="noopener noreferrer" 
                    class="inline-flex items-center gap-3 px-8 py-4 btn-dark text-sm group">
                     <span class="text-xl group-hover:scale-110 transition-transform">📷</span>
@@ -2411,7 +2631,7 @@
                 </a>
             </div>
         </div>
-    </section>
+    </section>   
 
     <!-- Lore Section - COM ANIMAÇÕES ESPECIAIS -->
     <section id="lore" class="section-dark py-32 relative overflow-hidden" role="region" aria-label="Sobre o autor">
@@ -3520,6 +3740,182 @@
                 mobileMenu.insertBefore(mobileVideoLink, mobileMenu.querySelector('a[href="#lore"]'));
             }
         });
+
+        // ============================================
+        // VÍDEOS - Mesma tecnologia dos livros
+        // ============================================
+        
+        const videoLinks = {
+            1: 'https://www.instagram.com/reel/VIDEO_ID_1/',
+            2: 'https://www.instagram.com/reel/VIDEO_ID_2/',
+            3: 'https://www.instagram.com/reel/VIDEO_ID_3/',
+            4: 'https://www.instagram.com/reel/VIDEO_ID_4/'
+        };
+        
+        let currentVideoSlide = 0;
+        let videoCarouselInterval;
+        let videoIsTouching = false;
+        let videoTouchStartX = 0;
+        let videoTouchEndX = 0;
+        const totalVideoSlides = 4;
+        
+        function openVideo(id) {
+            const videoElement = document.querySelector(`[onclick="openVideo(${id})"]`);
+            if (videoElement) {
+                videoElement.classList.add('turning');
+                setTimeout(() => videoElement.classList.remove('turning'), 600);
+            }
+            
+            // Abre Instagram em nova aba
+            window.open(videoLinks[id], '_blank', 'noopener,noreferrer');
+            showToast('Abrindo vídeo no Instagram...');
+            castSpell();
+        }
+        
+        // Carousel de vídeos para mobile
+        function initVideoCarousel() {
+            const track = document.getElementById('videos-carousel-track');
+            if (!track) return;
+            
+            updateVideoCarousel();
+            startVideoAutoplay();
+            
+            track.addEventListener('touchstart', handleVideoTouchStart, { passive: true });
+            track.addEventListener('touchend', handleVideoTouchEnd, { passive: true });
+            track.addEventListener('touchmove', handleVideoTouchMove, { passive: true });
+        }
+        
+        function handleVideoTouchStart(e) {
+            videoIsTouching = true;
+            videoTouchStartX = e.changedTouches[0].screenX;
+            stopVideoAutoplay();
+        }
+        
+        function handleVideoTouchMove(e) {
+            if (!videoIsTouching) return;
+            videoTouchEndX = e.changedTouches[0].screenX;
+        }
+        
+        function handleVideoTouchEnd(e) {
+            if (!videoIsTouching) return;
+            videoIsTouching = false;
+            
+            const diff = videoTouchStartX - videoTouchEndX;
+            const threshold = 50;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0 && currentVideoSlide < totalVideoSlides - 1) {
+                    goToVideoSlide(currentVideoSlide + 1);
+                } else if (diff < 0 && currentVideoSlide > 0) {
+                    goToVideoSlide(currentVideoSlide - 1);
+                }
+            }
+            
+            startVideoAutoplay();
+        }
+        
+        function goToVideoSlide(index) {
+            currentVideoSlide = index;
+            updateVideoCarousel();
+            resetVideoAutoplay();
+        }
+        
+        function updateVideoCarousel() {
+            const track = document.getElementById('videos-carousel-track');
+            const dots = document.querySelectorAll('#videos-carousel-dots .carousel-dot');
+            const progressBar = document.getElementById('videos-carousel-progress');
+            
+            if (!track) return;
+            
+            track.style.transform = `translateX(-${currentVideoSlide * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentVideoSlide);
+            });
+            
+            if (progressBar) {
+                progressBar.style.transition = 'none';
+                progressBar.style.width = '0%';
+                setTimeout(() => {
+                    progressBar.style.transition = `width 5000ms linear`;
+                    progressBar.style.width = '100%';
+                }, 50);
+            }
+        }
+        
+        function nextVideoSlide() {
+            currentVideoSlide = (currentVideoSlide + 1) % totalVideoSlides;
+            updateVideoCarousel();
+        }
+        
+        function startVideoAutoplay() {
+            stopVideoAutoplay();
+            videoCarouselInterval = setInterval(nextVideoSlide, 5000);
+            const progressBar = document.getElementById('videos-carousel-progress');
+            if (progressBar) {
+                progressBar.style.transition = `width 5000ms linear`;
+                progressBar.style.width = '100%';
+            }
+        }
+        
+        function stopVideoAutoplay() {
+            clearInterval(videoCarouselInterval);
+        }
+        
+        function resetVideoAutoplay() {
+            stopVideoAutoplay();
+            startVideoAutoplay();
+        }
+        
+        // Inicializar carrossel de vídeos se estiver em mobile
+        if (window.innerWidth <= 768) {
+            setTimeout(initVideoCarousel, 100);
+        }
+        
+        // Adicionar navegação de vídeos aos menus
+        document.addEventListener('DOMContentLoaded', function() {
+            // Desktop nav
+            const desktopNav = document.querySelector('.desktop-nav');
+            if (desktopNav && !desktopNav.querySelector('a[href="#videos"]')) {
+                const videoLink = document.createElement('a');
+                videoLink.href = '#videos';
+                videoLink.className = 'hover:text-[#8b7355] transition-colors duration-300';
+                videoLink.textContent = 'VÍDEOS';
+                const loreLink = desktopNav.querySelector('a[href="#lore"]');
+                if (loreLink) {
+                    desktopNav.insertBefore(videoLink, loreLink);
+                } else {
+                    desktopNav.appendChild(videoLink);
+                }
+            }
+            
+            // Mobile menu
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.querySelector('a[href="#videos"]')) {
+                const mobileVideoLink = document.createElement('a');
+                mobileVideoLink.href = '#videos';
+                mobileVideoLink.onclick = function() { toggleMenu(); };
+                mobileVideoLink.setAttribute('role', 'menuitem');
+                mobileVideoLink.textContent = 'VÍDEOS';
+                const mobileLoreLink = mobileMenu.querySelector('a[href="#lore"]');
+                if (mobileLoreLink) {
+                    mobileMenu.insertBefore(mobileVideoLink, mobileLoreLink);
+                } else {
+                    mobileMenu.appendChild(mobileVideoLink);
+                }
+            }
+        });
+        
+        // Atualizar resize handler para incluir vídeos
+        const originalResize = window.onresize;
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                if (!videoCarouselInterval) initVideoCarousel();
+            } else {
+                stopVideoAutoplay();
+            }
+        });
+
 </script>
 </body>
 </html>
