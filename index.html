@@ -1805,17 +1805,17 @@
            MODAL DO VÍDEO - Efeito de ampliação
            ============================================ */
         
-        #video-modal {
+            #video-modal {
             position: fixed;
             inset: 0;
-            z-index: 100;
+            z-index: 9999;
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.98);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
+            isolation: isolate;
         }
         
         #video-modal.active {
@@ -1823,29 +1823,45 @@
             opacity: 1;
         }
         
-        #video-modal-content {
+               #video-modal-content {
             position: relative;
             width: 90%;
             max-width: 1000px;
-            transform: scale(0.3) rotateY(90deg);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 
-                0 50px 100px rgba(0,0,0,0.9),
-                0 0 0 1px rgba(139, 105, 20, 0.3),
-                0 0 50px rgba(139, 105, 20, 0.2);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        #video-modal.active #video-modal-content {
+            transform: scale(1);
+            opacity: 1;
         }
         
         #video-modal.active #video-modal-content {
             transform: scale(1) rotateY(0deg);
         }
         
-        .video-container {
+            .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            width: 100%;
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             background: #000;
-            border-radius: 8px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
         }
         
         .video-container iframe,
@@ -2293,6 +2309,8 @@
         height: 200px;
     }
 }
+
+
 
     </style>
 </head>
@@ -2845,6 +2863,12 @@
                     <div class="ornament-line"></div>
                 </div>
                 <p class="text-[#4a4a4a] mt-6 text-lg font-light reveal">Clique para assistir os vídeos</p>
+                <!-- Filter Tabs - Desktop only -->
+<div class="filter-tabs reveal desktop-only">
+    <button class="filter-tab active" onclick="openVideoCategoryModal('all')">Todos</button>
+    <button class="filter-tab" onclick="openVideoCategoryModal('newest')">Mais Recentes</button>
+    <button class="filter-tab" onclick="updateAllVideoTitles()" title="Buscar títulos reais do YouTube">🔄 Atualizar Nomes</button>
+</div>
             </div>
 
             <!-- DESKTOP: Grid Layout -->
@@ -3081,7 +3105,7 @@
         </div>
     </section>
 
-    <!-- MODAL DO VÍDEO - Abre com efeito de ampliação -->
+    <!-- MODAL DO VÍDEO -->
     <div id="video-modal" onclick="closeVideoModal(event)">
         <div id="video-modal-content" onclick="event.stopPropagation()">
             <button id="video-modal-close" onclick="closeVideoModal()" aria-label="Fechar vídeo">✕</button>
@@ -3091,7 +3115,7 @@
             <div id="video-modal-title">Título do Vídeo</div>
         </div>
     </div>
-
+    
     <!-- Lore Section - COM ANIMAÇÕES ESPECIAIS -->
     <section id="lore" class="section-dark py-32 relative overflow-hidden" role="region" aria-label="Sobre o autor">
         <!-- Efeito de névoa/energia flutuante no fundo -->
@@ -4140,6 +4164,236 @@
         console.log('%c⚜ Bem-vindo ao Grimório Digital de Nicarao Fletes ⚜', 'color: #8b6914; font-family: Cinzel; font-size: 16px;');
         console.log('%c"Nas sombras encontramos as histórias que a luz teme contar."', 'color: #6b6b6b; font-style: italic;');
 
+        // ============================================
+// MODAL ÉPICO DE CATEGORIAS PARA VÍDEOS
+// ============================================
+
+const videoCategoryData = {
+    'all': {
+        title: 'Todos os Vídeos',
+        subtitle: 'O acervo completo de reels e criações visuais',
+        theme: '',
+        filter: () => true
+    },
+    'reels': {
+        title: 'Reels',
+        subtitle: 'Vídeos curtos e impactantes do universo sombrio',
+        theme: 'theme-fantasy-modal',
+        filter: (video) => video.category === 'reels'
+    },
+    'shorts': {
+        title: 'Shorts',
+        subtitle: 'Conteúdo rápido para os apressados das sombras',
+        theme: 'theme-collection-modal',
+        filter: (video) => video.category === 'shorts'
+    },
+    'live': {
+        title: 'Ao Vivo',
+        subtitle: 'Transmissões e leituras em tempo real',
+        theme: 'theme-dark-modal',
+        filter: (video) => video.category === 'live'
+    },
+    'newest': {
+        title: 'Mais Recentes',
+        subtitle: 'As últimas criações forjadas na penumbra',
+        theme: '',
+        filter: (video) => video.newest === true
+    }
+};
+
+// Dados dos vídeos (você pode expandir depois)
+
+const videoCollection = {
+    1: { title: 'Vídeo 1', category: 'reels', newest: true, thumb: 'video1-thumb.jpg', youtubeId: 'n_6pcET7Stc' },
+    2: { title: 'Vídeo 2', category: 'reels', newest: true, thumb: 'video2-thumb.jpg', youtubeId: 'KQ8VUeSdiOY' },
+    3: { title: 'Vídeo 3', category: 'reels', newest: true, thumb: 'video3-thumb.jpg', youtubeId: 'eQ4rU8YbSEM' },
+    4: { title: 'Vídeo 4', category: 'reels', newest: true, thumb: 'video4-thumb.jpg', youtubeId: '0LT5iX2SiCk' },
+    5: { title: 'Vídeo 5', category: 'reels', newest: true, thumb: 'video5-thumb.jpg', youtubeId: 'it_E6qE6Spo' },
+    6: { title: 'Vídeo 6', category: 'reels', newest: true, thumb: 'video6-thumb.jpg', youtubeId: '4NM-I4OOOlI' },
+    7: { title: 'Vídeo 7', category: 'reels', newest: true, thumb: 'video7-thumb.jpg', youtubeId: 'bcHG6DYO-UE' },
+    8: { title: 'Vídeo 8', category: 'reels', newest: true, thumb: 'video8-thumb.jpg', youtubeId: 'R66aey5RqIw' },
+    9: { title: 'Vídeo 9', category: 'reels', newest: true, thumb: 'video9-thumb.jpg', youtubeId: 'THrnsSmoaO8' },
+    10: { title: 'Vídeo 10', category: 'reels', newest: true, thumb: 'video10-thumb.jpg', youtubeId: 'n__7226RLGc' },
+    11: { title: 'Vídeo 11', category: 'reels', newest: true, thumb: 'video11-thumb.jpg', youtubeId: 'mgfxZftk5eg' },
+    12: { title: 'Vídeo 12', category: 'reels', newest: true, thumb: 'video12-thumb.jpg', youtubeId: 'rlO-BV8vUss' },
+    13: { title: 'Vídeo 13', category: 'reels', newest: true, thumb: 'video13-thumb.jpg', youtubeId: '6maOdRL5YUI' },
+    14: { title: 'Vídeo 14', category: 'reels', newest: true, thumb: 'video14-thumb.jpg', youtubeId: '-Lf91HXbGeg' },
+    15: { title: 'Vídeo 15', category: 'reels', newest: true, thumb: 'video15-thumb.jpg', youtubeId: 'nmheDpEShg0' },
+    16: { title: 'Vídeo 16', category: 'reels', newest: true, thumb: 'video16-thumb.jpg', youtubeId: 'C6WQ7-Rju5o' },
+    17: { title: 'Vídeo 17', category: 'reels', newest: true, thumb: 'video17-thumb.jpg', youtubeId: 'Dg9jkigv2MQ' },
+    18: { title: 'Vídeo 18', category: 'reels', newest: true, thumb: 'video18-thumb.jpg', youtubeId: 'C1Obf4Myyzs' }
+};
+
+function openVideoCategoryModal(category) {
+    const config = videoCategoryData[category];
+    if (!config) return;
+    
+    console.log('Abrindo categoria:', category);
+    
+    // Atualizar UI dos tabs
+    document.querySelectorAll('#videos .filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('onclick')?.includes(`'${category}'`)) {
+            tab.classList.add('active');
+        }
+    });
+    
+    // Filtrar vídeos
+    const filteredVideos = Object.entries(videoCollection).filter(([id, video]) => {
+        return config.filter(video);
+    });
+    
+    console.log('Vídeos filtrados:', filteredVideos.length);
+    
+    // Preencher conteúdo usando o MESMO modal dos livros
+    const modal = document.getElementById('category-modal');
+    const content = document.getElementById('category-modal-content');
+    const title = document.getElementById('category-modal-title');
+    const subtitle = document.getElementById('category-modal-subtitle');
+    const container = document.getElementById('category-books-container');
+    
+    if (!modal || !content) {
+        console.error('Modal não encontrado');
+        return;
+    }
+    
+    title.textContent = config.title;
+    subtitle.textContent = config.subtitle;
+    
+    // Aplicar tema
+    content.className = 'category-modal-content';
+    if (config.theme) {
+        content.classList.add(config.theme);
+    }
+    
+    // Gerar cards dos vídeos
+    container.innerHTML = filteredVideos.map(([id, video]) => {
+        const shortTitle = video.title.length > 40 ? video.title.substring(0, 40) + '...' : video.title;
+        
+        return `
+        <article class="category-book-card" onclick="openVideoDirect('${video.youtubeId}', '${video.title.replace(/'/g, "\\'")}')">
+            <div class="category-book-thumb" style="background: #0a0a0a; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" 
+                     alt="${video.title}" 
+                     loading="lazy" 
+                     onerror="this.style.display='none'"
+                     style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #8b6914, #d4af37); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);">
+                        <div style="width: 0; height: 0; border-left: 14px solid #0c0c0c; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 4px;"></div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="category-book-title" title="${video.title}">${shortTitle}</h3>
+            <p class="category-book-meta">${video.category.toUpperCase()} • YouTube</p>
+        </article>
+    `}).join('');
+    
+    // Efeito mágico
+    if (typeof castCategorySpell === 'function') {
+        castCategorySpell();
+    } else if (typeof castSpell === 'function') {
+        castSpell();
+    }
+    
+    // Mostrar modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Animação de entrada dos cards
+    setTimeout(() => {
+        const cards = container.querySelectorAll('.category-book-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 80);
+        });
+    }, 300);
+}
+
+function openVideoDirect(youtubeId, title) {
+    console.log('Abrindo vídeo no modal:', title, youtubeId);
+    
+    // Fecha o modal de categoria primeiro
+    const categoryModal = document.getElementById('category-modal');
+    if (categoryModal) {
+        categoryModal.classList.remove('active');
+    }
+    document.body.style.overflow = '';
+    
+    // Limpa o container do modal de categoria
+    setTimeout(() => {
+        const container = document.getElementById('category-books-container');
+        if (container) container.innerHTML = '';
+    }, 600);
+    
+    // Abre o modal de vídeo com embed
+    const videoModal = document.getElementById('video-modal');
+    const videoContainer = document.getElementById('video-container');
+    const videoTitle = document.getElementById('video-modal-title');
+    
+    if (!videoModal || !videoContainer) {
+        console.error('Modal de vídeo não encontrado');
+        return;
+    }
+    
+    // ✅ HTTPS explícito + parâmetros otimizados
+    videoContainer.innerHTML = `
+        <iframe 
+            src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&fs=1&html5=1" 
+            title="${title}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000;">
+        </iframe>
+    `;
+    
+    videoTitle.textContent = title;
+    
+    // Mostrar modal com delay para animação
+    setTimeout(() => {
+        videoModal.style.display = 'flex';
+        setTimeout(() => {
+            videoModal.classList.add('active');
+        }, 10);
+        castSpell();
+    }, 300);
+}
+
+function openVideoFromCategory(id) {
+    console.log('Abrindo vídeo do modal:', id);
+    
+    // Fecha o modal de categoria
+    const modal = document.getElementById('category-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+    document.body.style.overflow = '';
+    
+    // Limpa o container após a animação
+    setTimeout(() => {
+        const container = document.getElementById('category-books-container');
+        if (container) container.innerHTML = '';
+    }, 600);
+    
+    // Abre o vídeo direto no YouTube (mais confiável)
+    setTimeout(() => {
+        const video = videoCollection[id];
+        if (video && video.youtubeId) {
+            // Abre em nova aba direto no YouTube
+            window.open(`https://www.youtube.com/watch?v=${video.youtubeId}`, '_blank');
+            showToast(`Abrindo: ${video.title}`);
+        } else {
+            showToast('Vídeo não encontrado');
+        }
+    }, 300);
+}
+
                 // Função para abrir vídeos do Instagram
         function openVideo(url) {
             // Abre o vídeo em nova aba
@@ -4181,109 +4435,98 @@
         // VÍDEOS - Modal com efeito de ampliação
         // ============================================
         
-        const videoData = {
-            1: {
-                title: 'A Magia da Escrita',
-                youtubeId: 'VIDEO_ID_1', // Substitua pelo ID real
-                // Ou use URL direta se for arquivo próprio:
-                // url: 'videos/video1.mp4'
-            },
-            2: {
-                title: 'Bastidores do Livro',
-                youtubeId: 'VIDEO_ID_2'
-            },
-            3: {
-                title: 'Leitura ao Vivo',
-                youtubeId: 'VIDEO_ID_3'
-            },
-            4: {
-                title: 'Perguntas dos Fãs',
-                youtubeId: 'VIDEO_ID_4'
-            }
-        };
+function openVideoModal(id) {
+    console.log('Abrindo vídeo no modal:', id);
+    
+    const video = videoCollection[id];
+    if (!video) {
+        console.error('Vídeo não encontrado:', id);
+        showToast('Vídeo não encontrado');
+        return;
+    }
+    
+    // Efeito de "virar página" no card 3D
+    const cards = document.querySelectorAll(`[onclick="openVideoModal(${id})"]`);
+    cards.forEach(card => {
+        card.classList.add('turning');
+        setTimeout(() => card.classList.remove('turning'), 600);
+    });
+    
+    // Elementos do modal
+    const modal = document.getElementById('video-modal');
+    const container = document.getElementById('video-container');
+    const title = document.getElementById('video-modal-title');
+    
+    if (!modal || !container) {
+        console.error('Modal não encontrado');
+        return;
+    }
+    
+    // Limpar container primeiro
+    container.innerHTML = '';
+    
+    // Definir título
+    title.textContent = video.title;
+    
+    // MOSTRAR MODAL PRIMEIRO (antes de inserir o iframe)
+    modal.style.display = 'flex';
+    
+    // Forçar reflow para garantir que o display:flex foi aplicado
+    void modal.offsetWidth;
+    
+    // Adicionar classe active para animação
+    modal.classList.add('active');
+    
+    // AGORA inserir o iframe (depois do modal estar visível)
+    // Usar setTimeout para garantir que o navegador renderizou o modal
+    setTimeout(() => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+        iframe.title = video.title;
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+        iframe.allowFullscreen = true;
+        iframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;';
         
-        let currentVideoId = null;
-        
-        function openVideoModal(id) {
-            currentVideoId = id;
-            const video = videoData[id];
-            const modal = document.getElementById('video-modal');
-            const container = document.getElementById('video-container');
-            const title = document.getElementById('video-modal-title');
-            
-            // Efeito de "virar página" no card 3D
-            const card = document.querySelector(`[onclick="openVideoModal(${id})"]`);
-            if (card) {
-                card.classList.add('turning');
-                setTimeout(() => card.classList.remove('turning'), 600);
-            }
-            
-            // Preparar o vídeo (YouTube embed)
-            container.innerHTML = `
-                <iframe 
-                    src="https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1" 
-                    title="${video.title}" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            `;
-            
-            title.textContent = video.title;
-            
-            // Mostrar modal com animação
-            modal.style.display = 'flex';
-            // Forçar reflow para animação funcionar
-            modal.offsetHeight;
-            modal.classList.add('active');
-            
-            // Efeito mágico
-            castSpell();
-            
-            // Pausar carrossel se estiver rodando
-            stopVideoAutoplay();
-        }
+        container.appendChild(iframe);
+        console.log('Iframe inserido:', iframe.src);
+    }, 300); // 300ms de delay para a animação do modal começar
+    
+    // Efeito mágico
+    castSpell();
+    
+    // Pausar carrossel se estiver rodando
+    if (typeof stopVideoAutoplay === 'function') {
+        stopVideoAutoplay();
+    }
+}
         
         function closeVideoModal(event) {
-            // Se clicou no conteúdo, não fecha (exceto no botão X)
-            if (event && event.target.closest('#video-modal-content') && !event.target.closest('#video-modal-close')) {
-                return;
-            }
-            
-            const modal = document.getElementById('video-modal');
-            const container = document.getElementById('video-container');
-            
-            modal.classList.remove('active');
-            
-            // Aguardar animação terminar antes de limpar
-            setTimeout(() => {
-                modal.style.display = 'none';
-                container.innerHTML = ''; // Para o vídeo
-                currentVideoId = null;
-            }, 400);
-            
-            // Retomar carrossel
-            if (window.innerWidth <= 768) {
-                startVideoAutoplay();
-            }
-        }
-        
-        // Fechar com ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.getElementById('video-modal').classList.contains('active')) {
-                closeVideoModal();
-            }
-        });
-        
-        // ============================================
-        // CARROSSEL DE VÍDEOS (Mobile)
-        // ============================================
-        
-        let currentVideoSlide = 0;
-        let videoCarouselInterval;
-        let videoIsTouching = false;
-        let videoTouchStartX = 0;
-        let videoTouchEndX = 0;
+    // Se clicou no conteúdo, não fecha (exceto no botão X)
+    if (event && event.target.closest('#video-modal-content') && !event.target.closest('#video-modal-close')) {
+        return;
+    }
+    
+    const modal = document.getElementById('video-modal');
+    const container = document.getElementById('video-container');
+    
+    if (!modal) return;
+    
+    // Remover classe active primeiro (inicia animação de saída)
+    modal.classList.remove('active');
+    
+    // Aguardar animação terminar antes de esconder e limpar
+    setTimeout(() => {
+        modal.style.display = 'none';
+        // Limpar iframe para parar o vídeo e liberar memória
+        if (container) container.innerHTML = '';
+    }, 400);
+    
+    // Retomar carrossel se estiver rodando
+    if (window.innerWidth <= 768 && typeof startVideoAutoplay === 'function') {
+        startVideoAutoplay();
+    }
+}
         
         function initVideoCarousel() {
             const track = document.getElementById('videos-carousel-track');
@@ -4379,71 +4622,125 @@
             startVideoAutoplay();
         }
         
-        // Inicializar
-        if (window.innerWidth <= 768) {
-            setTimeout(initVideoCarousel, 100);
-        }
-        
-        // Adicionar aos menus
-        document.addEventListener('DOMContentLoaded', function() {
-            const desktopNav = document.querySelector('.desktop-nav');
-            if (desktopNav && !desktopNav.querySelector('a[href="#videos"]')) {
-                const videoLink = document.createElement('a');
-                videoLink.href = '#videos';
-                videoLink.className = 'hover:text-[#8b7355] transition-colors duration-300';
-                videoLink.textContent = 'VÍDEOS';
-                const loreLink = desktopNav.querySelector('a[href="#lore"]');
-                if (loreLink) desktopNav.insertBefore(videoLink, loreLink);
-            }
-            
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu && !mobileMenu.querySelector('a[href="#videos"]')) {
-                const mobileVideoLink = document.createElement('a');
-                mobileVideoLink.href = '#videos';
-                mobileVideoLink.onclick = function() { toggleMenu(); };
-                mobileVideoLink.setAttribute('role', 'menuitem');
-                mobileVideoLink.textContent = 'VÍDEOS';
-                const mobileLoreLink = mobileMenu.querySelector('a[href="#lore"]');
-                if (mobileLoreLink) mobileMenu.insertBefore(mobileVideoLink, mobileLoreLink);
-            }
-        });
-        
-        // ============================================
-// MODAL ÉPICO DE CATEGORIAS
-// ============================================
-
-const categoryData = {
-    'all': {
-        title: 'Todos os Grimórios',
-        subtitle: 'O acervo completo de mundos sombrios e épicos',
-        theme: '',
-        filter: () => true
-    },
-    'fantasy': {
-        title: 'Fantasia Épica',
-        subtitle: 'Onde heróis nascem das cinzas e lendas se forjam em sangue',
-        theme: 'theme-fantasy-modal',
-        filter: (book) => book.category === 'fantasy'
-    },
-    'dark': {
-        title: 'Dark Fantasy',
-        subtitle: 'Nas sombras, onde a moralidade se dissolve em vingança',
-        theme: 'theme-dark-modal',
-        filter: (book) => book.category === 'dark'
-    },
-    'collection': {
-        title: 'Coletâneas',
-        subtitle: 'Fragmentos de realidades diversas, reunidos em um só tomo',
-        theme: 'theme-collection-modal',
-        filter: (book) => book.category === 'collection'
-    },
-    'newest': {
-        title: 'Lançamentos',
-        subtitle: 'As mais recentes criações forjadas na penumbra',
-        theme: '',
-        filter: (book) => book.year === '2025'
+        // Inicializar vídeos
+document.addEventListener('DOMContentLoaded', function() {
+    // Gerar grid desktop
+    generateVideoGrid();
+    
+    // Gerar carrossel mobile se necessário
+    if (window.innerWidth <= 768) {
+        generateVideoCarousel();
+        setTimeout(initVideoCarousel, 100);
     }
-};
+});
+
+        function generateVideoGrid() {
+    const grid = document.getElementById('videos-grid');
+    if (!grid) {
+        console.error('Grid não encontrado');
+        return;
+    }
+    
+    let html = '';
+    Object.entries(videoCollection).forEach(([id, video], index) => {
+        const delay = (index % 4) * 0.15;
+        const shortTitle = video.title.length > 30 ? video.title.substring(0, 30) + '...' : video.title;
+        
+        html += `
+            <article class="reveal group video-item" data-category="${video.category}" style="transition-delay: ${delay}s; animation-delay: ${delay}s">
+                <div class="video-3d mb-6" 
+                     onclick="openVideoModal(${id})" 
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Abrir ${video.title}"
+                     onkeydown="if(event.key==='Enter')openVideoModal(${id})"
+                     style="cursor: pointer;">
+                    <div class="video-face video-front">
+                        <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" 
+                             alt="${video.title}" 
+                             loading="lazy" 
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2214%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E${shortTitle}%3C/text%3E%3C/svg%3E'"
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="video-badge">▶</div>
+                        <div class="video-play-overlay">
+                            <div class="video-play-icon"></div>
+                        </div>
+                        <div class="video-page-curl"></div>
+                    </div>
+                    <div class="video-face video-back">
+                        <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
+                    </div>
+                    <div class="video-face video-right">
+                        <span class="video-spine-text">REEL ${String(id).padStart(2, '0')}</span>
+                    </div>
+                    <div class="video-face video-left"></div>
+                    <div class="video-face video-top"></div>
+                    <div class="video-face video-bottom"></div>
+                </div>
+                <div class="video-info" style="opacity: 1; transform: translateY(0);">
+                    <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2" title="${video.title}">${shortTitle}</p>
+                    <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
+                </div>
+            </article>
+        `;
+    });
+    
+    grid.innerHTML = html;
+    console.log('Grid gerado com', Object.keys(videoCollection).length, 'vídeos');
+}
+
+function generateVideoCarousel() {
+    const track = document.getElementById('videos-carousel-track');
+    const dotsContainer = document.getElementById('videos-carousel-dots');
+    
+    if (!track) return;
+    
+    let slidesHTML = '';
+    let dotsHTML = '';
+    
+    Object.entries(videoCollection).forEach(([id, video]) => {
+        const shortTitle = video.title.length > 20 ? video.title.substring(0, 20) + '...' : video.title;
+        
+        slidesHTML += `
+            <div class="carousel-slide">
+                <div class="text-center">
+                    <div class="video-3d mb-4" onclick="openVideoModal(${id})" role="button" tabindex="0" aria-label="Abrir ${video.title}">
+                        <div class="video-face video-front">
+                            <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" 
+                                 alt="${video.title}" 
+                                 loading="lazy" 
+                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2216%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E${shortTitle}%3C/text%3E%3C/svg%3E'"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="video-badge">▶</div>
+                            <div class="video-play-overlay" style="opacity: 1;">
+                                <div class="video-play-icon"></div>
+                            </div>
+                        </div>
+                        <div class="video-face video-back"></div>
+                        <div class="video-face video-right"></div>
+                        <div class="video-face video-left"></div>
+                        <div class="video-face video-top"></div>
+                        <div class="video-face video-bottom"></div>
+                    </div>
+                    <h3 class="font-cinzel text-sm text-[#d4af37] mb-1">${shortTitle}</h3>
+                    <p class="text-[#4a4a4a] text-[10px]">Toque para assistir ›</p>
+                </div>
+            </div>
+        `;
+        
+        dotsHTML += `<button class="carousel-dot" onclick="goToVideoSlide(${parseInt(id) - 1})" aria-label="Ir para vídeo ${id}"></button>`;
+    });
+    
+    track.innerHTML = slidesHTML;
+    dotsContainer.innerHTML = dotsHTML;
+    
+    // Atualizar total de slides para o autoplay
+    window.totalVideoSlides = Object.keys(videoCollection).length;
+    
+    // Atualizar primeira dot como ativa
+    const firstDot = dotsContainer.querySelector('.carousel-dot');
+    if (firstDot) firstDot.classList.add('active');
+}
 
 function openCategoryModal(category) {
     const config = categoryData[category];
@@ -4615,6 +4912,113 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// ============================================
+// BUSCAR TÍTULOS REAIS DO YOUTUBE
+// ============================================
+
+// Cache dos títulos no localStorage
+function getCachedTitles() {
+    return JSON.parse(localStorage.getItem('videoTitles') || '{}');
+}
+
+function saveCachedTitles(titles) {
+    localStorage.setItem('videoTitles', JSON.stringify(titles));
+}
+
+// Buscar título de um vídeo do YouTube
+async function fetchYouTubeTitle(videoId) {
+    try {
+        // Usa a API do noembed.com (gratuita, não precisa de chave)
+        const response = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
+        const data = await response.json();
+        return data.title || `Vídeo ${videoId}`;
+    } catch (error) {
+        console.error('Erro ao buscar título:', error);
+        return null;
+    }
+}
+
+// Buscar todos os títulos
+async function updateAllVideoTitles() {
+    const cached = getCachedTitles();
+    const updatedCollection = {};
+    
+    showToast('Buscando títulos dos vídeos...');
+    
+    for (const [id, video] of Object.entries(videoCollection)) {
+        // Se já tem em cache e não é genérico, usa o cache
+        if (cached[video.youtubeId] && !video.title.startsWith('Vídeo ')) {
+            updatedCollection[id] = { ...video, title: cached[video.youtubeId] };
+            continue;
+        }
+        
+        // Busca novo título
+        const realTitle = await fetchYouTubeTitle(video.youtubeId);
+        if (realTitle) {
+            cached[video.youtubeId] = realTitle;
+            updatedCollection[id] = { ...video, title: realTitle };
+        } else {
+            updatedCollection[id] = video;
+        }
+        
+        // Pequeno delay para não sobrecarregar a API
+        await new Promise(resolve => setTimeout(resolve, 200));
+    }
+    
+    saveCachedTitles(cached);
+    
+    // Atualiza o objeto global
+    Object.assign(videoCollection, updatedCollection);
+    
+    // Atualiza a interface
+    generateVideoGrid();
+    if (window.innerWidth <= 768) {
+        generateVideoCarousel();
+    }
+    
+    showToast('Títulos atualizados com sucesso!');
+}
+
+// Botão para atualizar títulos (adicione no HTML se quiser)
+function createUpdateTitlesButton() {
+    const btn = document.createElement('button');
+    btn.className = 'filter-tab';
+    btn.textContent = '🔄 Atualizar Títulos';
+    btn.onclick = updateAllVideoTitles;
+    btn.style.marginLeft = '10px';
+    
+    const tabsContainer = document.querySelector('#videos .filter-tabs');
+    if (tabsContainer) {
+        tabsContainer.appendChild(btn);
+    }
+}
+
+// Chamar automaticamente na primeira visita (uma vez por dia)
+function autoUpdateTitles() {
+    const lastUpdate = localStorage.getItem('lastTitleUpdate');
+    const today = new Date().toDateString();
+    
+    if (lastUpdate !== today) {
+        localStorage.setItem('lastTitleUpdate', today);
+        updateAllVideoTitles();
+    } else {
+        // Usa os títulos em cache
+        const cached = getCachedTitles();
+        Object.entries(videoCollection).forEach(([id, video]) => {
+            if (cached[video.youtubeId]) {
+                videoCollection[id].title = cached[video.youtubeId];
+            }
+        });
+        generateVideoGrid();
+        if (window.innerWidth <= 768) {
+            generateVideoCarousel();
+        }
+    }
+}
+
+// Iniciar quando a página carregar
+setTimeout(autoUpdateTitles, 1000);
 
 </script>
 </body>
