@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -766,24 +767,6 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
         
-        /* Desktop styles */
-        @media (min-width: 769px) {
-            .hamburger {
-                display: none;
-            }
-            
-            .desktop-nav {
-                display: flex;
-            }
-            
-            .mobile-carousel {
-                display: none !important;
-            }
-            
-            .desktop-grid {
-                display: grid !important;
-            }
-        }
         
         /* Mobile styles */
         @media (max-width: 768px) {
@@ -836,9 +819,6 @@
                 display: none !important;
             }
             
-            .mobile-carousel {
-                display: block !important;
-            }
             
             /* Mobile book sizing */
             .book-3d {
@@ -2733,6 +2713,128 @@
     }
 }
 
+/* ============================================
+   CARROSSEL DE VÍDEOS - DESKTOP E MOBILE
+   ============================================ */
+   
+/* Container principal do carrossel */
+#videos-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+}
+
+/* Track que move os slides */
+#videos-carousel .carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* Cada slide individual */
+#videos-carousel .carousel-slide {
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* Dots de navegação */
+#videos-carousel .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+#videos-carousel .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2d2d2d;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+#videos-carousel .carousel-dot.active {
+    background: #d4af37;
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Barra de progresso */
+#videos-carousel .carousel-progress {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 2px;
+    background: #1a1a1a;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+#videos-carousel .carousel-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #8b6914, #d4af37);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* Ajustes específicos para desktop */
+@media (min-width: 769px) {
+    #videos-carousel {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    #videos-carousel .carousel-slide {
+        min-width: 25%; /* 4 vídeos visíveis no desktop */
+        padding: 0 15px;
+    }
+    
+    #videos-carousel .video-3d {
+        transform: perspective(1200px) rotateY(-15deg) rotateX(3deg);
+    }
+    
+    /* Mostrar múltiplos indicadores de swipe no desktop */
+    #videos-carousel .carousel-hint {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #4a4a4a;
+        font-size: 3rem;
+        opacity: 0.4;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 10;
+    }
+    
+    #videos-carousel .carousel-hint.left {
+        left: 20px;
+    }
+    
+    #videos-carousel .carousel-hint.right {
+        right: 20px;
+    }
+    
+    #videos-carousel:hover .carousel-hint {
+        opacity: 0.7;
+    }
+}
+
+/* Mobile mantém 1 por vez */
+@media (max-width: 768px) {
+    #videos-carousel .carousel-slide {
+        min-width: 100%;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -2769,6 +2871,7 @@
             <div class="hidden md:flex space-x-8 font-cinzel text-xs tracking-[0.2em] text-[#6b6b6b] desktop-nav">
                 <a href="#home" class="hover:text-[#8b7355] transition-colors duration-300">INÍCIO</a>
                 <a href="#books" class="hover:text-[#8b7355] transition-colors duration-300">GRIMÓRIOS</a>
+                <a href="#about" class="hover:text-[#8b7355] transition-colors duration-300">O AUTOR</a>
                 <a href="#lore" class="hover:text-[#8b7355] transition-colors duration-300">LORE</a>
                 <a href="#contact" class="hover:text-[#8b7355] transition-colors duration-300">CONTATO</a>
             </div>
@@ -2786,6 +2889,7 @@
     <div class="mobile-menu" id="mobile-menu" role="menu">
         <a href="#home" onclick="toggleMenu()" role="menuitem">INÍCIO</a>
         <a href="#books" onclick="toggleMenu()" role="menuitem">GRIMÓRIOS</a>
+        <a href="#about" onclick="toggleMenu()" role="menuitem">O AUTOR</a>
         <a href="#lore" onclick="toggleMenu()" role="menuitem">LORE</a>
         <a href="#contact" onclick="toggleMenu()" role="menuitem">CONTATO</a>
     </div>
@@ -2887,6 +2991,80 @@
             </svg>
         </div>
     </section>
+
+    <!-- ============================================
+   SEÇÃO APRESENTAÇÃO DO AUTOR
+   ============================================ -->
+<section id="about" class="section-dark py-32 relative overflow-hidden" role="region" aria-label="Sobre o autor">
+    <!-- Efeito de névoa/energia flutuante no fundo -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(139,105,20,0.05)_0%,transparent_50%)] animate-pulse"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(139,0,0,0.05)_0%,transparent_50%)] animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+    
+    <!-- Runas flutuantes decorativas -->
+    <div class="lore-rune" style="top: 10%; left: 5%; animation-delay: 0s;">ᚠ</div>
+    <div class="lore-rune" style="top: 30%; right: 8%; animation-delay: 1s;">ᚢ</div>
+    <div class="lore-rune" style="bottom: 20%; left: 10%; animation-delay: 2s;">ᚦ</div>
+    <div class="lore-rune" style="bottom: 40%; right: 5%; animation-delay: 0.5s;">ᚨ</div>
+
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="font-cinzel text-4xl md:text-5xl text-[#8b7355] mb-4 reveal tracking-widest">
+                O ARQUITETO
+            </h2>
+            <div class="ornament max-w-sm mx-auto reveal">
+                <div class="ornament-line"></div>
+                <span class="ornament-symbol">⚜</span>
+                <div class="ornament-line"></div>
+            </div>
+        </div>
+
+        <!-- Card do Autor -->
+        <div class="lore-card flex flex-col md:flex-row gap-10 items-center reveal animate-in" data-lore="1">
+            <div class="w-full md:w-1/3 lore-float">
+                <div class="lore-image-wrapper aspect-square rounded-full overflow-hidden border-2 border-[#2d2d2d] shadow-2xl relative group cursor-pointer" onclick="createLoreParticles(this)">
+                    <img src="nicarao.png" alt="Nicarao Fletes - Arquiteto de Mundos Sombrios" class="w-full h-full object-cover filter sepia-[20%] contrast-[1.1] group-hover:sepia-0 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0c]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,105,20,0.2)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+            </div>
+            <div class="w-full md:w-2/3">
+                <h3 class="font-cinzel text-2xl text-[#8b7355] mb-4 tracking-wide lore-text-reveal">O Despertar nas Sombras</h3>
+                <p class="text-[#8a8a8a] leading-relaxed text-lg font-light lore-text-reveal">
+                    Nas terras sombrias da Nicarágua, onde vulcões adormecidos sussurram segredos antigos, Nicarao Fletes descobriu sua vocação. Longe das luzes brilhantes da fantasia convencional, ele escolheu mergulhar nas sombras, criando narrativas onde heróis carregam fardos impossíveis e a redenção vem através do sacrifício.
+                </p>
+            </div>
+        </div>
+
+        <!-- VÍDEO DE APRESENTAÇÃO -->
+        <div class="mt-16 reveal">
+            <div class="max-w-2xl mx-auto">
+                <div class="relative aspect-video rounded-lg overflow-hidden border-2 border-[#2d2d2d] shadow-2xl group cursor-pointer" onclick="openVideoModal('presentation')" style="background: #0a0a0a;">
+                    <!-- Thumbnail do vídeo -->
+                    <img src="https://img.youtube.com/vi/n_6pcET7Stc/maxresdefault.jpg" 
+                         alt="Uma breve apresentação - Nicarao Fletes" 
+                         class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                    
+                    <!-- Overlay escuro -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0c]/80 via-transparent to-transparent"></div>
+                    
+                    <!-- Botão play central -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-[#8b6914] to-[#d4af37] rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(212,175,55,0.5)]">
+                            <div class="w-0 h-0 border-l-[24px] border-l-[#0c0c0c] border-t-[14px] border-t-transparent border-b-[14px] border-b-transparent ml-2"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Título do vídeo -->
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-center">
+                        <h4 class="font-cinzel text-xl text-[#d4af37] mb-2">Uma Breve Apresentação</h4>
+                        <p class="text-[#8a8a8a] text-sm">Conheça o Arquiteto de Mundos Sombrios</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
 
     <!-- Books Section -->
     <section id="books" class="section-dark py-32" role="region" aria-label="Livros">
@@ -3292,120 +3470,9 @@
             </div>
 
             <!-- DESKTOP: Grid Layout -->
-            <div class="desktop-grid grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-center justify-items-center" id="videos-grid">
-                
-                <!-- Video 1 -->
-                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0s">
-                    <div class="video-3d mb-6" onclick="openVideoModal(1)" role="button" tabindex="0" aria-label="Abrir vídeo A Magia da Escrita" onkeydown="if(event.key==='Enter')openVideoModal(1)">
-                        <div class="video-face video-front">
-                            <img src="video1-thumb.jpg" alt="A Magia da Escrita" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3EVídeo 1%3C/text%3E%3C/svg%3E'">
-                            <div class="video-badge">▶</div>
-                            <div class="video-play-overlay">
-                                <div class="video-play-icon"></div>
-                            </div>
-                            <div class="video-page-curl"></div>
-                        </div>
-                        <div class="video-face video-back">
-                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
-                        </div>
-                        <div class="video-face video-right">
-                            <span class="video-spine-text">REEL 01</span>
-                        </div>
-                        <div class="video-face video-left"></div>
-                        <div class="video-face video-top"></div>
-                        <div class="video-face video-bottom"></div>
-                    </div>
-                    <div class="video-info">
-                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">A Magia da Escrita</p>
-                        <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
-                    </div>
-                </article>
-
-                <!-- Video 2 -->
-                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0.15s">
-                    <div class="video-3d mb-6" onclick="openVideoModal(2)" role="button" tabindex="0" aria-label="Abrir vídeo Bastidores do Livro" onkeydown="if(event.key==='Enter')openVideoModal(2)">
-                        <div class="video-face video-front">
-                            <img src="video2-thumb.jpg" alt="Bastidores do Livro" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3EVídeo 2%3C/text%3E%3C/svg%3E'">
-                            <div class="video-badge">▶</div>
-                            <div class="video-play-overlay">
-                                <div class="video-play-icon"></div>
-                            </div>
-                            <div class="video-page-curl"></div>
-                        </div>
-                        <div class="video-face video-back">
-                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
-                        </div>
-                        <div class="video-face video-right">
-                            <span class="video-spine-text">REEL 02</span>
-                        </div>
-                        <div class="video-face video-left"></div>
-                        <div class="video-face video-top"></div>
-                        <div class="video-face video-bottom"></div>
-                    </div>
-                    <div class="video-info">
-                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Bastidores do Livro</p>
-                        <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
-                    </div>
-                </article>
-
-                <!-- Video 3 -->
-                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0.3s">
-                    <div class="video-3d mb-6" onclick="openVideoModal(3)" role="button" tabindex="0" aria-label="Abrir vídeo Leitura ao Vivo" onkeydown="if(event.key==='Enter')openVideoModal(3)">
-                        <div class="video-face video-front">
-                            <img src="video3-thumb.jpg" alt="Leitura ao Vivo" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3EVídeo 3%3C/text%3E%3C/svg%3E'">
-                            <div class="video-badge">▶</div>
-                            <div class="video-play-overlay">
-                                <div class="video-play-icon"></div>
-                            </div>
-                            <div class="video-page-curl"></div>
-                        </div>
-                        <div class="video-face video-back">
-                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
-                        </div>
-                        <div class="video-face video-right">
-                            <span class="video-spine-text">REEL 03</span>
-                        </div>
-                        <div class="video-face video-left"></div>
-                        <div class="video-face video-top"></div>
-                        <div class="video-face video-bottom"></div>
-                    </div>
-                    <div class="video-info">
-                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Leitura ao Vivo</p>
-                        <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
-                    </div>
-                </article>
-
-                <!-- Video 4 -->
-                <article class="reveal group video-item" data-category="reels" style="transition-delay: 0.45s">
-                    <div class="video-3d mb-6" onclick="openVideoModal(4)" role="button" tabindex="0" aria-label="Abrir vídeo Perguntas dos Fãs" onkeydown="if(event.key==='Enter')openVideoModal(4)">
-                        <div class="video-face video-front">
-                            <img src="video4-thumb.jpg" alt="Perguntas dos Fãs" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3EVídeo 4%3C/text%3E%3C/svg%3E'">
-                            <div class="video-badge">▶</div>
-                            <div class="video-play-overlay">
-                                <div class="video-play-icon"></div>
-                            </div>
-                            <div class="video-page-curl"></div>
-                        </div>
-                        <div class="video-face video-back">
-                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
-                        </div>
-                        <div class="video-face video-right">
-                            <span class="video-spine-text">REEL 04</span>
-                        </div>
-                        <div class="video-face video-left"></div>
-                        <div class="video-face video-top"></div>
-                        <div class="video-face video-bottom"></div>
-                    </div>
-                    <div class="video-info">
-                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2">Perguntas dos Fãs</p>
-                        <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
-                    </div>
-                </article>
-
-            </div>
-
-            <!-- MOBILE: Carousel -->
-            <div class="mobile-carousel carousel-container reveal" id="videos-carousel" style="display: none;">
+            
+           <!-- CARROSSEL DE VÍDEOS - Desktop e Mobile -->
+<div class="carousel-container reveal" id="videos-carousel">
                 <div class="carousel-hint left">‹</div>
                 <div class="carousel-hint right swipe-animation">›</div>
                 
@@ -3563,26 +3630,8 @@
             </div>
 
             <div class="lore-container space-y-20">
-                <!-- Card 1: O Despertar nas Sombras -->
-                <div class="lore-card flex flex-col md:flex-row gap-10 items-center reveal" data-lore="1">
-                    <div class="w-full md:w-1/3 lore-float">
-                        <div class="lore-image-wrapper aspect-square rounded-full overflow-hidden border-2 border-[#2d2d2d] shadow-2xl relative group cursor-pointer" onclick="createLoreParticles(this)">
-                            <img src="nicarao.png" alt="Nicarao Fletes - Arquiteto de Mundos Sombrios" class="w-full h-full object-cover filter sepia-[20%] contrast-[1.1] group-hover:sepia-0 transition-all duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0c]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <!-- Efeito de brilho sutil -->
-                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,105,20,0.2)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-2/3">
-                        <h3 class="font-cinzel text-2xl text-[#8b7355] mb-4 tracking-wide lore-text-reveal">O Despertar nas Sombras</h3>
-                        <p class="text-[#8a8a8a] leading-relaxed text-lg font-light lore-text-reveal">
-                            Nas terras sombrias da Nicarágua, onde vulcões adormecidos sussurram segredos antigos, Nicarao Fletes descobriu sua vocação. Longe das luzes brilhantes da fantasia convencional, ele escolheu mergulhar nas sombras, criando narrativas onde heróis carregam fardos impossíveis e a redenção vem através do sacrifício.
-                        </p>
-                    </div>
-                </div>
-
                 <!-- Card 2: A Forja das Histórias -->
-                <div class="lore-card flex flex-col md:flex-row-reverse gap-10 items-center reveal" data-lore="2">
+<div class="lore-card flex flex-col md:flex-row-reverse gap-10 items-center reveal" data-lore="2">
                     <div class="w-full md:w-1/3 lore-float">
                         <div class="lore-image-wrapper aspect-square rounded-full overflow-hidden border-2 border-[#2d1f1f] shadow-2xl relative group cursor-pointer" onclick="createLoreParticles(this)">
                             <img src="herois.png" alt="A Forja das Histórias - Heróis de Fantasia" class="w-full h-full object-cover filter sepia-[20%] contrast-[1.2] brightness-90 group-hover:sepia-0 group-hover:brightness-100 transition-all duration-700">
@@ -4618,7 +4667,13 @@ const videoCategoryData = {
 // Dados dos vídeos (você pode expandir depois)
 
 const videoCollection = {
-    1: { title: 'Vídeo 1', category: 'reels', newest: true, thumb: 'video1-thumb.jpg', youtubeId: 'n_6pcET7Stc' },
+    'presentation': { 
+        title: 'Uma breve apresentação', 
+        category: 'presentation', 
+        newest: false, 
+        thumb: 'video1-thumb.jpg', 
+        youtubeId: 'n_6pcET7Stc' 
+    },
     2: { title: 'Vídeo 2', category: 'reels', newest: true, thumb: 'video2-thumb.jpg', youtubeId: 'KQ8VUeSdiOY' },
     3: { title: 'Vídeo 3', category: 'reels', newest: true, thumb: 'video3-thumb.jpg', youtubeId: 'eQ4rU8YbSEM' },
     4: { title: 'Vídeo 4', category: 'reels', newest: true, thumb: 'video4-thumb.jpg', youtubeId: '0LT5iX2SiCk' },
@@ -4820,37 +4875,39 @@ function openVideoFromCategory(id) {
             showToast('Abrindo vídeo no Instagram...');
         }
 
-        // Atualizar navegação para incluir link para vídeos
-        // Adicione este trecho no final do script existente
-        document.addEventListener('DOMContentLoaded', function() {
-            // Adicionar link de vídeos no menu desktop se não existir
-            const desktopNav = document.querySelector('.desktop-nav');
-            if (desktopNav && !desktopNav.querySelector('a[href="#videos"]')) {
-                const videoLink = document.createElement('a');
-                videoLink.href = '#videos';
-                videoLink.className = 'hover:text-[#8b7355] transition-colors duration-300';
-                videoLink.textContent = 'VÍDEOS';
-                desktopNav.insertBefore(videoLink, desktopNav.querySelector('a[href="#lore"]'));
-            }
-            
-            // Adicionar link de vídeos no menu mobile se não existir
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu && !mobileMenu.querySelector('a[href="#videos"]')) {
-                const mobileVideoLink = document.createElement('a');
-                mobileVideoLink.href = '#videos';
-                mobileVideoLink.onclick = function() { toggleMenu(); };
-                mobileVideoLink.setAttribute('role', 'menuitem');
-                mobileVideoLink.textContent = 'VÍDEOS';
-                mobileMenu.insertBefore(mobileVideoLink, mobileMenu.querySelector('a[href="#lore"]'));
-            }
-        });
+       document.addEventListener('DOMContentLoaded', function() {
+    // Adicionar link de vídeos no menu desktop se não existir
+    const desktopNav = document.querySelector('.desktop-nav');
+    if (desktopNav && !desktopNav.querySelector('a[href="#videos"]')) {
+        const videoLink = document.createElement('a');
+        videoLink.href = '#videos';
+        videoLink.className = 'hover:text-[#8b7355] transition-colors duration-300';
+        videoLink.textContent = 'VÍDEOS';
+        desktopNav.insertBefore(videoLink, desktopNav.querySelector('a[href="#lore"]'));
+    }
+    
+    // Adicionar link de vídeos no menu mobile se não existir
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu && !mobileMenu.querySelector('a[href="#videos"]')) {
+        const mobileVideoLink = document.createElement('a');
+        mobileVideoLink.href = '#videos';
+        mobileVideoLink.onclick = function() { toggleMenu(); };
+        mobileVideoLink.setAttribute('role', 'menuitem');
+        mobileVideoLink.textContent = 'VÍDEOS';
+        mobileMenu.insertBefore(mobileVideoLink, mobileMenu.querySelector('a[href="#lore"]'));
+    }
+    
+    // 👇👇👇 ADICIONE ESTA LINHA AQUI 👇👇👇
+    // Gerar carrossel de vídeos (funciona em desktop e mobile)
+    generateVideoGrid();
+});
 
                 // ============================================
         // VÍDEOS - Modal com efeito de ampliação
         // ============================================
         
 function openVideoModal(id) {
-    console.log('Abrindo vídeo no modal:', id);
+    console.log('Abrindo vídeo:', id);
     
     const video = videoCollection[id];
     if (!video) {
@@ -4942,17 +4999,194 @@ function openVideoModal(id) {
     }
 }
         
-        function initVideoCarousel() {
-            const track = document.getElementById('videos-carousel-track');
-            if (!track) return;
-            
-            updateVideoCarousel();
-            startVideoAutoplay();
-            
-            track.addEventListener('touchstart', handleVideoTouchStart, { passive: true });
-            track.addEventListener('touchend', handleVideoTouchEnd, { passive: true });
-            track.addEventListener('touchmove', handleVideoTouchMove, { passive: true });
+        // ============================================
+// CARROSSEL DE VÍDEOS - DESKTOP E MOBILE
+// ============================================
+
+let currentVideoSlide = 0;
+let videoCarouselInterval;
+let videoIsTouching = false;
+let videoTouchStartX = 0;
+let videoTouchEndX = 0;
+const videoAutoplayDelay = 5000;
+let totalVideoSlides = 0;
+
+function initVideoCarousel() {
+    const track = document.getElementById('videos-carousel-track');
+    const dotsContainer = document.getElementById('videos-carousel-dots');
+    
+    if (!track || !dotsContainer) {
+        console.error('Elementos do carrossel não encontrados');
+        return;
+    }
+    
+    // Contar slides
+    totalVideoSlides = track.querySelectorAll('.carousel-slide').length;
+    currentVideoSlide = 0;
+    
+    // Gerar dots dinamicamente baseado no número de vídeos
+    let dotsHTML = '';
+    for (let i = 0; i < totalVideoSlides; i++) {
+        dotsHTML += `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToVideoSlide(${i})" aria-label="Ir para vídeo ${i + 1}"></button>`;
+    }
+    dotsContainer.innerHTML = dotsHTML;
+    
+    updateVideoCarousel();
+    startVideoAutoplay();
+    
+    // Eventos de touch (mobile)
+    track.addEventListener('touchstart', handleVideoTouchStart, { passive: true });
+    track.addEventListener('touchend', handleVideoTouchEnd, { passive: true });
+    track.addEventListener('touchmove', handleVideoTouchMove, { passive: true });
+    
+    // Eventos de mouse (desktop - arrastar)
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    
+    track.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = currentVideoSlide;
+        track.style.cursor = 'grabbing';
+    });
+    
+    track.addEventListener('mouseleave', () => {
+        isDragging = false;
+        track.style.cursor = 'grab';
+    });
+    
+    track.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.cursor = 'grab';
+        
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX);
+        
+        if (Math.abs(walk) > 50) {
+            if (walk > 0 && currentVideoSlide > 0) {
+                goToVideoSlide(currentVideoSlide - 1);
+            } else if (walk < 0 && currentVideoSlide < totalVideoSlides - 1) {
+                goToVideoSlide(currentVideoSlide + 1);
+            }
         }
+    });
+    
+    track.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+}
+
+function handleVideoTouchStart(e) {
+    videoIsTouching = true;
+    videoTouchStartX = e.changedTouches[0].screenX;
+    stopVideoAutoplay();
+}
+
+function handleVideoTouchMove(e) {
+    if (!videoIsTouching) return;
+    videoTouchEndX = e.changedTouches[0].screenX;
+}
+
+function handleVideoTouchEnd(e) {
+    if (!videoIsTouching) return;
+    videoIsTouching = false;
+    
+    const diff = videoTouchStartX - videoTouchEndX;
+    const threshold = 50;
+    
+    if (Math.abs(diff) > threshold) {
+        if (diff > 0 && currentVideoSlide < totalVideoSlides - 1) {
+            goToVideoSlide(currentVideoSlide + 1);
+        } else if (diff < 0 && currentVideoSlide > 0) {
+            goToVideoSlide(currentVideoSlide - 1);
+        }
+    }
+    
+    startVideoAutoplay();
+}
+
+function goToVideoSlide(index) {
+    if (index < 0) index = 0;
+    if (index >= totalVideoSlides) index = totalVideoSlides - 1;
+    
+    currentVideoSlide = index;
+    updateVideoCarousel();
+    resetVideoAutoplay();
+}
+
+function updateVideoCarousel() {
+    const track = document.getElementById('videos-carousel-track');
+    const dots = document.querySelectorAll('#videos-carousel-dots .carousel-dot');
+    const progressBar = document.getElementById('videos-carousel-progress');
+    
+    if (!track) return;
+    
+    // Calcular quantos slides mostrar por vez baseado na largura
+    const isDesktop = window.innerWidth >= 769;
+    const slidesPerView = isDesktop ? 4 : 1;
+    const maxSlide = totalVideoSlides - slidesPerView;
+    
+    // Ajustar índice se necessário
+    if (currentVideoSlide > maxSlide) {
+        currentVideoSlide = maxSlide;
+    }
+    
+    // Mover o track
+    const slideWidth = 100 / slidesPerView;
+    track.style.transform = `translateX(-${currentVideoSlide * slideWidth}%)`;
+    
+    // Atualizar dots (mostrar quais estão visíveis)
+    dots.forEach((dot, index) => {
+        const isVisible = index >= currentVideoSlide && index < currentVideoSlide + slidesPerView;
+        dot.classList.toggle('active', isVisible);
+    });
+    
+    // Atualizar barra de progresso
+    if (progressBar) {
+        const progress = ((currentVideoSlide + slidesPerView) / totalVideoSlides) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
+}
+
+function nextVideoSlide() {
+    const isDesktop = window.innerWidth >= 769;
+    const slidesPerView = isDesktop ? 4 : 1;
+    const maxSlide = totalVideoSlides - slidesPerView;
+    
+    if (currentVideoSlide < maxSlide) {
+        currentVideoSlide++;
+    } else {
+        currentVideoSlide = 0; // Voltar ao início
+    }
+    updateVideoCarousel();
+}
+
+function startVideoAutoplay() {
+    stopVideoAutoplay();
+    videoCarouselInterval = setInterval(nextVideoSlide, videoAutoplayDelay);
+    
+    const progressBar = document.getElementById('videos-carousel-progress');
+    if (progressBar) {
+        progressBar.style.transition = `width ${videoAutoplayDelay}ms linear`;
+    }
+}
+
+function stopVideoAutoplay() {
+    clearInterval(videoCarouselInterval);
+}
+
+function resetVideoAutoplay() {
+    stopVideoAutoplay();
+    startVideoAutoplay();
+}
+
+// Atualizar ao redimensionar
+window.addEventListener('resize', () => {
+    updateVideoCarousel();
+});
         
         function handleVideoTouchStart(e) {
             videoIsTouching = true;
@@ -5049,59 +5283,55 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
         function generateVideoGrid() {
-    const grid = document.getElementById('videos-grid');
-    if (!grid) {
-        console.error('Grid não encontrado');
+    const track = document.getElementById('videos-carousel-track');
+    
+    if (!track) {
+        console.error('Track do carrossel não encontrado');
         return;
     }
     
     let html = '';
     Object.entries(videoCollection).forEach(([id, video], index) => {
-        const delay = (index % 4) * 0.15;
         const shortTitle = video.title.length > 30 ? video.title.substring(0, 30) + '...' : video.title;
         
         html += `
-            <article class="reveal group video-item" data-category="${video.category}" style="transition-delay: ${delay}s; animation-delay: ${delay}s">
-                <div class="video-3d mb-6" 
-                     onclick="openVideoModal(${id})" 
-                     role="button" 
-                     tabindex="0" 
-                     aria-label="Abrir ${video.title}"
-                     onkeydown="if(event.key==='Enter')openVideoModal(${id})"
-                     style="cursor: pointer;">
-                    <div class="video-face video-front">
-                        <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" 
-                             alt="${video.title}" 
-                             loading="lazy" 
-                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2214%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E${shortTitle}%3C/text%3E%3C/svg%3E'"
-                             style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="video-badge">▶</div>
-                        <div class="video-play-overlay">
-                            <div class="video-play-icon"></div>
+            <div class="carousel-slide">
+                <div class="text-center">
+                    <div class="video-3d mb-6" onclick="openVideoModal(${id})" role="button" tabindex="0" aria-label="Abrir ${video.title}" onkeydown="if(event.key==='Enter')openVideoModal(${id})">
+                        <div class="video-face video-front">
+                            <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" alt="${video.title}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2214%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E${shortTitle}%3C/text%3E%3C/svg%3E'">
+                            <div class="video-badge">▶</div>
+                            <div class="video-play-overlay">
+                                <div class="video-play-icon"></div>
+                            </div>
+                            <div class="video-page-curl"></div>
                         </div>
-                        <div class="video-page-curl"></div>
+                        <div class="video-face video-back">
+                            <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
+                        </div>
+                        <div class="video-face video-right">
+                            <span class="video-spine-text">REEL ${String(index + 1).padStart(2, '0')}</span>
+                        </div>
+                        <div class="video-face video-left"></div>
+                        <div class="video-face video-top"></div>
+                        <div class="video-face video-bottom"></div>
                     </div>
-                    <div class="video-face video-back">
-                        <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
+                    <div class="video-info" style="opacity: 1; transform: translateY(0);">
+                        <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2" title="${video.title}">${shortTitle}</p>
+                        <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
                     </div>
-                    <div class="video-face video-right">
-                        <span class="video-spine-text">REEL ${String(id).padStart(2, '0')}</span>
-                    </div>
-                    <div class="video-face video-left"></div>
-                    <div class="video-face video-top"></div>
-                    <div class="video-face video-bottom"></div>
                 </div>
-                <div class="video-info" style="opacity: 1; transform: translateY(0);">
-                    <p class="text-[#6b6b6b] font-cinzel text-xs tracking-widest mb-2" title="${video.title}">${shortTitle}</p>
-                    <p class="text-[#4a4a4a] text-[10px]">Clique para assistir ›</p>
-                </div>
-            </article>
+            </div>
         `;
     });
     
-    grid.innerHTML = html;
-    console.log('Grid gerado com', Object.keys(videoCollection).length, 'vídeos');
+    track.innerHTML = html;
+    console.log('Carrossel gerado com', Object.keys(videoCollection).length, 'vídeos');
+    
+    // Inicializar carrossel após gerar
+    setTimeout(initVideoCarousel, 100);
 }
+
 
 function generateVideoCarousel() {
     const track = document.getElementById('videos-carousel-track');
