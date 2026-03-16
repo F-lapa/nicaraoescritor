@@ -621,6 +621,33 @@
             box-shadow: 0 25px 50px rgba(0,0,20,0.9), inset 0 0 100px rgba(100,100,200,0.05);
         }
         
+/* Estilos extras para o card de informações no tema fantasy */
+.theme-fantasy .bg-gradient-to-br {
+    background: linear-gradient(135deg, rgba(26, 26, 62, 0.6) 0%, rgba(15, 15, 42, 0.4) 100%);
+    box-shadow: 0 4px 20px rgba(100, 100, 200, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.theme-fantasy .rounded-lg {
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-fantasy .rounded-lg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(100, 100, 200, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
         .theme-fantasy h3 { color: #7a8bb5; }
         .theme-fantasy .modal-ornament { color: #4a5a8a; }
         .theme-fantasy .btn-modal {
@@ -672,6 +699,79 @@
             color: #ff6b6b;
             box-shadow: 0 0 30px rgba(139,0,0,0.4);
         }
+
+
+/* ✨ BÔNUS: Estilos extras para o card de informações no tema vampire */
+.theme-vampire .bg-gradient-to-br {
+    background: linear-gradient(135deg, rgba(45, 8, 8, 0.8) 0%, rgba(26, 5, 5, 0.6) 100%);
+    box-shadow: 0 4px 20px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    border-color: rgba(139, 0, 0, 0.4);
+}
+
+.theme-vampire .rounded-lg {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito de sangue pulsando */
+.theme-vampire .rounded-lg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.15), transparent);
+    animation: bloodShimmer 4s infinite;
+}
+
+@keyframes bloodShimmer {
+    0%, 100% { left: -100%; opacity: 0.3; }
+    50% { left: 100%; opacity: 0.6; }
+}
+
+.theme-vampire .rounded-lg > div > div {
+    background: rgba(20, 5, 5, 0.7);
+    border-color: rgba(139, 0, 0, 0.25);
+    box-shadow: inset 0 0 10px rgba(139, 0, 0, 0.05);
+}
+
+/* Ícones com fundo sangrento */
+.theme-vampire .rounded-lg > div > div > div:first-child {
+    background: linear-gradient(135deg, #8b0000 0%, #5a0000 100%);
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.4);
+}
+
+/* Textos em vermelho sangue */
+.theme-vampire #modal-pages,
+.theme-vampire #modal-format,
+.theme-vampire #modal-illustrations,
+.theme-vampire #modal-year {
+    color: #ff6b6b !important;
+    text-shadow: 0 0 10px rgba(139, 0, 0, 0.3);
+}
+
+/* Labels em vermelho escuro */
+.theme-vampire .text-\[\#6b6b8a\] {
+    color: #a05050 !important;
+}
+
+/* Separador amazon em vermelho */
+.theme-vampire .border-t {
+    border-color: rgba(139, 0, 0, 0.3) !important;
+}
+
+.theme-vampire .text-\[\#8b9bc5\] {
+    color: #cd5c5c !important;
+}
+
+/* Efeito de brilho sanguíneo nos cards individuais */
+.theme-vampire .rounded-lg > div > div:hover {
+    border-color: rgba(139, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.2), inset 0 0 10px rgba(139, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
         .theme-vampire .curiosity-box {
             background: rgba(139,0,0,0.1);
             border-left: 3px solid #8b0000;
@@ -700,6 +800,58 @@
             color: #9ada9a;
             box-shadow: 0 0 30px rgba(0,100,0,0.3);
         }
+
+
+/* ✨ BÔNUS: Estilos extras para o card de informações no tema contos */
+.theme-contos .bg-gradient-to-br {
+    background: linear-gradient(135deg, rgba(15, 47, 15, 0.6) 0%, rgba(10, 30, 10, 0.4) 100%);
+    box-shadow: 0 4px 20px rgba(0, 100, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border-color: rgba(61, 106, 61, 0.3);
+}
+
+.theme-contos .rounded-lg {
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-contos .rounded-lg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(90, 170, 90, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+.theme-contos .rounded-lg > div > div {
+    background: rgba(10, 30, 10, 0.6);
+    border-color: rgba(61, 106, 61, 0.2);
+}
+
+.theme-contos .rounded-lg > div > div > div:first-child {
+    background: linear-gradient(135deg, #3d6a3d 0%, #2d4a2d 100%);
+}
+
+.theme-contos #modal-pages,
+.theme-contos #modal-format,
+.theme-contos #modal-illustrations,
+.theme-contos #modal-year {
+    color: #9ada9a !important;
+}
+
+.theme-contos .text-\[\#6b6b8a\] {
+    color: #5a8a5a !important;
+}
+
+.theme-contos .border-t {
+    border-color: rgba(61, 106, 61, 0.2) !important;
+}
+
+.theme-contos .text-\[\#8b9bc5\] {
+    color: #7aba7a !important;
+}
         
         /* Navigation */
         .nav-dark {
@@ -3393,13 +3545,61 @@
                             <span class="text-[#4a4a4a] text-xs ml-2">(Kindle)</span>
                         </div>
 
-                        <div class="flex gap-4 text-xs font-cinzel text-[#4a4a4a] border-t border-[#2d2d2d] pt-4 mb-6">
-                            <span id="modal-pages"></span>
-                            <span>|</span>
-                            <span id="modal-year"></span>
-                            <span>|</span>
-                            <span>Amazon Kindle</span>
-                        </div>
+                       <!-- Layout de informações do livro - TEMA FANTASY -->
+<div class="bg-gradient-to-br from-[#1a1a3e]/50 to-[#0f0f2a]/50 border border-[#4a4a8a]/30 rounded-lg p-4 mb-6">
+    <!-- Grid de informações -->
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <!-- Páginas -->
+        <div class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#4a4a8a] to-[#2a2a5a] flex items-center justify-center text-lg">
+                📄
+            </div>
+            <div>
+                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Páginas</p>
+                <p id="modal-pages" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+            </div>
+        </div>
+        
+        <!-- Formato -->
+        <div id="format-container" class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#6a6aaa] to-[#4a4a8a] flex items-center justify-center text-lg">
+                💾
+            </div>
+            <div>
+                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Formato</p>
+                <p id="modal-format" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+            </div>
+        </div>
+        
+        <!-- Ilustrações -->
+        <div id="illustrations-container" class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#8a8aca] to-[#6a6aaa] flex items-center justify-center text-lg">
+                🎨
+            </div>
+            <div>
+                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Ilustrações</p>
+                <p id="modal-illustrations" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+            </div>
+        </div>
+        
+        <!-- Ano -->
+        <div class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#aa8aca] to-[#8a6aaa] flex items-center justify-center text-lg">
+                📅
+            </div>
+            <div>
+                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Publicação</p>
+                <p id="modal-year" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Selo Amazon -->
+    <div class="flex items-center justify-center gap-2 pt-3 border-t border-[#4a4a8a]/20">
+        <span class="text-[#ff9900]">📦</span>
+        <span class="text-[#8b9bc5] text-xs font-cinzel">Disponível na Amazon Kindle</span>
+    </div>
+</div>
 
                         <div class="flex flex-wrap gap-3">
                             <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 btn-dark btn-modal text-xs">
@@ -4212,74 +4412,76 @@ document.addEventListener('visibilitychange', () => {
 
         // Book Data
         const books = {
-            1: {
-                title: 'Heróis da Fantasia',
-                subtitle: 'o nascimento de um herói',
-                desc: 'O mundo sempre teve heróis, pessoas formidáveis que deram de tudo para mostrar dignidade e força para salvar as pessoas. Contudo, Ryu, o jovem meio elfo meio demônio, precisa, além disso, passar por uma provação onde a força é apenas um detalhe e sua força de vontade será um diferencial. Assim como entender sobre suas raças será fundamental para construir um herói.',
-                pages: 'eBook Kindle',
-                year: '2023',
-                price: '9.90',
-                rating: 5,
-                reviews: '5 avaliações',
-                image: 'heroisdafantasia1.png',
-                link: 'https://www.amazon.com.br/Her%C3%B3is-fantasia-nascimento-um-her%C3%B3i-ebook/dp/B0C9KVCNFY',
-                category: 'fantasy',
-                theme: 'fantasy',
-                curiosities: null
-            },
-            2: {
-                title: 'Heróis da Fantasia',
-                subtitle: 'as aventuras dos jovens aloprados',
-                desc: 'A continuação épica da saga que acompanha novos heróis em formação. Neste volume, jovens aventureiros inexperientes mas corajosos embarcam em missões que testarão não apenas suas habilidades em combate, mas seus laços de amizade e lealdade. Uma história sobre crescimento, superação e a descoberta de que ser herói é muito mais que portar uma espada.',
-                pages: 'eBook Kindle',
-                year: '2025',
-                price: '9.90',
-                rating: 5,
-                reviews: 'Nova edição',
-                image: 'heroisdafantasia2.png',
-                link: 'https://www.amazon.com.br/dp/B0FGTK6GN4',
-                category: 'fantasy',
-                theme: 'fantasy',
-                curiosities: null
-            },
+          1: {
+    title: 'Heróis da Fantasia',
+    subtitle: 'o nascimento de um herói',
+    desc: 'O mundo sempre teve heróis, pessoas formidáveis que deram de tudo para mostrar dignidade e força para salvar as pessoas. Contudo, Ryu, o jovem meio elfo meio demônio, precisa, além disso, passar por uma provação onde a força é apenas um detalhe e sua força de vontade será um diferencial.',
+    pages: '281 páginas',
+    year: '2023',
+    price: '9.90',
+    rating: 5,
+    reviews: '5 avaliações',
+    image: 'heroisdafantasia1.png',
+    link: 'https://www.amazon.com.br/Her%C3%B3is-fantasia-nascimento-um-her%C3%B3i-ebook/dp/B0C9KVCNFY',
+    category: 'fantasy',
+    theme: 'fantasy',
+    format: 'formato digital',
+    illustrations: '31 ilustrações',
+    curiosities: [
+        'Foi meu primeiro livro a ser escrito e foi nele que aprendi o início de tudo na escrita. Obvio que tenho muito a aprender, cada vez que escrevo um livro, vou aprendendo mais, mas esse foi praticamente uma escola. Para ter noção revisei esse livro umas 10 vezes inteiro antes de mandar para uma revisão profissional. Isso é algo que nunca mais fiz, pois, todo esse medo ou perfeccionismo atrapalha a produção de um livro.',
+        'Apesar de ter sido publicado em 2023, o início dele é muito mais antigo. O primeiro bloco de notas que abri para escreve alguns detalhes, foi em 2011, onde coloquei ideias de uma historia somente, sem maiores pretensões, mas guardei para o futuro. Apenas em 2016 pensei em escrever essa ideia, e vou ser sincero, não sei porque, mas escrevi uns 3 capítulos e parei novamente. Foi em 2020 durante minha faculdade, que precisava de algo para conclusão do curso, pensei em usar o marketing dessa historia que iria escrever e transformar em livro, dai poderia fazer a conclusão do curso. E para curiosidade, não terminei, mas tirei bastante coisa para me ajudar. Continuei escrevendo no ano seguinte somente e em 8 meses consegui terminar o livro. Nesse meio tempo comecei a assistir vários vídeos sobre escrita e claro que procurei cursos gratuitos nessa área. Naquela época era muito difundido esse tipo de conteúdo, então foi fácil ter uma base e conseguir escrever o livro e fazer toda a produção dele.',
+        'Um detalhe, apenas esse livro foi pensado na procura de uma editora para me ajudar, mas as tradicionais não me respondia, e as de coparticipação sim, mas não tinha o valor para publicar com elas, por isso tive que fazer independente, procurando profissionais e foi difícil, pois, no começo, temos muitas dúvidas. Consegui aos poucos produzir o livro, com ajuda do pouco dinheiro que conseguia fazendo bicos e claro, minha mãe que apostou em mim.',
+        'Quer curiosidade? O protagonista Ryu, não foi um nome aleatório, e não, não tem nada a ver com Ryu de Street fighter, apesar de amar o personagem. O nome vem de outro personagem, o Ryu, protagonista de Breath of fire. Joguei esse jogo, mas somente o 2, 3 (sendo meu preferido) e claro, o aclamado 4 com toda sua mudança gráfica. Tanto que a arte do personagem é baseada no personagem do jogo. Como é uma saga, terá alguns livros para contar a história e outros personagens que serão inspirados também em personagens da franquia breath of fire.'
+    ]
+},
+           2: {
+    title: 'Heróis da Fantasia',
+    subtitle: 'as aventuras dos jovens aloprados',
+    desc: 'A continuação épica da saga que acompanha novos heróis em formação. Neste volume, jovens aventureiros inexperientes mas corajosos embarcam em missões que testarão não apenas suas habilidades em combate, mas seus laços de amizade e lealdade. Uma história sobre crescimento, superação e a descoberta de que ser herói é muito mais que portar uma espada.',
+    pages: '322 páginas',
+    year: '2025',
+    price: '9.90',
+    rating: 5,
+    reviews: 'Nova edição',
+    image: 'heroisdafantasia2.png',
+    link: 'https://www.amazon.com.br/dp/B0FGTK6GN4',
+    category: 'fantasy',
+    theme: 'fantasy',
+    format: 'formato digital',
+    illustrations: '37 ilustrações',
+    curiosities: [
+        'Nesse livro consegui escrever mais que o anterior, mesmo porque, há aventuras que consegui me divertir escrevendo.',
+        'Do mesmo jeito que Ryu foi inspirado do personagem de breath of fire, a personagem elfa, Lindoin, que estará sendo a parceira de viagem de Ryu, foi baseada na Nina, também do breath of fire, afinal, Nina é uma grande parceira de Ryu nos jogos, então trouxe para a saga. E mais uma coisa, a ideia dela de esconder quem realmente é, vem da princessa Cassandra que é conhecida como Evanlyn, personagem da saga Rangers que gosto tanto.',
+        'A criatura da raça Godoin que será apresentada nesse livro, foi baseado no rocket de Guardiões das galáxias. O anão Fargrin, filho do rei, foi inspirado no Thorin, escudo de carvalho dos filmes do Hobbit. E sem esquecer, o personagem Bem durandor, foi baseado no mago Tom bombadil de Senhor dos anéis. Glóin, foi baseado no Hagrid de Harry potter. Zenith, foi baseado nos assassinos de D&D.',
+        'A partir do segundo livro começa a ter vilões a ser derrotados durante a jornada, pois, no primeiro livro é apenas uma apresentação dos personagens, mundo e enredo.',
+        'Tem uma curiosidade que não parece, mas é obvia. A festa dos anãos no começo do livro e cantorias, foi baseado no começo do filme Hobbit quando os anãos estão fazendo o mesmo na casa de Bilbo.'
+    ]
+},
             3: {
-                title: 'Corações Imortais',
-                subtitle: 'a vingança',
-                desc: 'Uma história sombria e envolvente sobre amor eterno e vingança implacável. Quando tudo é tirado de alguém que ama profundamente, até mesmo a morte pode não ser o fim. Nesta narrativa intensa, Fletes explora os limites do amor e até onde uma pessoa pode ir quando seu coração é ferido.',
-                pages: '162 páginas',
-                year: '2025',
-                price: '8.90',
-                rating: 5,
-                reviews: 'Dark Fantasy',
-                image: 'coracoesimortais.png',
-                link: 'https://www.amazon.com.br/Cora%C3%A7%C3%B5es-Imortais-Vingan%C3%A7a-Nicarao-Fletes-ebook/dp/B0FG4ZL6WF',
-                category: 'dark',
-                theme: 'vampire',
-                curiosities: [
-                    'Toda a ideia desse livro veio de um conto que se chamava apenas "Apenas uma história de vampiros", o qual publiquei em uma plataforma para que os leitores dessem suas críticas. Teve apenas um capítulo e houve vários leitores, inclusive alguns que comentaram que gostariam de uma continuação.',
-                    'Joguei RPG Vampiro: A Máscara por muito tempo, sendo o primeiro RPG de mesa que joguei. Claro que, depois, comecei a ler histórias sobre esse mundo, joguei games, vi filmes e animes — tudo nesse cenário. Sempre tive a vontade de criar um mundo usando a temática de vampiros, mas nunca houve uma ideia concreta, algo bom e robusto; então, deixei o tempo passar para ver se algo aparecia.',
-                    'Após escrever essa história — na qual não deixo tão claro o mundo vampiresco nesse capítulo — e vendo que teve bastantes leitores e uma boa recepção, decidi escrever um pouco mais. Nessa época, eu já havia publicado um livro de fantasia, mas estava com outra ilustradora, sendo essa garota a pessoa que mais acreditou na história, pois ela também leu e queria a continuação. No começo, foi só porque ela pediu, mas a história foi crescendo e passei a pensar nela como um livro completo. Foi aí que nasceu, de fato, a história até o seu final.',
-                    'Essa ilustradora criou todas as artes do livro, que foram pensadas de forma gótica; por isso são em preto e branco, com aquele traço característico. Foi ela quem foi lendo cada capítulo e dando suas considerações. Sem ela, teria sido mais difícil.',
-                    'Realmente, eu como escritor não gosto do uso de IA, mas sei que é algo que ajuda; contudo, deve ser feito com sabedoria. A única coisa que utilizei de IA nesse livro foi na escolha do título: tive vários exemplos dados pela inteligência artificial e juntei duas ideias, formando assim o título que temos hoje.',
-                    'Joguei Vampiro: A Máscara, então muitas das minhas ideias vêm desse RPG. Se notar, apesar de eu não usar os nomes específicos do jogo, utilizei as habilidades sem rotulá-las. Realmente me inspirei muito no cenário de Vampiro: A Máscara para escrever este livro. E o processo foi fluido, porque eu já havia jogado muito e conhecia bem o cenário.',
-                    'Corações Imortais terá uma continuação. A história está apenas começando, então, espere pelos próximos livros.'
-                ]
-            },
-            4: {
-                title: 'um show de contos',
-                subtitle: 'coletânea de histórias',
-                desc: 'Esse é o primeiro livro de contos de uma série, onde algumas ideias viram boas histórias, podendo quem sabe futuramente se tornar um livro próprio. Uma coletânea diversificada que mostra a versatilidade de Fletes como contador de histórias, apresentando mundos variados e personagens memoráveis.',
-                pages: 'eBook Kindle',
-                year: '2025',
-                price: '6.90',
-                rating: 5,
-                reviews: 'Coletânea',
-                image: 'showdecantos.png',
-                link: 'https://www.amazon.com.br/Um-show-contos-Nicarao-Fletes-ebook/dp/B0FH7BLKWX',
-                category: 'collection',
-                theme: 'contos',
-                curiosities: null
-            }
+    title: 'Corações Imortais',
+    subtitle: 'a vingança',
+    desc: 'Uma história sombria e envolvente sobre amor eterno e vingança implacável. Quando tudo é tirado de alguém que ama profundamente, até mesmo a morte pode não ser o fim. Nesta narrativa intensa, Fletes explora os limites do amor e até onde uma pessoa pode ir quando seu coração é ferido.',
+    pages: '162 páginas',
+    year: '2025',
+    price: '8.90',
+    rating: 5,
+    reviews: 'Dark Fantasy',
+    image: 'coracoesimortais.png',
+    link: 'https://www.amazon.com.br/Cora%C3%A7%C3%B5es-Imortais-Vingan%C3%A7a-Nicarao-Fletes-ebook/dp/B0FG4ZL6WF',
+    category: 'dark',
+    theme: 'vampire',
+    format: 'formato digital',
+    illustrations: 'artes góticas em preto e branco',
+    curiosities: [
+        'Toda a ideia desse livro veio de um conto que se chamava apenas "Apenas uma história de vampiros", o qual publiquei em uma plataforma para que os leitores dessem suas críticas. Teve apenas um capítulo e houve vários leitores, inclusive alguns que comentaram que gostariam de uma continuação.',
+        'Joguei RPG Vampiro: A Máscara por muito tempo, sendo o primeiro RPG de mesa que joguei. Claro que, depois, comecei a ler histórias sobre esse mundo, joguei games, vi filmes e animes — tudo nesse cenário. Sempre tive a vontade de criar um mundo usando a temática de vampiros, mas nunca houve uma ideia concreta, algo bom e robusto; então, deixei o tempo passar para ver se algo aparecia.',
+        'Após escrever essa história — na qual não deixo tão claro o mundo vampiresco nesse capítulo — e vendo que teve bastantes leitores e uma boa recepção, decidi escrever um pouco mais. Nessa época, eu já havia publicado um livro de fantasia, mas estava com outra ilustradora, sendo essa garota a pessoa que mais acreditou na história, pois ela também leu e queria a continuação. No começo, foi só porque ela pediu, mas a história foi crescendo e passei a pensar nela como um livro completo. Foi aí que nasceu, de fato, a história até o seu final.',
+        'Essa ilustradora criou todas as artes do livro, que foram pensadas de forma gótica; por isso são em preto e branco, com aquele traço característico. Foi ela quem foi lendo cada capítulo e dando suas considerações. Sem ela, teria sido mais difícil.',
+        'Realmente, eu como escritor não gosto do uso de IA, mas sei que é algo que ajuda; contudo, deve ser feito com sabedoria. A única coisa que utilizei de IA nesse livro foi na escolha do título: tive vários exemplos dados pela inteligência artificial e juntei duas ideias, formando assim o título que temos hoje.',
+        'Joguei Vampiro: A Máscara, então muitas das minhas ideias vêm desse RPG. Se notar, apesar de eu não usar os nomes específicos do jogo, utilizei as habilidades sem rotulá-las. Realmente me inspirei muito no cenário de Vampiro: A Máscara para escrever este livro. E o processo foi fluido, porque eu já havia jogado muito e conhecia bem o cenário.',
+        'Corações Imortais terá uma continuação. A história está apenas começando, então, espere pelos próximos livros.'
+    ]
+},
         };
 
         function openBook(id) {
@@ -4302,6 +4504,23 @@ document.addEventListener('visibilitychange', () => {
             document.getElementById('modal-desc').textContent = book.desc;
             document.getElementById('modal-pages').textContent = book.pages;
             document.getElementById('modal-year').textContent = book.year;
+            // NOVO: Informações adicionais do livro
+const formatEl = document.getElementById('modal-format');
+const illustrationsEl = document.getElementById('modal-illustrations');
+
+if (formatEl && book.format) {
+    formatEl.textContent = book.format;
+    formatEl.parentElement.style.display = 'flex';
+} else if (formatEl) {
+    formatEl.parentElement.style.display = 'none';
+}
+
+if (illustrationsEl && book.illustrations) {
+    illustrationsEl.textContent = book.illustrations;
+    illustrationsEl.parentElement.style.display = 'flex';
+} else if (illustrationsEl) {
+    illustrationsEl.parentElement.style.display = 'none';
+}
             document.getElementById('modal-image').src = book.image;
             document.getElementById('modal-image').alt = `Capa do livro ${book.title} - ${book.subtitle}`;
             document.getElementById('modal-price-value').textContent = book.price;
