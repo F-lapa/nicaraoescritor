@@ -3012,6 +3012,43 @@
     }
 }
 
+.audio-toggle {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 2px solid #2d2d2d;
+    color: #6b6b6b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+    z-index: 30;
+}
+
+.audio-toggle:hover {
+    border-color: #8b6914;
+    color: #d4af37;
+    transform: scale(1.1);
+}
+
+.audio-toggle.active {
+    background: linear-gradient(135deg, #8b6914, #d4af37);
+    color: #0c0c0c;
+    border-color: #d4af37;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(139, 105, 20, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(139, 105, 20, 0); }
+}
+
     </style>
 </head>
 <body>
@@ -3030,9 +3067,10 @@
     <canvas id="particles-canvas"></canvas>
 
     <!-- Audio toggle -->
-    <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()" title="Ativar música ambiente">
-        🎵
-    </button>
+    <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()" 
+        title="Ativar/Desativar música ambiente">
+    🎵
+</button>
 
     <!-- Toast notification -->
     <div class="toast" id="toast"></div>
@@ -4174,6 +4212,12 @@
     </div>
 </div>
 
+<!-- Elemento de áudio escondido -->
+<audio id="bg-music" loop>
+    <source src="musica-fundo.mp3" type="audio/mpeg">
+    <!-- Se estiver na pasta audio: src="audio/musica-fundo.mp3" -->
+</audio>
+
     <!-- Footer -->
     <footer class="bg-[#050505] border-t border-[#1a1a1a] py-16" role="contentinfo">
         <div class="max-w-7xl mx-auto px-6">
@@ -4959,23 +5003,34 @@ if (illustrationsEl && book.illustrations) {
     }
 }
 
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            castSpell();
-        }
+       // Variável global para o áudio
+let bgMusic = document.getElementById('bg-music');
+let isPlaying = false;
 
-        function toggleAudio() {
-            const btn = document.getElementById('audio-toggle');
-            audioEnabled = !audioEnabled;
-            
-            if (audioEnabled) {
-                btn.classList.add('active');
-                showToast('Música ambiente ativada (simulado)');
-            } else {
-                btn.classList.remove('active');
-                showToast('Música ambiente desativada');
-            }
-        }
+function toggleAudio() {
+    const btn = document.getElementById('audio-toggle');
+    
+    if (!isPlaying) {
+        // Tocar música
+        bgMusic.volume = 0.3; // Volume baixo (30%)
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            btn.classList.add('active');
+            btn.innerHTML = '🔊'; // Ícone de som ligado
+            showToast('🎵 Música ambiente ativada');
+        }).catch(err => {
+            console.log('Erro ao tocar:', err);
+            showToast('⚠️ Clique novamente para ativar');
+        });
+    } else {
+        // Pausar música
+        bgMusic.pause();
+        isPlaying = false;
+        btn.classList.remove('active');
+        btn.innerHTML = '🎵'; // Ícone de som desligado
+        showToast('🔇 Música pausada');
+    }
+}
 
         function subscribeNewsletter(e) {
             e.preventDefault();
