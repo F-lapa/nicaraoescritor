@@ -5038,31 +5038,74 @@ function toggleAudio() {
             e.target.reset();
         }
 
-        function sendToWhatsApp(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            
-            const phoneNumber = '554888560396';
-            
-            let text = `*Nova mensagem do site Nicarao Fletes*%0A%0A`;
-            text += `*Nome:* ${name}%0A`;
-            if (email) {
-                text += `*Email:* ${email}%0A`;
-            }
-            text += `%0A*Mensagem:*%0A${message}`;
-            
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
-            
-            window.open(whatsappUrl, '_blank');
-            
-            e.target.reset();
-            
-            showToast('Redirecionando para o WhatsApp...');
-            castSpell();
-        }
+       function sendToWhatsApp(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    
+    // Número do WhatsApp
+    const phoneNumber = '554888560396';
+    
+    // ============================================
+    // MENSAGEM ÉPICA FORMATADA
+    // ============================================
+    
+    let text = `🕯️ *CONVOCAÇÃO DO ARQUITETO* 🕯️\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    
+    // Saudação personalizada
+    text += `Olá, *Nicarao Fletes*!\n`;
+    text += `Uma alma das trevas busca comunicação...\n\n`;
+    
+    // Dados do remetente em "caixa"
+    text += `📜 *PERGAMINHO DO REMETENTE*\n`;
+    text += `┌─────────────────────────┐\n`;
+    text += `│ 👤 *Nome:* ${name}\n`;
+    
+    if (email) {
+        text += `│ ✉️ *Email:* ${email}\n`;
+    }
+    
+    // Data e hora automáticas
+    const agora = new Date();
+    const data = agora.toLocaleDateString('pt-BR');
+    const hora = agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+    
+    text += `│ 📅 *Data:* ${data}\n`;
+    text += `│ ⏰ *Hora:* ${hora}\n`;
+    text += `└─────────────────────────┘\n\n`;
+    
+    // A mensagem
+    text += `⚜️ *MENSAGEM DAS TREVAS:*\n`;
+    text += `▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n\n`;
+    text += `${message}\n\n`;
+    text += `▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n\n`;
+    
+    // Assinatura
+    text += `_Que as histórias ecoem nas sombras..._\n`;
+    text += `✦ *Enviado do site oficial* ✦\n\n`;
+    
+    // Citação final
+    text += `> "Nas sombras encontramos as histórias\n`;
+    text += `> que a luz teme contar."\n`;
+    text += `> — *Nicarao Fletes*`;
+    
+    // Codificar para URL
+    const encodedText = encodeURIComponent(text);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+    
+    // Abrir WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
+    // Feedback
+    showToast('🕊️ Sua mensagem foi lançada ao éter...');
+    castSpell();
+    
+    // Limpar formulário
+    e.target.reset();
+}
 
         window.addEventListener('resize', resizeCanvas);
 
