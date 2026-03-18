@@ -2987,6 +2987,29 @@
     }
 }
 
+/* Animações extras para a seção de doações */
+@keyframes shimmer {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* Efeito de pulso dourado para o botão popular */
+@keyframes goldenPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(139, 105, 20, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.5); }
+}
+
+/* Responsividade do QR */
+@media (max-width: 640px) {
+    #donate .lore-card > div {
+        padding: 1.5rem;
+    }
+    #qr-code, #qr-fallback {
+        width: 180px !important;
+        height: 180px !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -3026,6 +3049,7 @@
                 <a href="#about" class="hover:text-[#8b7355] transition-colors duration-300">O AUTOR</a>
                 <a href="#lore" class="hover:text-[#8b7355] transition-colors duration-300">LORE</a>
                 <a href="#contact" class="hover:text-[#8b7355] transition-colors duration-300">CONTATO</a>
+                <a href="#donate" class="hover:text-[#8b7355] transition-colors duration-300 text-[#d4af37]">APOIAR</a>
             </div>
 
             <!-- Mobile Hamburger -->
@@ -3044,6 +3068,7 @@
         <a href="#about" onclick="toggleMenu()" role="menuitem">O AUTOR</a>
         <a href="#lore" onclick="toggleMenu()" role="menuitem">LORE</a>
         <a href="#contact" onclick="toggleMenu()" role="menuitem">CONTATO</a>
+        <a href="#donate" onclick="toggleMenu()" role="menuitem" style="color: #d4af37;">APOIAR ✨</a>
     </div>
 
     <!-- Hero Section -->
@@ -3791,6 +3816,172 @@
             </div>
         </div>
     </section>
+
+    <!-- ============================================
+   SEÇÃO DOAÇÕES - O Cofre do Arquiteto
+   ============================================ -->
+<section id="donate" class="section-dark py-32 relative overflow-hidden" role="region" aria-label="Apoie o autor">
+    
+    <!-- Efeitos de fundo mágicos -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,105,20,0.08)_0%,transparent_60%)] animate-pulse"></div>
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#8b6914]/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#8b6914]/30 to-transparent"></div>
+    </div>
+
+    <!-- Runas flutuantes -->
+    <div class="lore-rune" style="top: 15%; left: 8%; animation-delay: 0s;">ᚠ</div>
+    <div class="lore-rune" style="top: 25%; right: 12%; animation-delay: 1.5s;">ᚢ</div>
+    <div class="lore-rune" style="bottom: 20%; left: 15%; animation-delay: 3s;">ᚦ</div>
+
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+        
+        <!-- Título épico -->
+        <div class="text-center mb-16">
+            <div class="inline-block mb-4">
+                <span class="text-5xl animate-pulse" style="color: #8b6914; text-shadow: 0 0 30px rgba(139,105,20,0.5);">🜏</span>
+            </div>
+            <h2 class="font-cinzel text-4xl md:text-5xl text-[#d4af37] mb-4 reveal tracking-widest" style="text-shadow: 0 0 40px rgba(212,175,55,0.3);">
+                APOIE O ARQUITETO
+            </h2>
+            <div class="ornament max-w-sm mx-auto reveal">
+                <div class="ornament-line" style="background: linear-gradient(to right, transparent, #8b6914, transparent);"></div>
+                <span class="ornament-symbol" style="color: #8b6914;">⚱</span>
+                <div class="ornament-line" style="background: linear-gradient(to right, transparent, #8b6914, transparent);"></div>
+            </div>
+            <p class="text-[#8a8a8a] mt-6 text-lg font-light reveal italic">
+                "Cada moeda de ouro alimenta a forja onde novos mundos nascem..."
+            </p>
+        </div>
+
+        <!-- Container principal do cofre -->
+        <div class="lore-card reveal animate-in max-w-2xl mx-auto">
+            
+            <!-- O "Grimório" que contém o QR Code -->
+            <div class="relative bg-gradient-to-br from-[#1a1510] via-[#0f0a0a] to-[#1a1510] border-2 border-[#8b6914]/40 rounded-lg p-8 md:p-12 shadow-[0_0_60px_rgba(139,105,20,0.15)] backdrop-blur-sm" style="position: relative; overflow: hidden;">
+                
+                <!-- Brilho pulsante nas bordas -->
+                <div class="absolute inset-0 rounded-lg opacity-30" style="background: linear-gradient(135deg, transparent 40%, rgba(212,175,55,0.1) 50%, transparent 60%); animation: shimmer 3s infinite;"></div>
+
+                <!-- Conteúdo do cofre -->
+                <div class="text-center mt-4">
+                    
+                    <!-- Chave Pix visível (opcional mas elegante) -->
+                    <div class="mb-8 p-4 bg-[#0a0a0a]/60 rounded border border-[#2d2d2d]">
+                        <p class="text-[#6b6b6b] text-xs uppercase tracking-widest mb-2">Chave Pix</p>
+                        <div class="flex items-center justify-center gap-3">
+                            <code id="pix-key" class="text-[#d4af37] font-mono text-sm bg-[#1a1a1a] px-4 py-2 rounded border border-[#3d3d3d] select-all">nicarao_rhapsody@hotmail.com</code>
+                            <button onclick="copyPixKey()" class="p-2 hover:bg-[#2d2d2d] rounded transition-colors group" title="Copiar chave">
+                                <svg class="w-5 h-5 text-[#6b6b6b] group-hover:text-[#d4af37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Container do QR Code -->
+                    <div class="relative inline-block group cursor-pointer" onclick="enlargeQR()">
+                        
+                        <!-- Moldura ornamentada -->
+                        <div class="absolute -inset-3 border-2 border-[#8b6914]/30 rounded-lg transform rotate-1 transition-transform group-hover:rotate-2"></div>
+                        <div class="absolute -inset-3 border-2 border-[#8b6914]/20 rounded-lg transform -rotate-1 transition-transform group-hover:-rotate-2"></div>
+                        
+                        <!-- O QR Code em si -->
+                        <div class="relative bg-white p-4 rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                            <!-- SUBSTITUA ESTA IMAGEM PELO SEU QR CODE -->
+                            <img id="qr-code" 
+                                 src="qrcode-pix.png" 
+                                 alt="QR Code Pix para doação - Nicarao Fletes" 
+                                 class="w-48 h-48 md:w-56 md:h-56 object-contain"
+                                 onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='flex';">
+                            
+                            <!-- Fallback se a imagem não carregar -->
+                            <div id="qr-fallback" class="hidden w-48 h-48 md:w-56 md:h-56 bg-[#f5f5f5] flex-col items-center justify-center text-[#1a1a1a]">
+                                <span class="text-4xl mb-2">📱</span>
+                                <p class="text-xs text-center px-4">QR Code aparecerá aqui<br>Substitua no HTML</p>
+                            </div>
+                            
+                            <!-- Overlay de hover -->
+                            <div class="absolute inset-0 bg-[#8b6914]/0 group-hover:bg-[#8b6914]/10 transition-all rounded-lg flex items-center justify-center">
+                                <span class="opacity-0 group-hover:opacity-100 text-[#8b6914] text-xs font-cinzel tracking-widest bg-[#0c0c0c]/90 px-3 py-1 rounded transform translate-y-2 group-hover:translate-y-0 transition-all">
+                                    CLIQUE PARA AMPLIAR
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Decoração cantos -->
+                        <div class="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-[#8b6914]"></div>
+                        <div class="absolute -top-2 -right-2 w-4 h-4 border-t-2 border-r-2 border-[#8b6914]"></div>
+                        <div class="absolute -bottom-2 -left-2 w-4 h-4 border-b-2 border-l-2 border-[#8b6914]"></div>
+                        <div class="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-[#8b6914]"></div>
+                    </div>
+
+                    <!-- Instruções -->
+                    <div class="mt-8 space-y-3">
+                        <p class="text-[#8a8a8a] text-sm">
+                            Escaneie com seu app bancário ou clique para copiar a chave
+                        </p>
+                        
+                        <!-- Botões de ação -->
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
+                            <button onclick="copyPixKey()" class="btn-dark px-6 py-3 text-sm flex items-center gap-2 group" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d1f15 100%); border-color: #8b6914;">
+                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                                </svg>
+                                Copiar Chave Pix
+                            </button>
+                            
+                            <a href="https://nubank.com.br/pagar/SEU-LINK-AQUI" target="_blank" rel="noopener noreferrer" class="btn-dark px-6 py-3 text-sm flex items-center gap-2" style="background: linear-gradient(135deg, #2d1f15 0%, #1a1510 100%); border-color: #5a4a3a;">
+                                <span>🔗</span>
+                                Link Direto
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mensagem de gratidão -->
+                    <div class="mt-8 pt-6 border-t border-[#2d2d2d]">
+                        <p class="text-[#6b6b6b] text-xs italic leading-relaxed">
+                            "Cada contribuição é uma página a mais na história.<br>
+                            Que os deuses da escrita lhe retribuam em mundos infinitos."
+                        </p>
+                        <div class="mt-3 text-[#8b6914] text-lg">✦ ✦ ✦</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Valores sugeridos (opcional mas elegante) -->
+        <div class="mt-12 grid grid-cols-3 gap-4 max-w-lg mx-auto reveal">
+            <button onclick="suggestValue(5)" class="p-4 border border-[#2d2d2d] hover:border-[#8b6914] hover:bg-[#8b6914]/5 rounded transition-all group text-center">
+                <span class="block text-2xl mb-1 group-hover:scale-110 transition-transform">🪙</span>
+                <span class="text-[#8b7355] font-cinzel text-sm">R$ 5</span>
+                <span class="block text-[#4a4a4a] text-[10px] mt-1">Um café</span>
+            </button>
+            <button onclick="suggestValue(15)" class="p-4 border border-[#8b6914]/50 bg-[#8b6914]/5 rounded transition-all group text-center relative">
+                <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-[#8b6914] text-[#0c0c0c] text-[10px] px-2 py-0.5 rounded font-cinzel">POPULAR</div>
+                <span class="block text-2xl mb-1 group-hover:scale-110 transition-transform">⚱</span>
+                <span class="text-[#d4af37] font-cinzel text-sm font-bold">R$ 15</span>
+                <span class="block text-[#6b6b6b] text-[10px] mt-1">Um livro</span>
+            </button>
+            <button onclick="suggestValue(50)" class="p-4 border border-[#2d2d2d] hover:border-[#8b6914] hover:bg-[#8b6914]/5 rounded transition-all group text-center">
+                <span class="block text-2xl mb-1 group-hover:scale-110 transition-transform">👑</span>
+                <span class="text-[#8b7355] font-cinzel text-sm">R$ 50</span>
+                <span class="block text-[#4a4a4a] text-[10px] mt-1">Mecenas</span>
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal para QR Code ampliado -->
+<div id="qr-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/95 backdrop-blur-sm p-6" onclick="closeQRModal(event)">
+    <div class="relative bg-white p-6 rounded-lg shadow-[0_0_60px_rgba(212,175,55,0.3)] transform scale-0 transition-transform duration-300" id="qr-modal-content" onclick="event.stopPropagation()">
+        <button onclick="closeQRModal()" class="absolute -top-10 right-0 text-[#8b7355] hover:text-[#d4af37] text-2xl transition-colors">✕</button>
+        <img id="qr-large" src="" alt="QR Code ampliado" class="w-72 h-72 md:w-96 md:h-96 object-contain">
+        <p class="text-[#1a1a1a] text-center mt-4 font-cinzel text-sm">Escaneie para doar</p>
+    </div>
+</div>
 
     <!-- MODAL DO VÍDEO -->
     <div id="video-modal" onclick="closeVideoModal(event)">
@@ -6238,6 +6429,98 @@ document.addEventListener('keydown', (e) => {
         const modal = document.getElementById('category-modal');
         if (modal?.classList.contains('active')) {
             closeCategoryModal();
+        }
+    }
+});
+
+// ============================================
+// FUNÇÕES DA SEÇÃO DE DOAÇÕES
+// ============================================
+
+function copyPixKey() {
+    const key = document.getElementById('pix-key').textContent;
+    navigator.clipboard.writeText(key).then(() => {
+        showToast('✨ Chave Pix copiada! Abra seu app bancário...');
+        castSpell();
+    }).catch(() => {
+        // Fallback para dispositivos mais antigos
+        const textArea = document.createElement('textarea');
+        textArea.value = key;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('✨ Chave Pix copiada!');
+        castSpell();
+    });
+}
+
+function enlargeQR() {
+    const qrSrc = document.getElementById('qr-code').src;
+    const modal = document.getElementById('qr-modal');
+    const content = document.getElementById('qr-modal-content');
+    const largeImg = document.getElementById('qr-large');
+    
+    if (!qrSrc || qrSrc.includes('SEU-QRCODE')) {
+        showToast('⚠️ Substitua a imagem do QR Code no HTML primeiro!');
+        return;
+    }
+    
+    largeImg.src = qrSrc;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    setTimeout(() => {
+        content.style.transform = 'scale(1)';
+    }, 10);
+    
+    castSpell();
+}
+
+function closeQRModal(event) {
+    if (event && event.target.closest('#qr-modal-content') && !event.target.closest('button')) {
+        return;
+    }
+    
+    const modal = document.getElementById('qr-modal');
+    const content = document.getElementById('qr-modal-content');
+    
+    content.style.transform = 'scale(0)';
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
+}
+
+function suggestValue(amount) {
+    const messages = {
+        5: "Um café para abastecer a noite de escrita! ☕",
+        15: "O valor de um livro digital. Gratidão eterna! 📖",
+        50: "Você é um verdadeiro mecenas das artes sombrias! 👑"
+    };
+    
+    showToast(messages[amount]);
+    
+    // Destaca visualmente
+    setTimeout(() => {
+        const keyElement = document.getElementById('pix-key');
+        keyElement.style.color = '#d4af37';
+        keyElement.style.textShadow = '0 0 10px rgba(212,175,55,0.5)';
+        setTimeout(() => {
+            keyElement.style.color = '';
+            keyElement.style.textShadow = '';
+        }, 1000);
+    }, 500);
+    
+    castSpell();
+}
+
+// Fechar modal QR com ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const qrModal = document.getElementById('qr-modal');
+        if (qrModal && !qrModal.classList.contains('hidden')) {
+            closeQRModal();
         }
     }
 });
