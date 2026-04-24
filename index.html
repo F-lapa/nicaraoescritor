@@ -2233,81 +2233,67 @@
             border: none;
         }
 
-        /* REESTRUTURAÇÃO TOTAL DO MODAL DO LIVRO - CENTRALIZAÇÃO E SIMETRIA */
+        /* INTERVENÇÃO RADICAL: CENTRALIZAÇÃO ABSOLUTA DO MODAL DO LIVRO */
         #book-modal .dark-modal {
-            max-width: 1000px;
-            width: 95%;
-            padding: 0;
-            background: #050505;
-            border: 1px solid #1a1a1a;
-            box-shadow: 0 0 100px rgba(0,0,0,1), inset 0 0 50px rgba(139, 0, 0, 0.05);
-            overflow-x: hidden;
+            max-width: 1000px !important;
+            width: 95% !important;
+            padding: 0 !important;
+            background: #050505 !important;
+            border: 1px solid #1a1a1a !important;
+            box-shadow: 0 0 100px rgba(0,0,0,1) !important;
+            overflow-x: hidden !important;
+            display: block !important; /* Forçar layout de bloco para centralização interna */
         }
 
         .modal-scroll-container {
-            padding: 3rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
+            padding: 4rem 2rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            width: 100% !important;
         }
 
-        /* Layout Centralizado em Desktop */
-        @media (min-width: 768px) {
-            .modal-header-flex {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                width: 100%;
-            }
-
-            .modal-cover-wrapper {
-                width: 280px;
-                margin-bottom: 2.5rem;
-                position: relative;
-            }
-
-            .modal-cover-wrapper::after {
-                content: '';
-                position: absolute;
-                bottom: -20px;
-                left: 10%;
-                width: 80%;
-                height: 20px;
-                background: radial-gradient(ellipse at center, rgba(139, 0, 0, 0.3) 0%, transparent 70%);
-                filter: blur(10px);
-            }
-
-            .modal-info-wrapper {
-                width: 100%;
-                max-width: 800px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
+        /* Forçar centralização de todos os filhos diretos */
+        .modal-scroll-container > * {
+            margin-left: auto !important;
+            margin-right: auto !important;
+            width: 100% !important;
+            max-width: 850px !important;
         }
 
-        /* EFEITO TOP PARA O VÍDEO DO LIVRO */
+        .modal-cover-wrapper {
+            width: 280px !important;
+            margin-bottom: 3rem !important;
+        }
+
+        .modal-info-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+
+        /* PLAYER ESTILO REELS PARA O LIVRO - FORÇADO */
         .book-video-wrapper {
-            width: 100%;
-            max-width: 850px;
-            margin: 3rem 0;
-            position: relative;
-            padding: 15px;
-            background: #0a0a0a;
-            border: 1px solid #2d2d2d;
-            border-radius: 4px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            transform: translateY(30px);
+            width: 100% !important;
+            max-width: 850px !important;
+            margin: 3rem auto !important;
+            position: relative !important;
+            padding: 12px !important;
+            background: #0a0a0a !important;
+            border: 1px solid #2d2d2d !important;
+            border-radius: 4px !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9) !important;
             opacity: 0;
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
         }
 
         #book-modal:not(.hidden).flex .book-video-wrapper {
-            transform: translateY(0);
-            opacity: 1;
-            transition-delay: 0.4s;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
 
         .book-video-wrapper::before {
@@ -2317,39 +2303,162 @@
             background: linear-gradient(45deg, #8b0000, #d4af37, #8b0000);
             z-index: -1;
             border-radius: 6px;
-            opacity: 0.3;
-            animation: border-glow 4s linear infinite;
+            animation: border-glow-strong 3s linear infinite;
         }
 
-        @keyframes border-glow {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.5; }
+        @keyframes border-glow-strong {
+            0%, 100% { opacity: 0.3; filter: blur(2px); }
+            50% { opacity: 0.6; filter: blur(5px); }
         }
 
-        .book-video-container {
+        #book-video-container-inner {
+            width: 100% !important;
+            aspect-ratio: 16 / 9 !important;
+            background: #000 !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: 1px solid #1a1a1a !important;
+        }
+
+        /* Player Controls for Book Modal - MÁSCARA PREMIUM */
+        .book-player-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 20; /* Acima de tudo */
+            opacity: 1; /* Sempre visível para esconder o YouTube */
+            pointer-events: auto;
+        }
+
+        /* Esconder o logo do YouTube e outros elementos no topo */
+        .book-video-mask-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(rgba(0,0,0,0.8), transparent);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .book-progress-bar {
             width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            cursor: pointer;
             position: relative;
-            overflow: hidden;
-            border: 1px solid #1a1a1a;
+            border-radius: 2px;
         }
 
-        /* Efeito de abertura mágico para o modal do livro */
-        #book-modal {
-            perspective: 2000px;
+        .book-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b0000, #d4af37);
+            width: 0%;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
+        .book-player-btns {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .book-player-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .book-player-btn {
+            background: none;
+            border: none;
+            color: #d4af37;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .book-player-btn:hover {
+            color: #fff;
+            text-shadow: 0 0 8px #d4af37;
+        }
+
+        .book-player-time {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: #8b7355;
+        }
+
+        /* Big Play Button for Book */
+        .book-big-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.3s;
+        }
+
+        .book-big-play-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .book-big-play:hover .book-big-play-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Efeito de abertura "Top" */
         #modal-content {
-            transform-style: preserve-3d;
-            transform: scale(0.8) rotateX(10deg) translateY(50px);
             opacity: 0;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.9) translateY(30px) !important;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
         }
 
         #book-modal:not(.hidden).flex #modal-content {
-            transform: scale(1) rotateX(0deg) translateY(0);
-            opacity: 1;
+            opacity: 1 !important;
+            transform: scale(1) translateY(0) !important;
+        }
+
+        /* Ajustes de texto centralizado */
+        #modal-desc {
+            text-align: center !important;
+            font-size: 1.1rem !important;
+            line-height: 1.8 !important;
+        }
+
+        .curiosity-box {
+            text-align: left !important; /* Curiosidades ficam melhor alinhadas à esquerda dentro do bloco centralizado */
+            background: rgba(139, 0, 0, 0.05) !important;
+            padding: 2rem !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(139, 0, 0, 0.1) !important;
+        }
+
+        .price-tag {
+            justify-content: center !important;
         }
 
         /* Centralização de textos e elementos internos */
@@ -3952,103 +4061,126 @@
             </div>
         </div>
 
-        <!-- Book Modal -->
-        <div id="book-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <!-- Book Modal - REESTRUTURADO PARA CENTRALIZAÇÃO TOTAL -->
+        <div id="book-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm p-6" role="dialog" aria-modal="true">
             <div class="dark-modal" id="modal-content">
                 <button onclick="closeBook()" class="absolute top-6 right-6 text-[#4a4a4a] hover:text-[#d4af37] text-3xl transition-all z-50" aria-label="Fechar modal">✕</button>
                 
                 <div class="modal-scroll-container">
-                    <div class="modal-header-flex">
-                        <!-- Capa Centralizada -->
-                        <div class="modal-cover-wrapper">
-                            <img id="modal-image" src="" alt="" class="w-full rounded shadow-2xl filter sepia-[20%] hover:sepia-0 transition-all duration-700">
-                            <div class="mt-6">
-                                <button class="btn-bookmark w-full" onclick="toggleBookmarkFromModal()" id="modal-bookmark">
-                                    <span id="modal-bookmark-text">🔖 Adicionar aos favoritos</span>
-                                </button>
-                            </div>
+                    <!-- Capa Centralizada -->
+                    <div class="modal-cover-wrapper">
+                        <img id="modal-image" src="" alt="" class="w-full rounded shadow-2xl filter sepia-[20%]">
+                        <div class="mt-6">
+                            <button class="btn-bookmark w-full" onclick="toggleBookmarkFromModal()" id="modal-bookmark">
+                                <span id="modal-bookmark-text">🔖 Adicionar aos favoritos</span>
+                            </button>
                         </div>
+                    </div>
 
-                        <!-- Informações Centralizadas -->
-                        <div class="modal-info-wrapper">
-                            <h3 id="modal-title" class="font-cinzel text-3xl md:text-4xl text-[#8b7355] mb-2 tracking-widest modal-ornament"></h3>
-                            <p id="modal-subtitle" class="text-base italic text-[#6b6b6b] mb-6 font-light"></p>
+                    <!-- Títulos Centralizados -->
+                    <h3 id="modal-title" class="font-cinzel text-3xl md:text-4xl text-[#8b7355] mb-2 tracking-widest text-center"></h3>
+                    <p id="modal-subtitle" class="text-base italic text-[#6b6b6b] mb-6 font-light text-center"></p>
+                    
+                    <!-- Avaliação Centralizada -->
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <div class="rating text-xl" id="modal-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <span class="text-[#6b6b6b] text-sm" id="modal-reviews"></span>
+                    </div>
+
+                    <!-- Descrição Centralizada -->
+                    <p id="modal-desc" class="text-[#a0a0a0] leading-relaxed mb-8 text-lg font-light text-center max-w-3xl"></p>
+                    
+                    <!-- PLAYER PREMIUM (VÍDEO DO LIVRO) - ESTILO REELS -->
+                    <div id="modal-video-wrapper" class="book-video-wrapper hidden">
+                        <div class="video-container" id="book-video-container-inner">
+                            <!-- Máscara Superior para esconder o logo do YouTube -->
+                            <div class="book-video-mask-top"></div>
+
+                            <!-- Iframe do YouTube (Controles desativados via URL) -->
+                            <div id="book-video-iframe-container" style="width: 100%; height: 100%; pointer-events: none;"></div>
                             
-                            <div class="flex items-center justify-center gap-3 mb-6">
-                                <div class="rating text-xl" id="modal-rating" aria-label="Avaliação do livro">
-                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                </div>
-                                <span class="text-[#6b6b6b] text-sm" id="modal-reviews"></span>
+                            <!-- Overlay de Play Central (Cobre o vídeo para interceptar cliques) -->
+                            <div id="book-big-play" class="book-big-play" onclick="toggleBookPlay()" style="background: transparent;">
+                                <div class="book-big-play-icon">▶</div>
                             </div>
 
-                            <p id="modal-desc" class="text-[#a0a0a0] leading-relaxed mb-8 text-lg font-light"></p>
-                            
-                            <!-- EFEITO TOP: Container de Vídeo com Moldura Mágica -->
-                            <div id="modal-video-wrapper" class="book-video-wrapper hidden">
-                                <div id="modal-video-container" class="book-video-container">
-                                    <!-- Iframe será inserido via JS -->
+                            <!-- Controles Customizados (Escondem a barra do YouTube) -->
+                            <div class="book-player-controls">
+                                <div class="book-progress-bar" onclick="seekBookVideo(event)">
+                                    <div id="book-progress-fill" class="book-progress-fill"></div>
                                 </div>
-                            </div>
-                            
-                            <!-- Curiosidades -->
-                            <div id="modal-curiosities" class="hidden w-full mb-10">
-                                <div class="curiosity-box">
-                                    <h4 class="font-cinzel text-lg text-[#8b0000] mb-4 flex items-center gap-2">
-                                        <span class="text-xl">🩸</span> Curiosidades Sombrias
-                                    </h4>
-                                    <div id="curiosities-content" class="text-[#a08080] text-base leading-relaxed space-y-4 border-l-2 border-[#8b0000]/30 pl-6"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Preço -->
-                            <div class="price-tag" id="modal-price" title="Preço sujeito a alteração na Amazon">
-                                <span class="currency">R$</span>
-                                <span id="modal-price-value" class="text-4xl">--</span>
-                                <span class="text-[#4a4a4a] text-sm ml-3">(Kindle)</span>
-                            </div>
-                            
-                            <!-- Grid de Informações Técnicas -->
-                            <div class="book-info-grid-custom w-full">
-                                <div class="bg-gradient-to-br from-[#1a1a3e]/30 to-[#0f0f2a]/30 border border-[#4a4a8a]/20 rounded-xl p-6 mb-10">
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                                        <!-- Páginas -->
-                                        <div class="flex flex-col items-center text-center gap-2">
-                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">📄</div>
-                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Páginas</p>
-                                            <p id="modal-pages" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-                                        </div>
-                                        <!-- Formato -->
-                                        <div id="format-container" class="flex flex-col items-center text-center gap-2">
-                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">💾</div>
-                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Formato</p>
-                                            <p id="modal-format" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-                                        </div>
-                                        <!-- Ilustrações -->
-                                        <div id="illustrations-container" class="flex flex-col items-center text-center gap-2">
-                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">🎨</div>
-                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Artes</p>
-                                            <p id="modal-illustrations" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-                                        </div>
-                                        <!-- Ano -->
-                                        <div class="flex flex-col items-center text-center gap-2">
-                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">📅</div>
-                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Ano</p>
-                                            <p id="modal-year" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-                                        </div>
+                                <div class="book-player-btns">
+                                    <div class="book-player-left">
+                                        <button class="book-player-btn" onclick="toggleBookPlay()" id="book-play-btn">PLAY</button>
+                                        <button class="book-player-btn" onclick="restartBookVideo()">RESTART</button>
+                                        <span class="book-player-time" id="book-player-time">0:00 / 0:00</span>
+                                    </div>
+                                    <div class="book-player-right">
+                                        <button class="book-player-btn" onclick="toggleBookMute()" id="book-mute-btn">MUTE</button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Ações Finais -->
-                            <div class="flex flex-wrap justify-center gap-6 mb-4">
-                                <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-10 py-4 btn-dark text-sm tracking-widest">
-                                    ADQUIRIR NA AMAZON →
-                                </a>
-                                <button onclick="shareBook()" class="px-10 py-4 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#d4af37] hover:border-[#d4af37] transition-all text-sm font-cinzel tracking-widest">
-                                    COMPARTILHAR
-                                </button>
+                            <!-- Overlay de Loading -->
+                            <div id="book-player-loading" class="player-loading">
+                                <div class="player-spinner"></div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Curiosidades Centralizadas -->
+                    <div id="modal-curiosities" class="hidden w-full mb-10 max-w-3xl">
+                        <div class="curiosity-box">
+                            <h4 class="font-cinzel text-lg text-[#8b0000] mb-4 flex items-center gap-2">
+                                <span class="text-xl">🩸</span> Curiosidades Sombrias
+                            </h4>
+                            <div id="curiosities-content" class="text-[#a08080] text-base leading-relaxed space-y-4 border-l-2 border-[#8b0000]/30 pl-6"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Preço Centralizado -->
+                    <div class="price-tag" id="modal-price">
+                        <span class="currency">R$</span>
+                        <span id="modal-price-value" class="text-4xl">--</span>
+                        <span class="text-[#4a4a4a] text-sm ml-3">(Kindle)</span>
+                    </div>
+                    
+                    <!-- Grid Técnica Centralizada -->
+                    <div class="bg-gradient-to-br from-[#1a1a3e]/30 to-[#0f0f2a]/30 border border-[#4a4a8a]/20 rounded-xl p-6 mb-10 w-full max-w-3xl">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="flex flex-col items-center text-center gap-2">
+                                <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">📄</div>
+                                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Páginas</p>
+                                <p id="modal-pages" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                            </div>
+                            <div id="format-container" class="flex flex-col items-center text-center gap-2">
+                                <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">💾</div>
+                                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Formato</p>
+                                <p id="modal-format" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                            </div>
+                            <div id="illustrations-container" class="flex flex-col items-center text-center gap-2">
+                                <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">🎨</div>
+                                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Artes</p>
+                                <p id="modal-illustrations" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                            </div>
+                            <div class="flex flex-col items-center text-center gap-2">
+                                <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">📅</div>
+                                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Ano</p>
+                                <p id="modal-year" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações Finais Centralizadas -->
+                    <div class="flex flex-wrap justify-center gap-6 mb-4">
+                        <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-10 py-4 btn-dark text-sm tracking-widest">
+                            ADQUIRIR NA AMAZON →
+                        </a>
+                        <button onclick="shareBook()" class="px-10 py-4 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#d4af37] hover:border-[#d4af37] transition-all text-sm font-cinzel tracking-widest">
+                            COMPARTILHAR
+                        </button>
                     </div>
                 </div>
             </div>
@@ -5194,24 +5326,46 @@ if (illustrationsEl && book.illustrations) {
                 curiositiesDiv.classList.add('hidden');
             }
 
-            // NOVO: Adicionar vídeo do livro se existir (Player Personalizado com Efeito Top)
+            // NOVO: Adicionar vídeo do livro se existir (Estilo Reels com Iframe Direto)
             const videoWrapper = document.getElementById('modal-video-wrapper');
-            const videoContainer = document.getElementById('modal-video-container');
+            const iframeContainer = document.getElementById('book-video-iframe-container');
+            const loading = document.getElementById('book-player-loading');
+            
             if (book.youtubeId) {
                 videoWrapper.classList.remove('hidden');
-                videoContainer.innerHTML = `
-                    <iframe 
-                        src="https://www.youtube.com/embed/${book.youtubeId}?autoplay=0&rel=0&modestbranding=1&playsinline=1&controls=1" 
-                        title="Vídeo do livro ${book.title}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                        allowfullscreen
-                        style="width: 100%; height: 100%;">
-                    </iframe>
-                `;
+                if (loading) loading.style.display = 'flex';
+                
+                // Usar a API para controlar o vídeo por baixo da máscara
+                if (iframeContainer) {
+                    iframeContainer.innerHTML = '<div id="book-youtube-player-hidden"></div>';
+                    
+                    bookPlayer = new YT.Player('book-youtube-player-hidden', {
+                        height: '100%',
+                        width: '100%',
+                        videoId: book.youtubeId,
+                        playerVars: {
+                            'autoplay': 0,
+                            'controls': 0,
+                            'rel': 0,
+                            'modestbranding': 1,
+                            'playsinline': 1,
+                            'showinfo': 0,
+                            'iv_load_policy': 3,
+                            'disablekb': 1
+                        },
+                        events: {
+                            'onReady': (event) => {
+                                isBookPlayerReady = true;
+                                if (loading) loading.style.display = 'none';
+                                resetBookPlayerUI();
+                            },
+                            'onStateChange': onBookPlayerStateChange
+                        }
+                    });
+                }
             } else {
                 videoWrapper.classList.add('hidden');
-                videoContainer.innerHTML = '';
+                if (iframeContainer) iframeContainer.innerHTML = '';
             }
             
             const ratingContainer = document.getElementById('modal-rating');
@@ -5236,12 +5390,16 @@ if (illustrationsEl && book.illustrations) {
             const modal = document.getElementById('book-modal');
             const content = document.getElementById('modal-content');
             const videoWrapper = document.getElementById('modal-video-wrapper');
-            const videoContainer = document.getElementById('modal-video-container');
+            const iframeContainer = document.getElementById('book-video-iframe-container');
             
             // Inicia animação de saída
             modal.classList.remove('flex');
             
-            if (videoContainer) videoContainer.innerHTML = ''; // Para o vídeo ao fechar
+            if (bookPlayer && typeof bookPlayer.stopVideo === 'function') {
+                bookPlayer.stopVideo();
+                clearInterval(bookPlayerTimer);
+            }
+            if (iframeContainer) iframeContainer.innerHTML = ''; 
             if (videoWrapper) videoWrapper.classList.add('hidden');
             
             setTimeout(() => {
@@ -5249,6 +5407,89 @@ if (illustrationsEl && book.illustrations) {
                 currentBookId = null;
                 content.className = 'dark-modal';
             }, 500);
+        }
+
+        // Funções de controle para a máscara do livro
+        function onBookPlayerStateChange(event) {
+            const bigPlay = document.getElementById('book-big-play');
+            const playBtn = document.getElementById('book-play-btn');
+            const loading = document.getElementById('book-player-loading');
+
+            if (event.data === YT.PlayerState.PLAYING) {
+                if (bigPlay) bigPlay.style.display = 'none';
+                if (playBtn) playBtn.textContent = 'PAUSE';
+                if (loading) loading.style.display = 'none';
+                startBookTimer();
+            } else {
+                if (bigPlay) bigPlay.style.display = 'flex';
+                if (playBtn) playBtn.textContent = 'PLAY';
+                clearInterval(bookPlayerTimer);
+            }
+        }
+
+        function toggleBookPlay() {
+            if (!bookPlayer || typeof bookPlayer.getPlayerState !== 'function') return;
+            const state = bookPlayer.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                bookPlayer.pauseVideo();
+            } else {
+                bookPlayer.playVideo();
+            }
+        }
+
+        function restartBookVideo() {
+            if (!bookPlayer || typeof bookPlayer.seekTo !== 'function') return;
+            bookPlayer.seekTo(0);
+            bookPlayer.playVideo();
+        }
+
+        function toggleBookMute() {
+            if (!bookPlayer || typeof bookPlayer.isMuted !== 'function') return;
+            const muteBtn = document.getElementById('book-mute-btn');
+            if (bookPlayer.isMuted()) {
+                bookPlayer.unMute();
+                if (muteBtn) muteBtn.textContent = 'MUTE';
+            } else {
+                bookPlayer.mute();
+                if (muteBtn) muteBtn.textContent = 'UNMUTE';
+            }
+        }
+
+        function seekBookVideo(e) {
+            if (!bookPlayer || typeof bookPlayer.getDuration !== 'function') return;
+            const bar = e.currentTarget;
+            const rect = bar.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            const duration = bookPlayer.getDuration();
+            bookPlayer.seekTo(pos * duration);
+        }
+
+        function startBookTimer() {
+            clearInterval(bookPlayerTimer);
+            bookPlayerTimer = setInterval(() => {
+                if (!bookPlayer || typeof bookPlayer.getCurrentTime !== 'function') return;
+                const current = bookPlayer.getCurrentTime();
+                const duration = bookPlayer.getDuration();
+                const progress = (current / duration) * 100;
+                
+                const fill = document.getElementById('book-progress-fill');
+                const time = document.getElementById('book-player-time');
+                
+                if (fill) fill.style.width = progress + '%';
+                if (time) time.textContent = formatTime(current) + ' / ' + formatTime(duration);
+            }, 100);
+        }
+
+        function resetBookPlayerUI() {
+            const fill = document.getElementById('book-progress-fill');
+            const time = document.getElementById('book-player-time');
+            const bigPlay = document.getElementById('book-big-play');
+            const playBtn = document.getElementById('book-play-btn');
+            
+            if (fill) fill.style.width = '0%';
+            if (time) time.textContent = '0:00 / 0:00';
+            if (bigPlay) bigPlay.style.display = 'flex';
+            if (playBtn) playBtn.textContent = 'PLAY';
         }
 
         function toggleBookmark(id) {
@@ -5832,6 +6073,12 @@ let currentVideoId = null;
 // Inicializar Player do YouTube
 function onYouTubeIframeAPIReady() {
     console.log('YouTube API Pronta');
+}
+
+function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return min + ':' + (sec < 10 ? '0' : '') + sec;
 }
 
 function openVideoModal(id) {
