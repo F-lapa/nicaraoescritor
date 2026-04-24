@@ -5555,10 +5555,15 @@ function initVideoCarousel() {
     totalVideoSlides = track.querySelectorAll('.carousel-slide').length;
     currentVideoSlide = 0;
     
-    // Gerar dots dinamicamente baseado no número de vídeos
+    // Gerar dots dinamicamente baseado no número de slides (proporcional)
+    const isDesktop = window.innerWidth >= 769;
+    const slidesPerView = isDesktop ? 4 : 1;
+    const totalDots = Math.ceil(totalVideoSlides / slidesPerView);
+    
     let dotsHTML = '';
-    for (let i = 0; i < totalVideoSlides; i++) {
-        dotsHTML += `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToVideoSlide(${i})" aria-label="Ir para vídeo ${i + 1}"></button>`;
+    for (let i = 0; i < totalDots; i++) {
+        const targetSlide = i * slidesPerView;
+        dotsHTML += `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToVideoSlide(${targetSlide})" aria-label="Ir para slide ${i + 1}"></button>`;
     }
     dotsContainer.innerHTML = dotsHTML;
     
@@ -5655,30 +5660,28 @@ function updateVideoCarousel() {
     
     if (!track) return;
     
-    // Calcular quantos slides mostrar por vez baseado na largura
     const isDesktop = window.innerWidth >= 769;
     const slidesPerView = isDesktop ? 4 : 1;
-    const maxSlide = totalVideoSlides - slidesPerView;
+    const maxSlide = Math.max(0, totalVideoSlides - slidesPerView);
     
-    // Ajustar índice se necessário
     if (currentVideoSlide > maxSlide) {
         currentVideoSlide = maxSlide;
     }
     
-    // Mover o track
     const slideWidth = 100 / slidesPerView;
     track.style.transform = `translateX(-${currentVideoSlide * slideWidth}%)`;
     
-    // Atualizar dots (mostrar quais estão visíveis)
+    // Atualizar dots proporcionalmente
     dots.forEach((dot, index) => {
-        const isVisible = index >= currentVideoSlide && index < currentVideoSlide + slidesPerView;
-        dot.classList.toggle('active', isVisible);
+        const targetSlide = index * slidesPerView;
+        // O dot fica ativo se o slide atual estiver dentro do "grupo" desse dot
+        const isActive = currentVideoSlide >= targetSlide && currentVideoSlide < targetSlide + slidesPerView;
+        dot.classList.toggle('active', isActive);
     });
     
-    // Atualizar barra de progresso
     if (progressBar) {
-        const progress = ((currentVideoSlide + slidesPerView) / totalVideoSlides) * 100;
-        progressBar.style.width = `${progress}%`;
+        const progress = totalVideoSlides > 0 ? ((currentVideoSlide + slidesPerView) / totalVideoSlides) * 100 : 0;
+        progressBar.style.width = `${Math.min(100, progress)}%`;
     }
 }
 
@@ -5719,87 +5722,7 @@ window.addEventListener('resize', () => {
     updateVideoCarousel();
 });
         
-        function handleVideoTouchStart(e) {
-            videoIsTouching = true;
-            videoTouchStartX = e.changedTouches[0].screenX;
-            stopVideoAutoplay();
-        }
-        
-        function handleVideoTouchMove(e) {
-            if (!videoIsTouching) return;
-            videoTouchEndX = e.changedTouches[0].screenX;
-        }
-        
-        function handleVideoTouchEnd(e) {
-            if (!videoIsTouching) return;
-            videoIsTouching = false;
-            
-            const diff = videoTouchStartX - videoTouchEndX;
-            const threshold = 50;
-            
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0 && currentVideoSlide < 3) {
-                    goToVideoSlide(currentVideoSlide + 1);
-                } else if (diff < 0 && currentVideoSlide > 0) {
-                    goToVideoSlide(currentVideoSlide - 1);
-                }
-            }
-            
-            startVideoAutoplay();
-        }
-        
-        function goToVideoSlide(index) {
-            currentVideoSlide = index;
-            updateVideoCarousel();
-            resetVideoAutoplay();
-        }
-        
-        function updateVideoCarousel() {
-            const track = document.getElementById('videos-carousel-track');
-            const dots = document.querySelectorAll('#videos-carousel-dots .carousel-dot');
-            const progressBar = document.getElementById('videos-carousel-progress');
-            
-            if (!track) return;
-            
-            track.style.transform = `translateX(-${currentVideoSlide * 100}%)`;
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentVideoSlide);
-            });
-            
-            if (progressBar) {
-                progressBar.style.transition = 'none';
-                progressBar.style.width = '0%';
-                setTimeout(() => {
-                    progressBar.style.transition = 'width 5000ms linear';
-                    progressBar.style.width = '100%';
-                }, 50);
-            }
-        }
-        
-        function nextVideoSlide() {
-            currentVideoSlide = (currentVideoSlide + 1) % 4;
-            updateVideoCarousel();
-        }
-        
-        function startVideoAutoplay() {
-            stopVideoAutoplay();
-            videoCarouselInterval = setInterval(nextVideoSlide, 5000);
-            const progressBar = document.getElementById('videos-carousel-progress');
-            if (progressBar) {
-                progressBar.style.transition = 'width 5000ms linear';
-                progressBar.style.width = '100%';
-            }
-        }
-        
-        function stopVideoAutoplay() {
-            clearInterval(videoCarouselInterval);
-        }
-        
-        function resetVideoAutoplay() {
-            stopVideoAutoplay();
-            startVideoAutoplay();
-        }
+        // Funções de carrossel unificadas acima
         
         // Inicializar vídeos
 document.addEventListener('DOMContentLoaded', function() {
