@@ -44,11 +44,16 @@
             background: var(--charcoal);
             color: var(--text-primary);
             overflow-x: hidden;
-            cursor: none;
+            cursor: auto !important; /* Força o cursor a aparecer em todo o site */
             background-image: 
                 radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(139, 105, 20, 0.08) 0%, transparent 50%),
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231f1f1f' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Garantir que o cursor apareça em elementos interativos */
+        a, button, [role="button"], .cursor-pointer {
+            cursor: pointer !important;
         }
         
         /* Accessibility - Focus visible */
@@ -1937,15 +1942,20 @@
         
                #video-modal-content {
             position: relative;
-            width: 90%;
-            max-width: 1000px;
+            width: 95vw; /* Ocupa 95% da largura da tela */
+            height: 90vh; /* Ocupa 90% da altura da tela */
+            max-width: none; /* Remove limite de largura */
             transform: scale(0.8);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            box-shadow: 0 0 100px rgba(0,0,0,1);
             background: #000;
-            border-radius: 8px;
-            overflow: hidden;
+            border-radius: 0; /* Remove bordas arredondadas para parecer mais "cinema" */
+            overflow: visible; /* Permite que o botão de fechar saia um pouco se necessário */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         #video-modal.active #video-modal-content {
@@ -1957,46 +1967,253 @@
             transform: scale(1) rotateY(0deg);
         }
         
-            .video-container {
+        .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
+            height: 100%;
+            background: #000;
             overflow: hidden;
-            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
         .video-container iframe {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            border: none;
+            display: block !important;
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: #000;
+            z-index: 5;
         }
-        
-        .video-container iframe,
-        .video-container video {
+
+        /* Setas de Navegação do Player */
+        .player-nav-btn {
             position: absolute;
-            top: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: #d4af37;
+            border: 1px solid #8b6914;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .video-container:hover .player-nav-btn {
+            opacity: 1;
+        }
+
+        .player-nav-btn:hover {
+            background: #8b6914;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .player-nav-prev { left: 20px; }
+        .player-nav-next { right: 20px; }
+
+        /* Botão de fechar interno ao player */
+        .player-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            color: #d4af37;
+            border: 1px solid #8b6914;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .video-container:hover .player-close-btn {
+            opacity: 1;
+        }
+
+        .player-close-btn:hover {
+            background: #8b0000;
+            color: #fff;
+            border-color: #ff0000;
+        }
+
+        /* Player Customizado */
+        .custom-player-controls {
+            position: absolute;
+            bottom: 0;
             left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .video-container:hover .custom-player-controls {
+            opacity: 1;
+        }
+
+        .player-progress-container {
             width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            cursor: pointer;
+            position: relative;
+            border-radius: 2px;
+        }
+
+        .player-progress-bar {
             height: 100%;
+            background: linear-gradient(90deg, #8b6914, #d4af37);
+            width: 0%;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .player-main-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #d4af37;
+        }
+
+        .player-left-btns {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .player-btn {
+            background: none;
             border: none;
+            color: #d4af37;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+
+        .player-btn:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            transform: scale(1.1);
+        }
+
+        .player-time {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: #8b7355;
+        }
+
+        /* Overlay de Play Inicial */
+        .player-big-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.3s;
+        }
+
+        .player-big-play-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(12, 12, 12, 0.8);
+            border: 2px solid #8b6914;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 2.5rem;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+
+        .player-big-play:hover .player-big-play-icon {
+            transform: scale(1.1);
+            border-color: #d4af37;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .player-loading {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            z-index: 15;
+        }
+
+        .player-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(139, 105, 20, 0.2);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: player-spin 1s linear infinite;
+        }
+
+        @keyframes player-spin {
+            to { transform: rotate(360deg); }
         }
         
         #video-modal-close {
             position: absolute;
-            top: -50px;
-            right: 0;
-            background: transparent;
-            border: none;
-            color: #8b7355;
-            font-size: 2rem;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: all 0.3s;
             font-family: 'Cinzel', serif;
+            z-index: 100; /* Garante que fique acima de tudo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video-modal-close:hover {
+            background: #8b0000;
+            color: #fff;
+            border-color: #fff;
+            transform: scale(1.1);
         }
         
         #video-modal-close:hover {
@@ -4026,13 +4243,29 @@
     <!-- MODAL DO VÍDEO -->
     <div id="video-modal" onclick="closeVideoModal(event)">
         <div id="video-modal-content" onclick="event.stopPropagation()">
+            <!-- Botão de Fechar Principal (Posicionado via CSS no canto superior direito) -->
             <button id="video-modal-close" onclick="closeVideoModal()" aria-label="Fechar vídeo">✕</button>
+            
             <div class="video-container" id="video-container">
-                <!-- Vídeo será inserido aqui via JavaScript -->
+                <!-- O player do YouTube será inserido aqui -->
+                <div id="youtube-player"></div>
+                
+                <!-- Setas de Navegação (Sempre visíveis no modal para facilitar) -->
+                <button class="player-nav-btn player-nav-prev" onclick="prevVideo()" title="Vídeo Anterior" style="opacity: 1; visibility: visible;">‹</button>
+                <button class="player-nav-btn player-nav-next" onclick="nextVideo()" title="Próximo Vídeo" style="opacity: 1; visibility: visible;">›</button>
+
+                <!-- Overlay de Loading -->
+                <div id="player-loading" class="player-loading">
+                    <div class="player-spinner"></div>
+                </div>
             </div>
+            
             <div id="video-modal-title">Título do Vídeo</div>
         </div>
     </div>
+
+    <!-- Script da API do YouTube -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     
     <!-- Lore Section - COM ANIMAÇÕES ESPECIAIS -->
     <section id="lore" class="section-dark py-32 relative overflow-hidden" role="region" aria-label="Sobre o autor">
@@ -5202,6 +5435,7 @@ const videoCategoryData = {
 // Dados dos vídeos (você pode expandir depois)
 
 const videoCollection = {
+    'presentation': { title: 'Uma breve apresentação', category: 'presentation', newest: false, thumb: 'video1-thumb.jpg', youtubeId: 'n_6pcET7Stc' },
     2: { title: 'Vídeo 2', category: 'reels', newest: true, thumb: 'video2-thumb.jpg', youtubeId: 'KQ8VUeSdiOY' },
     3: { title: 'Vídeo 3', category: 'reels', newest: true, thumb: 'video3-thumb.jpg', youtubeId: 'eQ4rU8YbSEM' },
     4: { title: 'Vídeo 4', category: 'reels', newest: true, thumb: 'video4-thumb.jpg', youtubeId: '0LT5iX2SiCk' },
@@ -5316,53 +5550,20 @@ function openVideoCategoryModal(category) {
 }
 
 function openVideoDirect(youtubeId, title) {
-    console.log('Abrindo vídeo no modal:', title, youtubeId);
+    // Encontrar o ID na coleção ou criar um temporário
+    let videoId = Object.keys(videoCollection).find(key => videoCollection[key].youtubeId === youtubeId);
     
-    // Fecha o modal de categoria primeiro
+    if (!videoId) {
+        // Se não estiver na coleção, adicionamos temporariamente para o player funcionar
+        videoId = 'temp_' + youtubeId;
+        videoCollection[videoId] = { title: title, youtubeId: youtubeId };
+    }
+    
+    // Fecha o modal de categoria
     const categoryModal = document.getElementById('category-modal');
-    if (categoryModal) {
-        categoryModal.classList.remove('active');
-    }
-    document.body.style.overflow = '';
+    if (categoryModal) categoryModal.classList.remove('active');
     
-    // Limpa o container do modal de categoria
-    setTimeout(() => {
-        const container = document.getElementById('category-books-container');
-        if (container) container.innerHTML = '';
-    }, 600);
-    
-    // Abre o modal de vídeo com embed
-    const videoModal = document.getElementById('video-modal');
-    const videoContainer = document.getElementById('video-container');
-    const videoTitle = document.getElementById('video-modal-title');
-    
-    if (!videoModal || !videoContainer) {
-        console.error('Modal de vídeo não encontrado');
-        return;
-    }
-    
-    // ✅ HTTPS explícito + parâmetros otimizados
-    videoContainer.innerHTML = `
-        <iframe 
-            src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&fs=1&html5=1" 
-            title="${title}" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-            allowfullscreen
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000;">
-        </iframe>
-    `;
-    
-    videoTitle.textContent = title;
-    
-    // Mostrar modal com delay para animação
-    setTimeout(() => {
-        videoModal.style.display = 'flex';
-        setTimeout(() => {
-            videoModal.classList.add('active');
-        }, 10);
-        castSpell();
-    }, 300);
+    openVideoModal(videoId);
 }
 
 function openVideoFromCategory(id) {
@@ -5437,70 +5638,165 @@ function openVideoFromCategory(id) {
         // VÍDEOS - Modal com efeito de ampliação
         // ============================================
         
+let ytPlayer;
+let playerTimer;
+let currentVideoId = null;
+
+// Inicializar Player do YouTube
+function onYouTubeIframeAPIReady() {
+    console.log('YouTube API Pronta');
+}
+
 function openVideoModal(id) {
-    console.log('Abrindo vídeo:', id);
-    
     const video = videoCollection[id];
-    if (!video) {
-        console.error('Vídeo não encontrado:', id);
-        showToast('Vídeo não encontrado');
-        return;
-    }
+    if (!video) return;
     
-    // Efeito de "virar página" no card 3D
-    const cards = document.querySelectorAll(`[onclick="openVideoModal(${id})"]`);
-    cards.forEach(card => {
-        card.classList.add('turning');
-        setTimeout(() => card.classList.remove('turning'), 600);
-    });
-    
-    // Elementos do modal
+    currentVideoId = id;
     const modal = document.getElementById('video-modal');
-    const container = document.getElementById('video-container');
     const title = document.getElementById('video-modal-title');
+    const loading = document.getElementById('player-loading');
     
-    if (!modal || !container) {
-        console.error('Modal não encontrado');
-        return;
-    }
-    
-    // Limpar container primeiro
-    container.innerHTML = '';
-    
-    // Definir título
     title.textContent = video.title;
-    
-    // MOSTRAR MODAL PRIMEIRO (antes de inserir o iframe)
     modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('active'), 10);
     
-    // Forçar reflow para garantir que o display:flex foi aplicado
-    void modal.offsetWidth;
+    if (loading) loading.style.display = 'flex';
+
+    // Usar abordagem direta de iframe para garantir visibilidade máxima
+    const playerContainer = document.getElementById('youtube-player');
+    playerContainer.innerHTML = `
+        <iframe 
+            src="https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&controls=1" 
+            title="${video.title}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+            allowfullscreen
+            style="width: 100%; height: 100%;"
+            onload="document.getElementById('player-loading').style.display='none'">
+        </iframe>
+    `;
     
-    // Adicionar classe active para animação
-    modal.classList.add('active');
-    
-    // AGORA inserir o iframe (depois do modal estar visível)
-    // Usar setTimeout para garantir que o navegador renderizou o modal
-    setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-        iframe.title = video.title;
-        iframe.frameBorder = '0';
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
-        iframe.allowFullscreen = true;
-        iframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;';
-        
-        container.appendChild(iframe);
-        console.log('Iframe inserido:', iframe.src);
-    }, 300); // 300ms de delay para a animação do modal começar
-    
-    // Efeito mágico
     castSpell();
-    
-    // Pausar carrossel se estiver rodando
-    if (typeof stopVideoAutoplay === 'function') {
-        stopVideoAutoplay();
+    if (typeof stopVideoAutoplay === 'function') stopVideoAutoplay();
+}
+
+function nextVideo() {
+    const keys = Object.keys(videoCollection);
+    const currentIndex = keys.indexOf(currentVideoId.toString());
+    const nextIndex = (currentIndex + 1) % keys.length;
+    openVideoModal(keys[nextIndex]);
+}
+
+function prevVideo() {
+    const keys = Object.keys(videoCollection);
+    const currentIndex = keys.indexOf(currentVideoId.toString());
+    const prevIndex = (currentIndex - 1 + keys.length) % keys.length;
+    openVideoModal(keys[prevIndex]);
+}
+
+function onPlayerReady(event) {
+    document.getElementById('player-loading').style.display = 'none';
+    // Tentar dar play imediatamente
+    try {
+        event.target.playVideo();
+    } catch(e) {
+        console.log('Autoplay bloqueado, mostrando botão play');
+        document.getElementById('player-big-play').style.display = 'flex';
     }
+    startTimer();
+}
+
+function onPlayerStateChange(event) {
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const bigPlay = document.getElementById('player-big-play');
+    
+    if (event.data == YT.PlayerState.PLAYING) {
+        playPauseBtn.textContent = '⏸';
+        bigPlay.style.display = 'none';
+        startTimer();
+    } else {
+        playPauseBtn.textContent = '▶';
+        if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+            bigPlay.style.display = 'flex';
+        }
+        stopTimer();
+    }
+}
+
+function togglePlay() {
+    if (!ytPlayer) return;
+    const state = ytPlayer.getPlayerState();
+    if (state == YT.PlayerState.PLAYING) {
+        ytPlayer.pauseVideo();
+    } else {
+        ytPlayer.playVideo();
+    }
+}
+
+function restartVideo() {
+    if (ytPlayer) ytPlayer.seekTo(0);
+}
+
+function seekVideo(e) {
+    if (!ytPlayer) return;
+    const container = document.getElementById('player-progress-container');
+    const rect = container.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    const duration = ytPlayer.getDuration();
+    ytPlayer.seekTo(pos * duration);
+}
+
+function toggleMute() {
+    if (!ytPlayer) return;
+    const muteBtn = document.getElementById('mute-btn');
+    if (ytPlayer.isMuted()) {
+        ytPlayer.unMute();
+        muteBtn.textContent = '🔊';
+    } else {
+        ytPlayer.mute();
+        muteBtn.textContent = '🔇';
+    }
+}
+
+function toggleFullscreen() {
+    const container = document.getElementById('video-container');
+    if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(err => {
+            console.error(`Erro ao entrar em fullscreen: ${err.message}`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+function startTimer() {
+    stopTimer();
+    playerTimer = setInterval(updatePlayerUI, 500);
+}
+
+function stopTimer() {
+    clearInterval(playerTimer);
+}
+
+function updatePlayerUI() {
+    if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+    
+    const current = ytPlayer.getCurrentTime();
+    const total = ytPlayer.getDuration();
+    
+    // Atualizar barra
+    const progress = (current / total) * 100;
+    document.getElementById('player-progress-bar').style.width = `${progress}%`;
+    
+    // Atualizar tempo
+    document.getElementById('current-time').textContent = formatTime(current);
+    document.getElementById('total-time').textContent = formatTime(total);
+}
+
+function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min}:${sec.toString().padStart(2, '0')}`;
 }
         
         function closeVideoModal(event) {
@@ -5510,22 +5806,18 @@ function openVideoModal(id) {
     }
     
     const modal = document.getElementById('video-modal');
-    const container = document.getElementById('video-container');
+    const playerContainer = document.getElementById('youtube-player');
     
     if (!modal) return;
     
-    // Remover classe active primeiro (inicia animação de saída)
     modal.classList.remove('active');
     
-    // Aguardar animação terminar antes de esconder e limpar
     setTimeout(() => {
         modal.style.display = 'none';
-        // Limpar iframe para parar o vídeo e liberar memória
-        if (container) container.innerHTML = '';
+        if (playerContainer) playerContainer.innerHTML = ''; // Limpa o iframe para parar o vídeo
     }, 400);
     
-    // Retomar carrossel se estiver rodando
-    if (window.innerWidth <= 768 && typeof startVideoAutoplay === 'function') {
+    if (typeof startVideoAutoplay === 'function') {
         startVideoAutoplay();
     }
 }
