@@ -5681,15 +5681,19 @@ function openVideoModal(id) {
 }
 
 function nextVideo() {
-    const keys = Object.keys(videoCollection);
+    // Filtrar apenas vídeos que não são de apresentação para a navegação do player
+    const keys = Object.keys(videoCollection).filter(key => key !== 'presentation');
     const currentIndex = keys.indexOf(currentVideoId.toString());
+    if (currentIndex === -1) return; // Se for o vídeo de apresentação, não navega
     const nextIndex = (currentIndex + 1) % keys.length;
     openVideoModal(keys[nextIndex]);
 }
 
 function prevVideo() {
-    const keys = Object.keys(videoCollection);
+    // Filtrar apenas vídeos que não são de apresentação para a navegação do player
+    const keys = Object.keys(videoCollection).filter(key => key !== 'presentation');
     const currentIndex = keys.indexOf(currentVideoId.toString());
+    if (currentIndex === -1) return; // Se for o vídeo de apresentação, não navega
     const prevIndex = (currentIndex - 1 + keys.length) % keys.length;
     openVideoModal(keys[prevIndex]);
 }
@@ -6040,13 +6044,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inverter a coleção para que os novos vídeos apareçam primeiro no carrossel
     const reversedCollection = Object.entries(videoCollection).reverse();
     
-    reversedCollection.forEach(([id, video], index) => {
+    let reelIndex = 0;
+    reversedCollection.forEach(([id, video]) => {
+        // Pular o vídeo de apresentação na seção de Reels
+        if (id === 'presentation') return;
+        
         const shortTitle = video.title.length > 30 ? video.title.substring(0, 30) + '...' : video.title;
         
         html += `
             <div class="carousel-slide">
                 <div class="text-center">
-                    <div class="video-3d mb-6" onclick="openVideoModal(${id})" role="button" tabindex="0" aria-label="Abrir ${video.title}" onkeydown="if(event.key==='Enter')openVideoModal(${id})">
+                    <div class="video-3d mb-6" onclick="openVideoModal('${id}')" role="button" tabindex="0" aria-label="Abrir ${video.title}" onkeydown="if(event.key==='Enter')openVideoModal('${id}')">
                         <div class="video-face video-front">
                             <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" alt="${video.title}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22700%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22700%22/%3E%3Ctext fill=%22%23d4af37%22 font-family=%22serif%22 font-size=%2214%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E${shortTitle}%3C/text%3E%3C/svg%3E'">
                             <div class="video-badge">▶</div>
@@ -6059,7 +6067,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="font-cinzel text-[#4a4a4a] text-xs text-center px-4">YouTube</span>
                         </div>
                         <div class="video-face video-right">
-                            <span class="video-spine-text">REEL ${String(index + 1).padStart(2, '0')}</span>
+                            <span class="video-spine-text">REEL ${String(reelIndex + 1).padStart(2, '0')}</span>
                         </div>
                         <div class="video-face video-left"></div>
                         <div class="video-face video-top"></div>
@@ -6072,6 +6080,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
+        reelIndex++;
     });
     
     track.innerHTML = html;
@@ -6089,18 +6098,20 @@ function generateVideoCarousel() {
     if (!track) return;
     
     let slidesHTML = '';
-    let dotsHTML = '';
     
     // Inverter a coleção para que os novos vídeos apareçam primeiro no carrossel
     const reversedCollection = Object.entries(videoCollection).reverse();
     
-    reversedCollection.forEach(([id, video], index) => {
+    reversedCollection.forEach(([id, video]) => {
+        // Pular o vídeo de apresentação no carrossel mobile
+        if (id === 'presentation') return;
+        
         const shortTitle = video.title.length > 20 ? video.title.substring(0, 20) + '...' : video.title;
         
         slidesHTML += `
             <div class="carousel-slide">
                 <div class="text-center">
-                    <div class="video-3d mb-4" onclick="openVideoModal(${id})" role="button" tabindex="0" aria-label="Abrir ${video.title}">
+                    <div class="video-3d mb-4" onclick="openVideoModal('${id}')" role="button" tabindex="0" aria-label="Abrir ${video.title}">
                         <div class="video-face video-front">
                             <img src="https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg" 
                                  alt="${video.title}" 
@@ -6123,19 +6134,24 @@ function generateVideoCarousel() {
                 </div>
             </div>
         `;
-        
-        dotsHTML += `<button class="carousel-dot" onclick="goToVideoSlide(${index})" aria-label="Ir para vídeo ${index + 1}"></button>`;
     });
     
     track.innerHTML = slidesHTML;
+    
+    // Atualizar total de slides para o autoplay (excluindo a apresentação)
+    window.totalVideoSlides = Object.values(videoCollection).filter(v => v.category !== 'presentation').length;
+    
+    // Gerar dots dinamicamente baseado no número de slides (proporcional)
+    const isDesktop = window.innerWidth >= 769;
+    const slidesPerView = isDesktop ? 4 : 1;
+    const totalDots = Math.ceil(window.totalVideoSlides / slidesPerView);
+    
+    let dotsHTML = '';
+    for (let i = 0; i < totalDots; i++) {
+        const targetSlide = i * slidesPerView;
+        dotsHTML += `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToVideoSlide(${targetSlide})" aria-label="Ir para slide ${i + 1}"></button>`;
+    }
     dotsContainer.innerHTML = dotsHTML;
-    
-    // Atualizar total de slides para o autoplay
-    window.totalVideoSlides = Object.keys(videoCollection).length;
-    
-    // Atualizar primeira dot como ativa
-    const firstDot = dotsContainer.querySelector('.carousel-dot');
-    if (firstDot) firstDot.classList.add('active');
 }
 
 function openCategoryModal(category) {
