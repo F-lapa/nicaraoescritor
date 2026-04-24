@@ -5202,13 +5202,6 @@ const videoCategoryData = {
 // Dados dos vídeos (você pode expandir depois)
 
 const videoCollection = {
-    'presentation': { 
-        title: 'Uma breve apresentação', 
-        category: 'presentation', 
-        newest: false, 
-        thumb: 'video1-thumb.jpg', 
-        youtubeId: 'n_6pcET7Stc' 
-    },
     2: { title: 'Vídeo 2', category: 'reels', newest: true, thumb: 'video2-thumb.jpg', youtubeId: 'KQ8VUeSdiOY' },
     3: { title: 'Vídeo 3', category: 'reels', newest: true, thumb: 'video3-thumb.jpg', youtubeId: 'eQ4rU8YbSEM' },
     4: { title: 'Vídeo 4', category: 'reels', newest: true, thumb: 'video4-thumb.jpg', youtubeId: '0LT5iX2SiCk' },
@@ -5225,7 +5218,10 @@ const videoCollection = {
     15: { title: 'Vídeo 15', category: 'reels', newest: true, thumb: 'video15-thumb.jpg', youtubeId: 'nmheDpEShg0' },
     16: { title: 'Vídeo 16', category: 'reels', newest: true, thumb: 'video16-thumb.jpg', youtubeId: 'C6WQ7-Rju5o' },
     17: { title: 'Vídeo 17', category: 'reels', newest: true, thumb: 'video17-thumb.jpg', youtubeId: 'Dg9jkigv2MQ' },
-    18: { title: 'Vídeo 18', category: 'reels', newest: true, thumb: 'video18-thumb.jpg', youtubeId: 'C1Obf4Myyzs' }
+    18: { title: 'Vídeo 18', category: 'reels', newest: true, thumb: 'video18-thumb.jpg', youtubeId: 'C1Obf4Myyzs' },
+    19: { title: 'Vídeo 19', category: 'reels', newest: true, thumb: 'video19-thumb.jpg', youtubeId: '0bQT4O8hqoc' },
+    20: { title: 'Vídeo 20', category: 'reels', newest: true, thumb: 'video20-thumb.jpg', youtubeId: 'mA5Z9p3Bqjc' },
+    21: { title: 'Vídeo 21', category: 'reels', newest: true, thumb: 'video21-thumb.jpg', youtubeId: 'nj47JvJNp00' }
 };
 
 function openVideoCategoryModal(category) {
@@ -5242,10 +5238,10 @@ function openVideoCategoryModal(category) {
         }
     });
     
-    // Filtrar vídeos
+    // Filtrar vídeos e inverter ordem para que os novos apareçam primeiro
     const filteredVideos = Object.entries(videoCollection).filter(([id, video]) => {
         return config.filter(video);
-    });
+    }).reverse();
     
     console.log('Vídeos filtrados:', filteredVideos.length);
     
@@ -5826,7 +5822,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     let html = '';
-    Object.entries(videoCollection).forEach(([id, video], index) => {
+    // Inverter a coleção para que os novos vídeos apareçam primeiro no carrossel
+    const reversedCollection = Object.entries(videoCollection).reverse();
+    
+    reversedCollection.forEach(([id, video], index) => {
         const shortTitle = video.title.length > 30 ? video.title.substring(0, 30) + '...' : video.title;
         
         html += `
@@ -5877,7 +5876,10 @@ function generateVideoCarousel() {
     let slidesHTML = '';
     let dotsHTML = '';
     
-    Object.entries(videoCollection).forEach(([id, video]) => {
+    // Inverter a coleção para que os novos vídeos apareçam primeiro no carrossel
+    const reversedCollection = Object.entries(videoCollection).reverse();
+    
+    reversedCollection.forEach(([id, video], index) => {
         const shortTitle = video.title.length > 20 ? video.title.substring(0, 20) + '...' : video.title;
         
         slidesHTML += `
@@ -5907,7 +5909,7 @@ function generateVideoCarousel() {
             </div>
         `;
         
-        dotsHTML += `<button class="carousel-dot" onclick="goToVideoSlide(${parseInt(id) - 1})" aria-label="Ir para vídeo ${id}"></button>`;
+        dotsHTML += `<button class="carousel-dot" onclick="goToVideoSlide(${index})" aria-label="Ir para vídeo ${index + 1}"></button>`;
     });
     
     track.innerHTML = slidesHTML;
