@@ -2215,6 +2215,170 @@
             border-color: #fff;
             transform: scale(1.1);
         }
+
+        /* Estilos para o vídeo dentro do modal do livro */
+        .book-video-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            margin-bottom: 1.5rem;
+            border: 1px solid #2d2d2d;
+            background: #000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .book-video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* REESTRUTURAÇÃO TOTAL DO MODAL DO LIVRO - CENTRALIZAÇÃO E SIMETRIA */
+        #book-modal .dark-modal {
+            max-width: 1000px;
+            width: 95%;
+            padding: 0;
+            background: #050505;
+            border: 1px solid #1a1a1a;
+            box-shadow: 0 0 100px rgba(0,0,0,1), inset 0 0 50px rgba(139, 0, 0, 0.05);
+            overflow-x: hidden;
+        }
+
+        .modal-scroll-container {
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Layout Centralizado em Desktop */
+        @media (min-width: 768px) {
+            .modal-header-flex {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+            }
+
+            .modal-cover-wrapper {
+                width: 280px;
+                margin-bottom: 2.5rem;
+                position: relative;
+            }
+
+            .modal-cover-wrapper::after {
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                left: 10%;
+                width: 80%;
+                height: 20px;
+                background: radial-gradient(ellipse at center, rgba(139, 0, 0, 0.3) 0%, transparent 70%);
+                filter: blur(10px);
+            }
+
+            .modal-info-wrapper {
+                width: 100%;
+                max-width: 800px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* EFEITO TOP PARA O VÍDEO DO LIVRO */
+        .book-video-wrapper {
+            width: 100%;
+            max-width: 850px;
+            margin: 3rem 0;
+            position: relative;
+            padding: 15px;
+            background: #0a0a0a;
+            border: 1px solid #2d2d2d;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        #book-modal:not(.hidden).flex .book-video-wrapper {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.4s;
+        }
+
+        .book-video-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #8b0000, #d4af37, #8b0000);
+            z-index: -1;
+            border-radius: 6px;
+            opacity: 0.3;
+            animation: border-glow 4s linear infinite;
+        }
+
+        @keyframes border-glow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+
+        .book-video-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #1a1a1a;
+        }
+
+        /* Efeito de abertura mágico para o modal do livro */
+        #book-modal {
+            perspective: 2000px;
+        }
+
+        #modal-content {
+            transform-style: preserve-3d;
+            transform: scale(0.8) rotateX(10deg) translateY(50px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #book-modal:not(.hidden).flex #modal-content {
+            transform: scale(1) rotateX(0deg) translateY(0);
+            opacity: 1;
+        }
+
+        /* Centralização de textos e elementos internos */
+        .modal-ornament {
+            justify-content: center;
+        }
+
+        #modal-desc {
+            text-align: center;
+            max-width: 750px;
+        }
+
+        .curiosity-box {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .price-tag {
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .book-info-grid-custom {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
         
         #video-modal-close:hover {
             color: #d4af37;
@@ -3790,106 +3954,100 @@
 
         <!-- Book Modal -->
         <div id="book-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <div class="dark-modal max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500 max-h-[90vh] overflow-y-auto" id="modal-content">
-                <button onclick="closeBook()" class="absolute top-4 right-4 text-[#4a4a4a] hover:text-[#8b7355] text-2xl transition-colors z-10" aria-label="Fechar modal">✕</button>
-                <div class="flex flex-col md:flex-row gap-8">
-                    <div class="w-full md:w-1/3 flex-shrink-0">
-                        <img id="modal-image" src="" alt="" class="w-full rounded shadow-2xl filter sepia-[30%]">
-                        <div class="mt-4 flex justify-center">
-                            <button class="btn-bookmark w-full" onclick="toggleBookmarkFromModal()" id="modal-bookmark">
-                                <span id="modal-bookmark-text">🔖 Adicionar aos favoritos</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-2/3 min-w-0">
-                        <h3 id="modal-title" class="font-cinzel text-2xl text-[#8b7355] mb-1 tracking-wide modal-ornament"></h3>
-                        <p id="modal-subtitle" class="text-sm italic text-[#6b6b6b] mb-4 font-light"></p>
-                        
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="rating" id="modal-rating" aria-label="Avaliação do livro">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                            <span class="text-[#6b6b6b] text-xs" id="modal-reviews"></span>
-                        </div>
-
-                        <p id="modal-desc" class="text-[#a0a0a0] leading-relaxed mb-6 text-lg font-light"></p>
-                        
-                        <div id="modal-curiosities" class="hidden mb-6">
-                            <div class="curiosity-box">
-                                <h4 class="font-cinzel text-sm text-[#8b0000] mb-2">🩸 Curiosidades Sombrias</h4>
-                                <div id="curiosities-content" class="text-[#a08080] text-sm leading-relaxed space-y-3"></div>
+            <div class="dark-modal" id="modal-content">
+                <button onclick="closeBook()" class="absolute top-6 right-6 text-[#4a4a4a] hover:text-[#d4af37] text-3xl transition-all z-50" aria-label="Fechar modal">✕</button>
+                
+                <div class="modal-scroll-container">
+                    <div class="modal-header-flex">
+                        <!-- Capa Centralizada -->
+                        <div class="modal-cover-wrapper">
+                            <img id="modal-image" src="" alt="" class="w-full rounded shadow-2xl filter sepia-[20%] hover:sepia-0 transition-all duration-700">
+                            <div class="mt-6">
+                                <button class="btn-bookmark w-full" onclick="toggleBookmarkFromModal()" id="modal-bookmark">
+                                    <span id="modal-bookmark-text">🔖 Adicionar aos favoritos</span>
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="price-tag mb-4" id="modal-price" title="Preço sujeito a alteração na Amazon">
-                            <span class="currency">R$</span>
-                            <span id="modal-price-value">--</span>
-                            <span class="text-[#4a4a4a] text-xs ml-2">(Kindle)</span>
-                        </div>
 
-                       <!-- Layout de informações do livro - TEMA FANTASY -->
-<div class="bg-gradient-to-br from-[#1a1a3e]/50 to-[#0f0f2a]/50 border border-[#4a4a8a]/30 rounded-lg p-4 mb-6">
-    <!-- Grid de informações -->
-    <div class="grid grid-cols-2 gap-4 mb-4">
-        <!-- Páginas -->
-        <div class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#4a4a8a] to-[#2a2a5a] flex items-center justify-center text-lg">
-                📄
-            </div>
-            <div>
-                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Páginas</p>
-                <p id="modal-pages" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-            </div>
-        </div>
-        
-        <!-- Formato -->
-        <div id="format-container" class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#6a6aaa] to-[#4a4a8a] flex items-center justify-center text-lg">
-                💾
-            </div>
-            <div>
-                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Formato</p>
-                <p id="modal-format" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-            </div>
-        </div>
-        
-        <!-- Ilustrações -->
-        <div id="illustrations-container" class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#8a8aca] to-[#6a6aaa] flex items-center justify-center text-lg">
-                🎨
-            </div>
-            <div>
-                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Ilustrações</p>
-                <p id="modal-illustrations" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-            </div>
-        </div>
-        
-        <!-- Ano -->
-        <div class="flex items-center gap-3 bg-[#0a0a1a]/60 rounded p-3 border border-[#4a4a8a]/20">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#aa8aca] to-[#8a6aaa] flex items-center justify-center text-lg">
-                📅
-            </div>
-            <div>
-                <p class="text-[#6b6b8a] text-[10px] uppercase tracking-wider">Publicação</p>
-                <p id="modal-year" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Selo Amazon -->
-    <div class="flex items-center justify-center gap-2 pt-3 border-t border-[#4a4a8a]/20">
-        <span class="text-[#ff9900]">📦</span>
-        <span class="text-[#8b9bc5] text-xs font-cinzel">Disponível na Amazon Kindle</span>
-    </div>
-</div>
+                        <!-- Informações Centralizadas -->
+                        <div class="modal-info-wrapper">
+                            <h3 id="modal-title" class="font-cinzel text-3xl md:text-4xl text-[#8b7355] mb-2 tracking-widest modal-ornament"></h3>
+                            <p id="modal-subtitle" class="text-base italic text-[#6b6b6b] mb-6 font-light"></p>
+                            
+                            <div class="flex items-center justify-center gap-3 mb-6">
+                                <div class="rating text-xl" id="modal-rating" aria-label="Avaliação do livro">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <span class="text-[#6b6b6b] text-sm" id="modal-reviews"></span>
+                            </div>
 
-                        <div class="flex flex-wrap gap-3">
-                            <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 btn-dark btn-modal text-xs">
-                                Adquirir na Amazon →
-                            </a>
-                            <button onclick="shareBook()" class="px-6 py-3 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#8b7355] hover:border-[#8b7355] transition-all text-xs font-cinzel btn-modal">
-                                Compartilhar
-                            </button>
+                            <p id="modal-desc" class="text-[#a0a0a0] leading-relaxed mb-8 text-lg font-light"></p>
+                            
+                            <!-- EFEITO TOP: Container de Vídeo com Moldura Mágica -->
+                            <div id="modal-video-wrapper" class="book-video-wrapper hidden">
+                                <div id="modal-video-container" class="book-video-container">
+                                    <!-- Iframe será inserido via JS -->
+                                </div>
+                            </div>
+                            
+                            <!-- Curiosidades -->
+                            <div id="modal-curiosities" class="hidden w-full mb-10">
+                                <div class="curiosity-box">
+                                    <h4 class="font-cinzel text-lg text-[#8b0000] mb-4 flex items-center gap-2">
+                                        <span class="text-xl">🩸</span> Curiosidades Sombrias
+                                    </h4>
+                                    <div id="curiosities-content" class="text-[#a08080] text-base leading-relaxed space-y-4 border-l-2 border-[#8b0000]/30 pl-6"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Preço -->
+                            <div class="price-tag" id="modal-price" title="Preço sujeito a alteração na Amazon">
+                                <span class="currency">R$</span>
+                                <span id="modal-price-value" class="text-4xl">--</span>
+                                <span class="text-[#4a4a4a] text-sm ml-3">(Kindle)</span>
+                            </div>
+                            
+                            <!-- Grid de Informações Técnicas -->
+                            <div class="book-info-grid-custom w-full">
+                                <div class="bg-gradient-to-br from-[#1a1a3e]/30 to-[#0f0f2a]/30 border border-[#4a4a8a]/20 rounded-xl p-6 mb-10">
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                        <!-- Páginas -->
+                                        <div class="flex flex-col items-center text-center gap-2">
+                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">📄</div>
+                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Páginas</p>
+                                            <p id="modal-pages" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                                        </div>
+                                        <!-- Formato -->
+                                        <div id="format-container" class="flex flex-col items-center text-center gap-2">
+                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">💾</div>
+                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Formato</p>
+                                            <p id="modal-format" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                                        </div>
+                                        <!-- Ilustrações -->
+                                        <div id="illustrations-container" class="flex flex-col items-center text-center gap-2">
+                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">🎨</div>
+                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Artes</p>
+                                            <p id="modal-illustrations" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                                        </div>
+                                        <!-- Ano -->
+                                        <div class="flex flex-col items-center text-center gap-2">
+                                            <div class="w-12 h-12 rounded-full bg-[#0a0a1a] border border-[#4a4a8a]/30 flex items-center justify-center text-xl">📅</div>
+                                            <p class="text-[#6b6b8a] text-[10px] uppercase tracking-widest">Ano</p>
+                                            <p id="modal-year" class="text-[#aabbee] font-cinzel text-sm font-bold"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ações Finais -->
+                            <div class="flex flex-wrap justify-center gap-6 mb-4">
+                                <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block px-10 py-4 btn-dark text-sm tracking-widest">
+                                    ADQUIRIR NA AMAZON →
+                                </a>
+                                <button onclick="shareBook()" class="px-10 py-4 border border-[#2d2d2d] text-[#6b6b6b] hover:text-[#d4af37] hover:border-[#d4af37] transition-all text-sm font-cinzel tracking-widest">
+                                    COMPARTILHAR
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4897,6 +5055,7 @@ document.addEventListener('visibilitychange', () => {
     theme: 'fantasy',
     format: 'formato digital',
     illustrations: '31 ilustrações',
+    youtubeId: 'XGlWjx6yV-g',
     curiosities: [
         'Foi meu primeiro livro a ser escrito e foi nele que aprendi o início de tudo na escrita. Obvio que tenho muito a aprender, cada vez que escrevo um livro, vou aprendendo mais, mas esse foi praticamente uma escola. Para ter noção revisei esse livro umas 10 vezes inteiro antes de mandar para uma revisão profissional. Isso é algo que nunca mais fiz, pois, todo esse medo ou perfeccionismo atrapalha a produção de um livro.',
         'Apesar de ter sido publicado em 2023, o início dele é muito mais antigo. O primeiro bloco de notas que abri para escreve alguns detalhes, foi em 2011, onde coloquei ideias de uma historia somente, sem maiores pretensões, mas guardei para o futuro. Apenas em 2016 pensei em escrever essa ideia, e vou ser sincero, não sei porque, mas escrevi uns 3 capítulos e parei novamente. Foi em 2020 durante minha faculdade, que precisava de algo para conclusão do curso, pensei em usar o marketing dessa historia que iria escrever e transformar em livro, dai poderia fazer a conclusão do curso. E para curiosidade, não terminei, mas tirei bastante coisa para me ajudar. Continuei escrevendo no ano seguinte somente e em 8 meses consegui terminar o livro. Nesse meio tempo comecei a assistir vários vídeos sobre escrita e claro que procurei cursos gratuitos nessa área. Naquela época era muito difundido esse tipo de conteúdo, então foi fácil ter uma base e conseguir escrever o livro e fazer toda a produção dele.',
@@ -4919,6 +5078,7 @@ document.addEventListener('visibilitychange', () => {
     theme: 'fantasy',
     format: 'formato digital',
     illustrations: '37 ilustrações',
+    youtubeId: 'Y4EAN_nKtGo',
     curiosities: [
         'Nesse livro consegui escrever mais que o anterior, mesmo porque, há aventuras que consegui me divertir escrevendo.',
         'Do mesmo jeito que Ryu foi inspirado do personagem de breath of fire, a personagem elfa, Lindoin, que estará sendo a parceira de viagem de Ryu, foi baseada na Nina, também do breath of fire, afinal, Nina é uma grande parceira de Ryu nos jogos, então trouxe para a saga. E mais uma coisa, a ideia dela de esconder quem realmente é, vem da princessa Cassandra que é conhecida como Evanlyn, personagem da saga Rangers que gosto tanto.',
@@ -4942,6 +5102,7 @@ document.addEventListener('visibilitychange', () => {
     theme: 'vampire',
     format: 'formato digital',
     illustrations: 'artes góticas em preto e branco',
+    youtubeId: '3El2eK_wCuQ',
     curiosities: [
         'Toda a ideia desse livro veio de um conto que se chamava apenas "Apenas uma história de vampiros", o qual publiquei em uma plataforma para que os leitores dessem suas críticas. Teve apenas um capítulo e houve vários leitores, inclusive alguns que comentaram que gostariam de uma continuação.',
         'Joguei RPG Vampiro: A Máscara por muito tempo, sendo o primeiro RPG de mesa que joguei. Claro que, depois, comecei a ler histórias sobre esse mundo, joguei games, vi filmes e animes — tudo nesse cenário. Sempre tive a vontade de criar um mundo usando a temática de vampiros, mas nunca houve uma ideia concreta, algo bom e robusto; então, deixei o tempo passar para ver se algo aparecia.',
@@ -4968,6 +5129,7 @@ document.addEventListener('visibilitychange', () => {
     theme: 'contos',
     format: 'formato digital',
     illustrations: '17 ilustrações',
+    youtubeId: 'mdz0Dyubchk',
     curiosities: [
         'Todos os contos tem uma ilustração com seu título escrito, algo que fiz somente nesse livro, assim apresentando a história que será contada.',
         'A ideia de ter um apresentador num palco, foi inspirada em duas pessoas, primeiro no zé do caixão que tinha um programa que contava histórias de terror, ele apresenta um por um. E claro, o apresentador, com aqueles traços, obviamente foi inspirado no Silvio santos.',
@@ -4992,7 +5154,7 @@ document.addEventListener('visibilitychange', () => {
             const modal = document.getElementById('book-modal');
             const content = document.getElementById('modal-content');
             
-            content.className = `max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500 max-h-[90vh] overflow-y-auto theme-${book.theme || 'default'}`;
+            content.className = `max-w-3xl w-full p-8 rounded relative transition-all duration-500 max-h-[90vh] overflow-y-auto theme-${book.theme || 'default'}`;
             
             document.getElementById('modal-title').textContent = book.title;
             document.getElementById('modal-subtitle').textContent = book.subtitle;
@@ -5031,6 +5193,26 @@ if (illustrationsEl && book.illustrations) {
             } else {
                 curiositiesDiv.classList.add('hidden');
             }
+
+            // NOVO: Adicionar vídeo do livro se existir (Player Personalizado com Efeito Top)
+            const videoWrapper = document.getElementById('modal-video-wrapper');
+            const videoContainer = document.getElementById('modal-video-container');
+            if (book.youtubeId) {
+                videoWrapper.classList.remove('hidden');
+                videoContainer.innerHTML = `
+                    <iframe 
+                        src="https://www.youtube.com/embed/${book.youtubeId}?autoplay=0&rel=0&modestbranding=1&playsinline=1&controls=1" 
+                        title="Vídeo do livro ${book.title}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                        allowfullscreen
+                        style="width: 100%; height: 100%;">
+                    </iframe>
+                `;
+            } else {
+                videoWrapper.classList.add('hidden');
+                videoContainer.innerHTML = '';
+            }
             
             const ratingContainer = document.getElementById('modal-rating');
             ratingContainer.innerHTML = '';
@@ -5045,9 +5227,7 @@ if (illustrationsEl && book.illustrations) {
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            setTimeout(() => {
-                content.style.transform = 'scale(1)';
-            }, 10);
+            // A animação agora é controlada via CSS pela classe .flex no modal pai
             
             castSpell();
         }
@@ -5055,12 +5235,19 @@ if (illustrationsEl && book.illustrations) {
         function closeBook() {
             const modal = document.getElementById('book-modal');
             const content = document.getElementById('modal-content');
-            content.style.transform = 'scale(0)';
+            const videoWrapper = document.getElementById('modal-video-wrapper');
+            const videoContainer = document.getElementById('modal-video-container');
+            
+            // Inicia animação de saída
+            modal.classList.remove('flex');
+            
+            if (videoContainer) videoContainer.innerHTML = ''; // Para o vídeo ao fechar
+            if (videoWrapper) videoWrapper.classList.add('hidden');
+            
             setTimeout(() => {
                 modal.classList.add('hidden');
-                modal.classList.remove('flex');
                 currentBookId = null;
-                content.className = 'dark-modal max-w-3xl w-full p-8 rounded relative transform scale-0 transition-all duration-500 max-h-[90vh] overflow-y-auto';
+                content.className = 'dark-modal';
             }, 500);
         }
 
