@@ -2350,8 +2350,22 @@
             flex-direction: column;
             gap: 12px;
             z-index: 20; /* Acima de tudo */
-            opacity: 1; /* Sempre visível para esconder o YouTube */
+            opacity: 0; /* Inicialmente oculto */
+            pointer-events: none; /* Não interfere quando oculto */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Mostrar controles ao passar o mouse ou tocar */
+        #book-video-container-inner:hover .book-player-controls,
+        #book-video-container-inner.show-controls .book-player-controls {
+            opacity: 1;
             pointer-events: auto;
+        }
+
+        /* Mostrar máscara do topo ao passar o mouse ou tocar */
+        #book-video-container-inner:hover .book-video-mask-top,
+        #book-video-container-inner.show-controls .book-video-mask-top {
+            opacity: 1;
         }
 
         /* Esconder o logo do YouTube e outros elementos no topo */
@@ -2364,6 +2378,8 @@
             background: linear-gradient(rgba(0,0,0,0.8), transparent);
             z-index: 20;
             pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
         }
 
         .book-progress-bar {
@@ -4876,6 +4892,7 @@
         let bookPlayer = null;
         let bookPlayerTimer = null;
         let isBookPlayerReady = false;
+        let bookControlsHideTimer = null;
         let audioContext = null;
 
         // Carousel state
@@ -5469,6 +5486,17 @@ if (illustrationsEl && book.illustrations) {
             // A animação agora é controlada via CSS pela classe .flex no modal pai
             
             castSpell();
+            
+            // Adicionar listeners para mostrar/esconder controles do player
+            const videoContainer = document.getElementById('book-video-container-inner');
+            if (videoContainer) {
+                // Listener para mouse move
+                videoContainer.addEventListener('mousemove', showBookControls);
+                
+                // Listener para toque (mobile)
+                videoContainer.addEventListener('touchstart', showBookControls);
+                videoContainer.addEventListener('touchend', showBookControls);
+            }
         }
 
         function closeBook() {
@@ -5476,9 +5504,21 @@ if (illustrationsEl && book.illustrations) {
             const content = document.getElementById('modal-content');
             const videoWrapper = document.getElementById('modal-video-wrapper');
             const iframeContainer = document.getElementById('book-video-iframe-container');
+            const videoContainer = document.getElementById('book-video-container-inner');
             
-            // Inicia animação de saída
+            // Inicia animacao de saida
             modal.classList.remove('flex');
+            
+            // Limpar timer de auto-hide
+            if (bookControlsHideTimer) clearTimeout(bookControlsHideTimer);
+            
+            // Remover listeners
+            if (videoContainer) {
+                videoContainer.removeEventListener('mousemove', showBookControls);
+                videoContainer.removeEventListener('touchstart', showBookControls);
+                videoContainer.removeEventListener('touchend', showBookControls);
+                videoContainer.classList.remove('show-controls');
+            }
             
             if (bookPlayer && typeof bookPlayer.stopVideo === 'function') {
                 bookPlayer.stopVideo();
@@ -5578,6 +5618,22 @@ if (illustrationsEl && book.illustrations) {
                     if (time) time.textContent = formatTime(current) + ' / ' + formatTime(duration);
                 } catch(e) {}
             }, 250);
+        }
+
+        function showBookControls() {
+            const container = document.getElementById('book-video-container-inner');
+            if (!container) return;
+            container.classList.add('show-controls');
+            
+            // Limpar timer anterior se existir
+            if (bookControlsHideTimer) clearTimeout(bookControlsHideTimer);
+            
+            // Apenas esconder controles se o video estiver tocando
+            if (bookPlayer && bookPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                bookControlsHideTimer = setTimeout(() => {
+                    container.classList.remove('show-controls');
+                }, 3000); // Esconder apos 3 segundos de inatividade
+            }
         }
 
         function toggleBookFullscreen() {
